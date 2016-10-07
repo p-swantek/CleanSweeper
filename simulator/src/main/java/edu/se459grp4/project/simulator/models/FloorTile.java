@@ -11,6 +11,7 @@ public class FloorTile {
     Tile tileType;
     int dirtAmount;
 
+
     public FloorTile(Border northBorder, Border southBorder, Border westBorder, Border eastBorder,
                      Tile tileType, int dirtAmount) {
         this.northBorder = northBorder;
