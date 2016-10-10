@@ -4,6 +4,7 @@ package edu.se459grp4.project.simulator.models;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -81,21 +82,25 @@ public class FloorTile implements Drawable{
     
 	public JComponent draw() {
 		
-		JComponent jc = new JLabel();
-		jc.setLayout(new BorderLayout());
+		JComponent jc = null; 
+		
 		
 		switch(getTileType()){
 		
 			case BARE_FLOOR:
-				jc.setBackground(Color.GREEN);
+				jc = new JLabel(new ImageIcon("src/main/resources/bare_floor.jpg"));
 				break;
 			case LOW_CARPET:
-				jc.setBackground(Color.YELLOW);
+				jc = new JLabel(new ImageIcon("src/main/resources/low_pile.jpg"));
 				break;
 			case HIGH_CARPET:
-				jc.setBackground(Color.RED);
+				jc = new JLabel(new ImageIcon("src/main/resources/hi_pile.jpg"));
 				break;
-			default:
+			case STAIRS:
+				jc = new JLabel(new ImageIcon("src/main/resources/stairs.jpg"));
+				break;
+			case CHARGING_STATION:
+				jc = new JLabel(new ImageIcon("src/main/resources/charging_station.jpg"));
 				break;
 	
 		}
@@ -105,7 +110,8 @@ public class FloorTile implements Drawable{
 		int bottomBorder = getSouthBorder() == Border.WALL ? 20 : 0;
 		int leftBorder  = getWestBorder() == Border.WALL ? 20 : 0;
 		
-		jc.setBorder(new MatteBorder(topBorder, leftBorder, bottomBorder, rightBorder, Color.BLUE));
+		jc.setLayout(new BorderLayout());
+		jc.setBorder(new MatteBorder(topBorder, leftBorder, bottomBorder, rightBorder, Color.BLACK));
 		
 		return jc;
 	}

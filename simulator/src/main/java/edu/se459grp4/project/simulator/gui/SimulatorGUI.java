@@ -24,6 +24,7 @@ public class SimulatorGUI{
 		frame = new JFrame(WINDOW_TITLE);
 		frame.setSize(WINDOW_HEIGHT, WINDOW_WIDTH);
 		frame.setLayout(new GridLayout(floorplan.length, floorplan[0].length));
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		colorTiles(frame, floorplan);
 		
