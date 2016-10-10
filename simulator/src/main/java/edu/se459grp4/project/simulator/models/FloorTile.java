@@ -1,10 +1,13 @@
 package edu.se459grp4.project.simulator.models;
 
+
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import edu.se459grp4.project.simulator.types.Border;
 import edu.se459grp4.project.simulator.types.Drawable;
 import edu.se459grp4.project.simulator.types.Tile;
+import edu.se459grp4.project.simulator.util.TileDisplayPanel;
 
 public class FloorTile implements Drawable{
     Border northBorder;
@@ -64,13 +67,16 @@ public class FloorTile implements Drawable{
     public void setDirtAmount(int dirtAmount) {
         this.dirtAmount = dirtAmount;
     }
-
-	public JFrame draw() {
+    
+    public Tile getTileType(){
+    	return this.tileType;
+    }
+    
+    
+	public JPanel draw() {
 		
-		
-		
-		
-		
-		return null;
+		return new TileDisplayPanel(this);
 	}
+
+   
 }

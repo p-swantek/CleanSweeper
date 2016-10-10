@@ -2,6 +2,7 @@ package edu.se459grp4.project.simulator;
 
 import java.awt.GridLayout;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
@@ -11,21 +12,30 @@ import edu.se459grp4.project.simulator.types.Drawable;
 public class SimulatorGUI{
 
 	private Drawable[][] floorplan;
-	private JPanel panel;
+	private JFrame frame;
 	
 	public SimulatorGUI(Drawable[][] drawables){
 		
 		floorplan = cloneArray(drawables);
-		panel = new JPanel(new GridLayout(floorplan.length, floorplan[0].length));
+		frame = new JFrame("Simulation");
+		frame.setSize(500, 500);
+		frame.setLayout(new GridLayout(floorplan.length, floorplan[0].length));
+		colorTiles(frame, floorplan);
 		
 	}
 	
 	public void start(){
+		frame.setVisible(true);
 		
-		
-		
-		
-		
+	}
+	
+	
+	private static void colorTiles(JFrame f, Drawable[][] fp){
+		for (Drawable[] subarray : fp){
+			for (Drawable d : subarray){
+				f.add(d.draw());
+			}
+		}
 	}
 	
 	/*

@@ -1,10 +1,9 @@
 package edu.se459grp4.project.simulator.types;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public interface Drawable {
 	
-	
-	JFrame draw();
+	JPanel draw();
 
 }

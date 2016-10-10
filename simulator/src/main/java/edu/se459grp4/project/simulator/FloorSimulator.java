@@ -48,8 +48,9 @@ public class FloorSimulator {
 
     public static void main(String[] args) {
         CleanSweep cleanSweep = new CleanSweep();
-        FloorSimulator floorSimulator = new FloorSimulator(0,0, args[0]);
+        FloorSimulator floorSimulator = new FloorSimulator(0,0, null);
         SimulatorGUI gui = new SimulatorGUI(floorSimulator.getFloorTiles());
+        gui.start();
     }
 
 }
