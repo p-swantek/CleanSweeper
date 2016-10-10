@@ -16,7 +16,15 @@ public class SimulatorGUI{
 	public SimulatorGUI(Drawable[][] drawables){
 		
 		floorplan = cloneArray(drawables);
-		panel = new JPanel(new GridLayout(drawables.length, drawables[0].length));
+		panel = new JPanel(new GridLayout(floorplan.length, floorplan[0].length));
+		
+	}
+	
+	public void start(){
+		
+		
+		
+		
 		
 	}
 	
