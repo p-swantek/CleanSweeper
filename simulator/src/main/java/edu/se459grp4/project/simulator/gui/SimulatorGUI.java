@@ -1,9 +1,9 @@
-package edu.se459grp4.project.simulator;
+package edu.se459grp4.project.simulator.gui;
 
 import java.awt.GridLayout;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+
 
 
 import edu.se459grp4.project.simulator.types.Drawable;
@@ -14,12 +14,17 @@ public class SimulatorGUI{
 	private Drawable[][] floorplan;
 	private JFrame frame;
 	
+	public static final int WINDOW_HEIGHT = 750;
+	public static final int WINDOW_WIDTH = 750;
+	public static final String WINDOW_TITLE = "Clean Sweep Simulation";
+	
 	public SimulatorGUI(Drawable[][] drawables){
 		
 		floorplan = cloneArray(drawables);
-		frame = new JFrame("Simulation");
-		frame.setSize(500, 500);
+		frame = new JFrame(WINDOW_TITLE);
+		frame.setSize(WINDOW_HEIGHT, WINDOW_WIDTH);
 		frame.setLayout(new GridLayout(floorplan.length, floorplan[0].length));
+		
 		colorTiles(frame, floorplan);
 		
 	}

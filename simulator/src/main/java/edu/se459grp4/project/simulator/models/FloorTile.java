@@ -1,13 +1,19 @@
 package edu.se459grp4.project.simulator.models;
 
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.MatteBorder;
 
 import edu.se459grp4.project.simulator.types.Border;
 import edu.se459grp4.project.simulator.types.Drawable;
 import edu.se459grp4.project.simulator.types.Tile;
-import edu.se459grp4.project.simulator.util.TileDisplayPanel;
+
 
 public class FloorTile implements Drawable{
     Border northBorder;
@@ -73,9 +79,35 @@ public class FloorTile implements Drawable{
     }
     
     
-	public JPanel draw() {
+	public JComponent draw() {
 		
-		return new TileDisplayPanel(this);
+		JComponent jc = new JLabel();
+		jc.setLayout(new BorderLayout());
+		
+		switch(getTileType()){
+		
+			case BARE_FLOOR:
+				jc.setBackground(Color.GREEN);
+				break;
+			case LOW_CARPET:
+				jc.setBackground(Color.YELLOW);
+				break;
+			case HIGH_CARPET:
+				jc.setBackground(Color.RED);
+				break;
+			default:
+				break;
+	
+		}
+		
+		int topBorder = getNorthBorder() == Border.WALL ? 20 : 0;
+		int rightBorder = getEastBorder() == Border.WALL ? 20 : 0;
+		int bottomBorder = getSouthBorder() == Border.WALL ? 20 : 0;
+		int leftBorder  = getWestBorder() == Border.WALL ? 20 : 0;
+		
+		jc.setBorder(new MatteBorder(topBorder, leftBorder, bottomBorder, rightBorder, Color.BLUE));
+		
+		return jc;
 	}
 
    

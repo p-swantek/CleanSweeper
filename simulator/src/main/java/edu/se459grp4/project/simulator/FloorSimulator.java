@@ -1,6 +1,7 @@
 package edu.se459grp4.project.simulator;
 
 import edu.se459grp4.project.cleansweep.CleanSweep;
+import edu.se459grp4.project.simulator.gui.SimulatorGUI;
 import edu.se459grp4.project.simulator.models.FloorTile;
 import edu.se459grp4.project.simulator.types.Border;
 import edu.se459grp4.project.simulator.types.Tile;
