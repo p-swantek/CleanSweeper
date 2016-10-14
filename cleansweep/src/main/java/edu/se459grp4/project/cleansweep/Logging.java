@@ -29,12 +29,26 @@ public final class Logging {
 		FileWriter fwm = null;
 		FileWriter fws = null;
 
-		filesub.getParentFile().mkdir();
-		fws = new FileWriter(filesub,true);
-
-		filemain.getParentFile().mkdir();
-		fwm = new FileWriter(filemain,true);
-
+		if(filesub.exists())
+		{
+			fws = new FileWriter(filesub,true);
+		}
+		else
+		{
+			filesub.getParentFile().mkdirs();
+			filesub.createNewFile();
+			fws = new FileWriter(filesub);
+		}
+		if(filemain.exists())
+		{
+			fwm = new FileWriter(filemain,true);
+		}
+		else
+		{
+			filemain.getParentFile().mkdirs();
+			filemain.createNewFile();
+			fwm = new FileWriter(filemain);
+		}
 		String time=now();
 		String output = "<"+time+"> Clean Sweep power status is "+power+".";
 		fws.append(System.lineSeparator());
@@ -58,11 +72,27 @@ public final class Logging {
 			status = "on";
 		else
 			status = "off";
-		filesub.getParentFile().mkdir();
-		fws = new FileWriter(filesub,true);
-
-		filemain.getParentFile().mkdir();
-		fwm = new FileWriter(filemain,true);
+		
+		if(filesub.exists())
+		{
+			fws = new FileWriter(filesub,true);
+		}
+		else
+		{
+			filesub.getParentFile().mkdirs();
+			filesub.createNewFile();
+			fws = new FileWriter(filesub);
+		}
+		if(filemain.exists())
+		{
+			fwm = new FileWriter(filemain,true);
+		}
+		else
+		{
+			filemain.getParentFile().mkdirs();
+			filemain.createNewFile();
+			fwm = new FileWriter(filemain);
+		}
 
 		String time=now();
 		String output = "<"+time+"> Clean Sweep was turned "+status+".";
@@ -81,11 +111,26 @@ public final class Logging {
 		FileWriter fws = null;
 		String output;
 
-		filesub.getParentFile().mkdir();
-		fws = new FileWriter(filesub,true);
-
-		filemain.getParentFile().mkdir();
-		fwm = new FileWriter(filemain,true);
+		if(filesub.exists())
+		{
+			fws = new FileWriter(filesub,true);
+		}
+		else
+		{
+			filesub.getParentFile().mkdirs();
+			filesub.createNewFile();
+			fws = new FileWriter(filesub);
+		}
+		if(filemain.exists())
+		{
+			fwm = new FileWriter(filemain,true);
+		}
+		else
+		{
+			filemain.getParentFile().mkdirs();
+			filemain.createNewFile();
+			fwm = new FileWriter(filemain);
+		}
 
 		String time=now();
 		if(maxDirt-currentDirt==0)
@@ -107,11 +152,26 @@ public final class Logging {
 		FileWriter fws = null;
 		String output;
 
-		filesub.getParentFile().mkdir();
-		fws = new FileWriter(filesub,true);
-
-		filemain.getParentFile().mkdir();
-		fwm = new FileWriter(filemain,true);
+		if(filesub.exists())
+		{
+			fws = new FileWriter(filesub,true);
+		}
+		else
+		{
+			filesub.getParentFile().mkdirs();
+			filesub.createNewFile();
+			fws = new FileWriter(filesub);
+		}
+		if(filemain.exists())
+		{
+			fwm = new FileWriter(filemain,true);
+		}
+		else
+		{
+			filemain.getParentFile().mkdirs();
+			filemain.createNewFile();
+			fwm = new FileWriter(filemain);
+		}
 
 		String time=now();
 		
@@ -132,11 +192,26 @@ public final class Logging {
 		FileWriter fws = null;
 		String output;
 
-		filesub.getParentFile().mkdir();
-		fws = new FileWriter(filesub,true);
-
-		filemain.getParentFile().mkdir();
-		fwm = new FileWriter(filemain,true);
+		if(filesub.exists())
+		{
+			fws = new FileWriter(filesub,true);
+		}
+		else
+		{
+			filesub.getParentFile().mkdirs();
+			filesub.createNewFile();
+			fws = new FileWriter(filesub);
+		}
+		if(filemain.exists())
+		{
+			fwm = new FileWriter(filemain,true);
+		}
+		else
+		{
+			filemain.getParentFile().mkdirs();
+			filemain.createNewFile();
+			fwm = new FileWriter(filemain);
+		}
 
 		String time=now();
 		
@@ -157,11 +232,26 @@ public final class Logging {
 		FileWriter fws = null;
 		String output;
 
-		filesub.getParentFile().mkdir();
-		fws = new FileWriter(filesub,true);
-
-		filemain.getParentFile().mkdir();
-		fwm = new FileWriter(filemain,true);
+		if(filesub.exists())
+		{
+			fws = new FileWriter(filesub,true);
+		}
+		else
+		{
+			filesub.getParentFile().mkdirs();
+			filesub.createNewFile();
+			fws = new FileWriter(filesub);
+		}
+		if(filemain.exists())
+		{
+			fwm = new FileWriter(filemain,true);
+		}
+		else
+		{
+			filemain.getParentFile().mkdirs();
+			filemain.createNewFile();
+			fwm = new FileWriter(filemain);
+		}
 
 		String time=now();
 		
@@ -181,12 +271,26 @@ public final class Logging {
 		FileWriter fwm = null;
 		FileWriter fws = null;
 		String output;
-
-		filesub.getParentFile().mkdir();
-		fws = new FileWriter(filesub,true);
-
-		filemain.getParentFile().mkdir();
-		fwm = new FileWriter(filemain,true);
+		if(filesub.exists())
+		{
+			fws = new FileWriter(filesub,true);
+		}
+		else
+		{
+			filesub.getParentFile().mkdirs();
+			filesub.createNewFile();
+			fws = new FileWriter(filesub);
+		}
+		if(filemain.exists())
+		{
+			fwm = new FileWriter(filemain,true);
+		}
+		else
+		{
+			filemain.getParentFile().mkdirs();
+			filemain.createNewFile();
+			fwm = new FileWriter(filemain);
+		}
 
 		String time=now();
 		
@@ -199,6 +303,7 @@ public final class Logging {
 		fws.close();
 		fwm.close();
 	}
+
 
 }
 
