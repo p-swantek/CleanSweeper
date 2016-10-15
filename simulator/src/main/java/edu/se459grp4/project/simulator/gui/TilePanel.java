@@ -61,10 +61,10 @@ public class TilePanel extends JPanel{
 			g.drawString("DIRT: "+dirtAmount, 10, 20);
 		}
 		
-		int topBorder = floortile.getNorthBorder() == Border.WALL ? 10 : 0;
-		int rightBorder = floortile.getEastBorder() == Border.WALL ? 10 : 0;
-		int bottomBorder = floortile.getSouthBorder() == Border.WALL ? 10 : 0;
-		int leftBorder  = floortile.getWestBorder() == Border.WALL ? 10 : 0;
+		int topBorder = floortile.getNorthBorder() == Border.WALL ? 10 : floortile.getNorthBorder() == Border.CLOSED_DOOR ? 5 : 0;
+		int rightBorder = floortile.getEastBorder() == Border.WALL ? 10 : floortile.getEastBorder() == Border.CLOSED_DOOR ? 5 : 0;
+		int bottomBorder = floortile.getSouthBorder() == Border.WALL ? 10 : floortile.getSouthBorder() == Border.CLOSED_DOOR ? 5 : 0;
+		int leftBorder  = floortile.getWestBorder() == Border.WALL ? 10 : floortile.getWestBorder() == Border.CLOSED_DOOR ? 5 : 0;
 
 		setBorder(new TileBorder(topBorder, bottomBorder, leftBorder, rightBorder));
 	}

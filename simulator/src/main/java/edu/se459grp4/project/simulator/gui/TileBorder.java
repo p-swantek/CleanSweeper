@@ -16,12 +16,10 @@ public class TileBorder implements Border{
 	
 	
 	public TileBorder(int top, int bottom, int left, int right){
-		
 		topBorder = top;
 		bottomBorder = bottom;
 		leftBorder = left;
 		rightBorder = right;
-		
 	}
 
 	@Override
