@@ -59,17 +59,15 @@ public class FloorSimulator {
     // To use custom floor plan pass file path as program argument
     public static void main(String[] args) {
         CleanSweep cleanSweep = new CleanSweep();
-<<<<<<< HEAD
-        FloorSimulator floorSimulator = new FloorSimulator(0,0, null);
-        SimulatorGUI gui = new SimulatorGUI(floorSimulator.getFloorTiles());
-        gui.start();
-=======
         String fileLocation = null;
         if(args.length > 0) {
             fileLocation = args[0];
         }
         FloorSimulator floorSimulator = new FloorSimulator(0, 1, fileLocation);
->>>>>>> master
+
+        SimulatorGUI gui = new SimulatorGUI(floorSimulator.getFloorTiles());
+        gui.start();
+
     }
 
 }

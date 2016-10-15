@@ -14,7 +14,7 @@ public class SimulatorGUI{
 	private Drawable[][] floorplan;
 	private JFrame frame;
 	
-	public static final int WINDOW_HEIGHT = 750;
+	public static final int WINDOW_HEIGHT = 1080;
 	public static final int WINDOW_WIDTH = 750;
 	public static final String WINDOW_TITLE = "Clean Sweep Simulation";
 	
@@ -37,9 +37,15 @@ public class SimulatorGUI{
 	
 	
 	private static void colorTiles(JFrame f, Drawable[][] fp){
-		for (Drawable[] subarray : fp){
-			for (Drawable d : subarray){
-				f.add(d.draw());
+//		for (Drawable[] subarray : fp){
+//			for (Drawable d : subarray){
+//				f.add(d.draw());
+//			}
+//		}
+		
+		for (int y = fp.length-1; y >= 0; y--){
+			for (int x = 0; x < fp[0].length; x++){
+				f.add(fp[x][y].draw());
 			}
 		}
 	}
