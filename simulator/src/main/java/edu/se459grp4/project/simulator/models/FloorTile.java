@@ -82,40 +82,6 @@ public class FloorTile implements Drawable{
     
     
 	public JComponent draw() {
-		
-//		JComponent jc = null; 
-//		
-//		
-//		switch(getTileType()){
-//		
-//			case BARE_FLOOR:
-//				jc = new JLabel(new ImageIcon("src/main/resources/bare_floor.jpg"));
-//				break;
-//			case LOW_CARPET:
-//				jc = new JLabel(new ImageIcon("src/main/resources/low_pile.jpg"));
-//				break;
-//			case HIGH_CARPET:
-//				jc = new JLabel(new ImageIcon("src/main/resources/hi_pile.jpg"));
-//				break;
-//			case STAIRS:
-//				jc = new JLabel(new ImageIcon("src/main/resources/stairs.jpg"));
-//				break;
-//			case CHARGING_STATION:
-//				jc = new JLabel(new ImageIcon("src/main/resources/charging_station.jpg"));
-//				break;
-//	
-//		}
-//		
-//		int topBorder = getNorthBorder() == Border.WALL ? 20 : 0;
-//		int rightBorder = getEastBorder() == Border.WALL ? 20 : 0;
-//		int bottomBorder = getSouthBorder() == Border.WALL ? 20 : 0;
-//		int leftBorder  = getWestBorder() == Border.WALL ? 20 : 0;
-//		
-//		jc.setLayout(new BorderLayout());
-//		jc.setBorder(new MatteBorder(topBorder, leftBorder, bottomBorder, rightBorder, Color.BLACK));
-//		
-//		return jc;
-		
 		return new TilePanel(this);
 	}
 

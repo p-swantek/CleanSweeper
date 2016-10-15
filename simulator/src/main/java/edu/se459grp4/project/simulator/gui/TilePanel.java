@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import edu.se459grp4.project.simulator.models.FloorTile;
+import edu.se459grp4.project.simulator.types.Border;
 
 @SuppressWarnings("serial")
 public class TilePanel extends JPanel{
@@ -19,19 +20,14 @@ public class TilePanel extends JPanel{
 	
 	
 	public TilePanel(FloorTile t){
-		
 		floortile = t;
 		dirtAmount = t.getDirtAmount();
 		setImage(floortile);
-		
-		
 	}
 	
 	private void setImage(FloorTile t){
-		
 		File path = null;
 		switch(t.getTileType()){
-		
 			case BARE_FLOOR:
 				path = new File("src/main/resources/bare_floor.jpg");
 				break;
@@ -47,7 +43,6 @@ public class TilePanel extends JPanel{
 			case CHARGING_STATION:
 				path = new File("src/main/resources/charging_station.jpg");
 				break;
-
 		}
 		
 		try {
@@ -60,22 +55,18 @@ public class TilePanel extends JPanel{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(img, 5, 5, null);
+		g.drawImage(img, 1, 1, null);
+		
 		if (dirtAmount > 0){
 			g.drawString("DIRT: "+dirtAmount, 10, 20);
 		}
 		
-		
-		
-//		int topBorder = getNorthBorder() == Border.WALL ? 20 : 0;
-//		int rightBorder = getEastBorder() == Border.WALL ? 20 : 0;
-//		int bottomBorder = getSouthBorder() == Border.WALL ? 20 : 0;
-//		int leftBorder  = getWestBorder() == Border.WALL ? 20 : 0;
-//		
-//		jc.setLayout(new BorderLayout());
-//		jc.setBorder(new MatteBorder(topBorder, leftBorder, bottomBorder, rightBorder, Color.BLACK));
-		
-		
+		int topBorder = floortile.getNorthBorder() == Border.WALL ? 10 : 0;
+		int rightBorder = floortile.getEastBorder() == Border.WALL ? 10 : 0;
+		int bottomBorder = floortile.getSouthBorder() == Border.WALL ? 10 : 0;
+		int leftBorder  = floortile.getWestBorder() == Border.WALL ? 10 : 0;
+
+		setBorder(new TileBorder(topBorder, bottomBorder, leftBorder, rightBorder));
 	}
 	
 	
