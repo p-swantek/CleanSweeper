@@ -1,6 +1,6 @@
 package edu.se459grp4.project.simulator;
 
-import edu.se459grp4.project.cleansweep.CleanSweep;
+
 import edu.se459grp4.project.simulator.models.FloorTile;
 import edu.se459grp4.project.simulator.util.FloorPlanReader;
 
@@ -53,16 +53,6 @@ public class FloorSimulator {
         int cleanSweepX = cleanSweepPosition.getLocation().x;
         int cleanSweepY = cleanSweepPosition.getLocation().y;
         return floorTiles[cleanSweepX][cleanSweepY];
-    }
-
-    // To use custom floor plan pass file path as program argument
-    public static void main(String[] args) {
-        CleanSweep cleanSweep = new CleanSweep();
-        String fileLocation = null;
-        if(args.length > 0) {
-            fileLocation = args[0];
-        }
-        FloorSimulator floorSimulator = new FloorSimulator(0, 1, fileLocation);
     }
 
 }
