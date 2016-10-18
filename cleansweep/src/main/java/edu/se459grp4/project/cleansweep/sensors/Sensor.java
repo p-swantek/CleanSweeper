@@ -9,7 +9,7 @@ package edu.se459grp4.project.cleansweep.sensors;
  *
  * @author Weihua
  */
-public abstract class ISensor {
+public abstract class Sensor {
   
  
     private Boolean mbStarted = false;

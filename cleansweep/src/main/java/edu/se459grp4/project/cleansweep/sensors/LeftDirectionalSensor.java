@@ -11,7 +11,7 @@ import edu.se459grp4.project.simulator.SensorSimulator;
  *
  * @author Weihua
  */
-public class LeftDirectionalSensor extends ISensor {
+public class LeftDirectionalSensor extends Sensor {
    //Get the sensor data according the coordinate of x and y
     public  String GetSensorData(int x,int y)
     {
