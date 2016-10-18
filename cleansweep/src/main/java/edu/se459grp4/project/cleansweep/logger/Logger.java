@@ -6,14 +6,14 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.text.SimpleDateFormat;
 
-public final class Logging {
+public final class Logger {
 
 	private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
-	private static final Logging instance = new Logging();
-	private Logging(){
+	private static final Logger instance = new Logger();
+	private Logger(){
 
 	}
-	public static Logging getInstance() {
+	public static Logger getInstance() {
 		return instance;
 	}
 	private static String now() {
