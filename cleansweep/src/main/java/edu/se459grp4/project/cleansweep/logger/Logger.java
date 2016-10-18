@@ -10,12 +10,13 @@ public final class Logger {
 
 	private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 	private static final Logger instance = new Logger();
-	private Logger(){
 
-	}
+	private Logger(){}
+
 	public static Logger getInstance() {
 		return instance;
 	}
+
 	private static String now() {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
@@ -103,6 +104,7 @@ public final class Logger {
 		fws.close();
 		fwm.close();
 	}
+
 	public static void writeToDirtCapacityLog(int currentDirt,int maxDirt,int x,int y) throws IOException
 	{
 		File filesub = new File("Log/DirtManagement/DirtCapacityLog.txt");
@@ -144,6 +146,7 @@ public final class Logger {
 		fws.close();
 		fwm.close();
 	}
+
 	public static void writeToDirtSensorLog(int dirtdensity,int x,int y) throws IOException
 	{
 		File filesub = new File("Log/Sensors/DirtSensorLog.txt");
@@ -184,6 +187,7 @@ public final class Logger {
 		fws.close();
 		fwm.close();
 	}
+
 	public static void writeToMovementSensorFile(String direction,int x, int y) throws IOException
 	{
 		File filesub = new File("Log/Sensors/MovementSensorLog.txt");
@@ -224,6 +228,7 @@ public final class Logger {
 		fws.close();
 		fwm.close();
 	}
+
 	public static void chargeStationLog(int x,int y) throws IOException
 	{
 		File filesub = new File("Log/Sensors/ChargeStationSensorLog.txt");
@@ -264,6 +269,7 @@ public final class Logger {
 		fws.close();
 		fwm.close();
 	}
+
 	public static void writeToObstacleSensorFile(String direction,int x, int y) throws IOException
 	{
 		File filesub = new File("Log/Sensors/ObstacleSensorLog.txt");

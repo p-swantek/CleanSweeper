@@ -18,7 +18,7 @@ public class SensorSimulator {
         Down,
         Right
     };
-    public static String GetDirectionSensorData(Direction nDirection ,int x, int y)
+    public static String getDirectionSensorData(Direction nDirection , int x, int y)
     {
         //need the communicate with the floor plan class,
         //the floor plan class need to tell the status of the path from (x,y) to the next tile in a spicific direction.

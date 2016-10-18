@@ -15,27 +15,27 @@ public abstract class Sensor {
     private Boolean mbStarted = false;
     
     //Start this Sensor
-    public boolean Start()
+    public boolean start()
     {
         mbStarted = true;
         return true;
     }
     
     //Stop this Sensor
-    public boolean Stop()
+    public boolean stop()
     {
         mbStarted = false;
         return true;
     }
     
     //Check if the sensor is running
-    public boolean IsRunning()
+    public boolean isRunning()
     {
         return mbStarted;
     }
     
     //Get the sensor data according the coordinate of x and y
-    public abstract String GetSensorData(int x,int y);
+    public abstract String getSensorData(int x, int y);
     
     
 }

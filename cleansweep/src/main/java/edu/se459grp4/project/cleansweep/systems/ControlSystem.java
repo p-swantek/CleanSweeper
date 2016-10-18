@@ -23,40 +23,40 @@ public class ControlSystem {
     
 
     //start the control system
-    public boolean Start()
+    public boolean start()
     {
-        mLeftSensor.Start();
-        mRightSensor.Start();
-        mUpSensor.Start();
-        mDownSensor.Start();
+        mLeftSensor.start();
+        mRightSensor.start();
+        mUpSensor.start();
+        mDownSensor.start();
         return true;
     }
     
     //start the control system
-    public boolean Stop()
+    public boolean stop()
     {
-        mLeftSensor.Stop();
-        mRightSensor.Stop();
-        mUpSensor.Stop();
-        mDownSensor.Stop();
+        mLeftSensor.stop();
+        mRightSensor.stop();
+        mUpSensor.stop();
+        mDownSensor.stop();
         return true;
     }
     
-    public String CheckMoveLeft(int x, int y)
+    public String checkMoveLeft(int x, int y)
     {
-        return mLeftSensor.GetSensorData(x, y);
+        return mLeftSensor.getSensorData(x, y);
     }
-    public String CheckMoveRight(int x, int y)
+    public String checkMoveRight(int x, int y)
     {
-        return mRightSensor.GetSensorData(x, y);
+        return mRightSensor.getSensorData(x, y);
     }
-    public String CheckMoveUp(int x, int y)
+    public String checkMoveUp(int x, int y)
     {
-        return mUpSensor.GetSensorData(x, y);
+        return mUpSensor.getSensorData(x, y);
     }
-    public String CheckMoveDown(int x, int y)
+    public String checkMoveDown(int x, int y)
     {
-        return mDownSensor.GetSensorData(x, y);
+        return mDownSensor.getSensorData(x, y);
     }
     
 }
