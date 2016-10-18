@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -26,27 +27,27 @@ public class TilePanel extends JPanel{
 	}
 	
 	private void setImage(FloorTile t){
-		File path = null;
+		InputStream inputStream = null;
 		switch(t.getTileType()){
 			case BARE_FLOOR:
-				path = new File("src/main/resources/bare_floor.jpg");
+				inputStream = getClass().getResourceAsStream("/bare_floor.jpg");
 				break;
 			case LOW_CARPET:
-				path = new File("src/main/resources/low_pile.jpg");
+				inputStream = getClass().getResourceAsStream("/low_pile.jpg");
 				break;
 			case HIGH_CARPET:
-				path = new File("src/main/resources/hi_pile.jpg");
+				inputStream = getClass().getResourceAsStream("/hi_pile.jpg");
 				break;
 			case STAIRS:
-				path = new File("src/main/resources/stairs.jpg");
+				inputStream = getClass().getResourceAsStream("/stairs.jpg");
 				break;
 			case CHARGING_STATION:
-				path = new File("src/main/resources/charging_station.jpg");
+				inputStream = getClass().getResourceAsStream("/charging_station.jpg");
 				break;
 		}
 		
 		try {
-			img = ImageIO.read(path);
+			img = ImageIO.read(inputStream);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
