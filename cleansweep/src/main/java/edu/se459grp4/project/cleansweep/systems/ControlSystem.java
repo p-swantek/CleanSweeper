@@ -5,10 +5,8 @@
  */
 package edu.se459grp4.project.cleansweep.systems;
 
-import edu.se459grp4.project.cleansweep.sensors.DownDirectionalSensor;
-import edu.se459grp4.project.cleansweep.sensors.LeftDirectionalSensor;
-import edu.se459grp4.project.cleansweep.sensors.RightDirectionalSensor;
-import edu.se459grp4.project.cleansweep.sensors.UpDirectionalSensor;
+import edu.se459grp4.project.cleansweep.sensors.*;
+import edu.se459grp4.project.cleansweep.types.Direction;
 
 /**
  *
@@ -16,10 +14,10 @@ import edu.se459grp4.project.cleansweep.sensors.UpDirectionalSensor;
  */
 public class ControlSystem {
     
-    private LeftDirectionalSensor mLeftSensor = new LeftDirectionalSensor();
-    private RightDirectionalSensor mRightSensor = new RightDirectionalSensor();
-    private UpDirectionalSensor mUpSensor = new UpDirectionalSensor();
-    private DownDirectionalSensor mDownSensor = new DownDirectionalSensor();
+    private DirectionalSensor mLeftSensor = new DirectionalSensor(Direction.LEFT);
+    private DirectionalSensor mRightSensor = new DirectionalSensor(Direction.RIGHT);
+    private DirectionalSensor mUpSensor = new DirectionalSensor(Direction.UP);
+    private DirectionalSensor mDownSensor = new DirectionalSensor(Direction.DOWN);
     
 
     //start the control system

@@ -5,15 +5,22 @@
  */
 package edu.se459grp4.project.cleansweep.sensors;
 
+import edu.se459grp4.project.cleansweep.types.Direction;
 import edu.se459grp4.project.simulator.SensorSimulator;
 
 /**
  *
  * @author Weihua
  */
-public class LeftDirectionalSensor extends Sensor {
-   //Get the sensor data according the coordinate of x and y
-    public  String getSensorData(int x, int y)
+public class DirectionalSensor extends Sensor {
+    public Direction direction;
+
+    public DirectionalSensor(Direction direction) {
+        this.direction = direction;
+    }
+
+    //Get the sensor data according the coordinate of x and y
+    public  String getSensorData(int x, int y, Direction direction)
     {
         //check the simulator to get status of the tile x-1,y
         //check if I can traverse to the (x-1,y) for (x,y)
@@ -21,6 +28,6 @@ public class LeftDirectionalSensor extends Sensor {
         //1 is open
         //2 is obstacle
         //3 is stair
-         return SensorSimulator.getDirectionSensorData(SensorSimulator.Direction.Left, x, y);
+        return SensorSimulator.getDirectionSensorData(Direction.valueOf(direction), x, y);
     }
 }

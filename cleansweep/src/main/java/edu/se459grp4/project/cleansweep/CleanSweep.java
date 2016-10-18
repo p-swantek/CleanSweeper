@@ -1,6 +1,7 @@
 package edu.se459grp4.project.cleansweep;
 
 import edu.se459grp4.project.cleansweep.systems.ControlSystem;
+import edu.se459grp4.project.cleansweep.types.Direction;
 
 public class CleanSweep {
     //define the location tile coordinate
@@ -84,13 +85,4 @@ public class CleanSweep {
         return false;
     }
 
-    //define the direction that this sweep can move
-    enum Direction
-    {
-        Up,
-        Left,
-        Down,
-        Right
-    };
-   
 }
