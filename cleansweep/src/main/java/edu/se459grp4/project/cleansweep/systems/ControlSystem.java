@@ -3,7 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.cleansweep.systems;
+
+import edu.se459grp4.project.cleansweep.sensors.DownDirectionalSensor;
+import edu.se459grp4.project.cleansweep.sensors.LeftDirectionalSensor;
+import edu.se459grp4.project.cleansweep.sensors.RightDirectionalSensor;
+import edu.se459grp4.project.cleansweep.sensors.UpDirectionalSensor;
 
 /**
  *

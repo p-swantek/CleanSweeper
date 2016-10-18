@@ -1,4 +1,4 @@
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.cleansweep.logger;
 
 import java.io.File;
 import java.io.FileWriter;

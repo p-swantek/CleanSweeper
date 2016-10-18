@@ -1,5 +1,7 @@
 package edu.se459grp4.project.cleansweep;
 
+import edu.se459grp4.project.cleansweep.systems.ControlSystem;
+
 public class CleanSweep {
     //define the direction that this sweep can move
     enum Direction
