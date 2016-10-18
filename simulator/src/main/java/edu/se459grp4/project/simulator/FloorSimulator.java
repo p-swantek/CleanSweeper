@@ -1,6 +1,7 @@
 package edu.se459grp4.project.simulator;
 
 import edu.se459grp4.project.cleansweep.CleanSweep;
+import edu.se459grp4.project.simulator.gui.SimulatorGUI;
 import edu.se459grp4.project.simulator.models.FloorTile;
 import edu.se459grp4.project.simulator.util.FloorPlanReader;
 
@@ -63,6 +64,10 @@ public class FloorSimulator {
             fileLocation = args[0];
         }
         FloorSimulator floorSimulator = new FloorSimulator(0, 1, fileLocation);
+
+        SimulatorGUI gui = new SimulatorGUI(floorSimulator.getFloorTiles());
+        gui.start();
+
     }
 
 }
