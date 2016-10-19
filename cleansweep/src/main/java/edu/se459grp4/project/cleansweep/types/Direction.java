@@ -7,19 +7,13 @@ import java.util.Map;
 public enum Direction {
     UP("UP"), LEFT("LEFT"), DOWN("DOWN"), RIGHT("RIGHT");
 
-    private String directionText;
+    private String value;
 
-    private static Map<String, Direction> directionMap = new HashMap<String, Direction>();
-
-    static {
-        for (Direction directionEnum : Direction.values()) {
-            directionMap.put(directionEnum.directionText, directionEnum);
-        }
+    private Direction(String value) {
+        this.value = value;
     }
 
-    private Direction(String direction) { directionText = direction; }
-
-    public static Direction valueOf(String directionText) {
-        return directionMap.get(directionText);
+    public String getValue() {
+        return value;
     }
 }

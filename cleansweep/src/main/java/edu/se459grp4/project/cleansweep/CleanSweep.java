@@ -55,11 +55,11 @@ public class CleanSweep {
     private String checkMove(Direction nDirection)
     {
         String lsRet = "";
-        if(nDirection == Direction.Left)
+        if(nDirection == Direction.LEFT)
             lsRet = mControlSystem.checkMoveLeft(mx, my);
-        else if(nDirection == Direction.Right)
+        else if(nDirection == Direction.RIGHT)
             lsRet = mControlSystem.checkMoveRight(mx, my);
-        else if(nDirection == Direction.Up)
+        else if(nDirection == Direction.UP)
             lsRet = mControlSystem.checkMoveUp(mx, my);
         else 
             lsRet = mControlSystem.checkMoveDown(mx, my);
@@ -72,11 +72,11 @@ public class CleanSweep {
         String lsRet = checkMove(nDirection);
         if(lsRet == PathStatus.Open)
         {
-           if(nDirection == Direction.Left)
+           if(nDirection == Direction.LEFT)
                mx = mx-1;
-           else if(nDirection == Direction.Right)
+           else if(nDirection == Direction.RIGHT)
               mx = mx+1;
-           else if(nDirection == Direction.Up)
+           else if(nDirection == Direction.UP)
               my = my-1;
            else 
              my = my+1;
