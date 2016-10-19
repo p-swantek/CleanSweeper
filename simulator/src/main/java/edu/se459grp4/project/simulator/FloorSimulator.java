@@ -15,6 +15,8 @@ public class FloorSimulator {
     public FloorSimulator(int cleanSweepX, int cleanSweepY, String floorPlanLocation) {
         cleanSweepPosition = new Point(cleanSweepX, cleanSweepY);
         loadFloorPlan(floorPlanLocation);
+        SimulatorGUI gui = new SimulatorGUI(getFloorTiles());
+        gui.start();
     }
 
     public void loadFloorPlan(String fileLocation) {
@@ -53,19 +55,6 @@ public class FloorSimulator {
         int cleanSweepX = cleanSweepPosition.getLocation().x;
         int cleanSweepY = cleanSweepPosition.getLocation().y;
         return floorTiles[cleanSweepX][cleanSweepY];
-    }
-
-    // To use custom floor plan pass file path as program argument
-    public static void main(String[] args) {
-        String fileLocation = null;
-        if(args.length > 0) {
-            fileLocation = args[0];
-        }
-        FloorSimulator floorSimulator = new FloorSimulator(0, 1, fileLocation);
-
-        SimulatorGUI gui = new SimulatorGUI(floorSimulator.getFloorTiles());
-        gui.start();
-
     }
 
 }

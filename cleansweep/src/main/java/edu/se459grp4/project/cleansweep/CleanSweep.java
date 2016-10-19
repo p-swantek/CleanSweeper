@@ -3,14 +3,23 @@ package edu.se459grp4.project.cleansweep;
 import edu.se459grp4.project.cleansweep.systems.ControlSystem;
 import edu.se459grp4.project.cleansweep.types.Direction;
 import edu.se459grp4.project.cleansweep.types.PathStatus;
+import edu.se459grp4.project.simulator.FloorSimulator;
 
 public class CleanSweep {
+    private FloorSimulator floorSimulator;
+    private ControlSystem controlSystem;
+
+    private boolean running = false;
     //define the location tile coordinate
     private int mx;
     private int my;
 
-    //each sweep has got a powerful control system
-    private ControlSystem mControlSystem= new ControlSystem();
+
+    public CleanSweep(FloorSimulator floorSimulator)
+    {
+        this.floorSimulator = floorSimulator;
+        this.controlSystem = new ControlSystem();
+    }
 
     //get the x coordinate of this sweep
     public int getX()
@@ -25,22 +34,27 @@ public class CleanSweep {
     }
     
     //start this sweep
-    public boolean start()
+    public void start()
     {
-         mControlSystem.start();
-         //set the inital status.
-         //suppose all tiles are dirty
-         //and it suppose start from a charge station and power is full and the vacuum capacity is empty.
-         //so if the vacuum capacity value is not zero then start will fail.
-         
-         return true;
+        controlSystem.start();
+        //set the inital status.
+        //suppose all tiles are dirty
+        //and it suppose start from a charge station and power is full and the vacuum capacity is empty.
+        //so if the vacuum capacity value is not zero then start will fail.
+
+        running = true;
+        while(running) {
+            //CleanSweep logic performed here for each tile encountered
+            stop();
+        }
     }
     
     //stop this sweep
     public boolean stop()
     {
-          mControlSystem.stop();
-          return true;
+        controlSystem.stop();
+        running = false;
+        return true;
     }
     
     //Check if I cam move to the next tile in the specific direction
@@ -49,13 +63,13 @@ public class CleanSweep {
         switch(direction)
         {
             case LEFT:
-                return mControlSystem.checkMoveLeft();
+                return controlSystem.checkMoveLeft();
             case RIGHT:
-                return mControlSystem.checkMoveRight();
+                return controlSystem.checkMoveRight();
             case UP:
-                return mControlSystem.checkMoveUp();
+                return controlSystem.checkMoveUp();
             case DOWN:
-                return mControlSystem.checkMoveDown();
+                return controlSystem.checkMoveDown();
             default:
                 return null;
         }
@@ -86,6 +100,18 @@ public class CleanSweep {
             return true;
         }
         return false;
+    }
+
+    public static void main(String[] args)
+    {
+        String fileLocation = null;
+        if(args.length > 0) {
+            fileLocation = args[0];
+        }
+        // Uses default floor plan file if none provided
+        FloorSimulator floorSimulator = new FloorSimulator(0, 1, fileLocation);
+        CleanSweep cleanSweep = new CleanSweep(floorSimulator);
+        cleanSweep.start();
     }
 
 }
