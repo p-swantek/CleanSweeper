@@ -2,6 +2,7 @@ package edu.se459grp4.project.cleansweep;
 
 import edu.se459grp4.project.cleansweep.systems.ControlSystem;
 import edu.se459grp4.project.cleansweep.types.Direction;
+import edu.se459grp4.project.cleansweep.types.PathStatus;
 
 public class CleanSweep {
     //define the location tile coordinate
@@ -10,15 +11,6 @@ public class CleanSweep {
 
     //each sweep has got a powerful control system
     private ControlSystem mControlSystem= new ControlSystem();
-
-    //define the path from one tile to another next tile
-    private class PathStatus
-    {
-        public static final String UNKNOWN = "0";
-        public static final String Open = "1";
-        public static final String Blocked = "2";
-        public static final String Stair = "3";
-    };
 
     //get the x coordinate of this sweep
     public int getX()
@@ -52,35 +44,46 @@ public class CleanSweep {
     }
     
     //Check if I cam move to the next tile in the specific direction
-    private String checkMove(Direction nDirection)
+    private PathStatus checkMove(Direction direction)
     {
-        String lsRet = "";
-        if(nDirection == Direction.LEFT)
-            lsRet = mControlSystem.checkMoveLeft(mx, my);
-        else if(nDirection == Direction.RIGHT)
-            lsRet = mControlSystem.checkMoveRight(mx, my);
-        else if(nDirection == Direction.UP)
-            lsRet = mControlSystem.checkMoveUp(mx, my);
-        else 
-            lsRet = mControlSystem.checkMoveDown(mx, my);
-        return   lsRet;  
+        switch(direction)
+        {
+            case LEFT:
+                return mControlSystem.checkMoveLeft();
+            case RIGHT:
+                return mControlSystem.checkMoveRight();
+            case UP:
+                return mControlSystem.checkMoveUp();
+            case DOWN:
+                return mControlSystem.checkMoveDown();
+            default:
+                return null;
+        }
     }
     
     //move this sweep with one step in a spicific directions
-    public boolean moveOneStep(Direction nDirection)
+    public boolean moveOneStep(Direction currentDirection)
     {
-        String lsRet = checkMove(nDirection);
-        if(lsRet == PathStatus.Open)
+        PathStatus pathStatus = checkMove(currentDirection);
+        if(pathStatus == PathStatus.OPEN)
         {
-           if(nDirection == Direction.LEFT)
-               mx = mx-1;
-           else if(nDirection == Direction.RIGHT)
-              mx = mx+1;
-           else if(nDirection == Direction.UP)
-              my = my-1;
-           else 
-             my = my+1;
-           return   true;  
+            // TODO: Call appropriate Simulator method to commit to movement
+            switch(currentDirection)
+            {
+                case LEFT:
+                    mx = mx-1;
+                    break;
+                case RIGHT:
+                    mx = mx+1;
+                    break;
+                case UP:
+                    my = my+1;
+                    break;
+                case DOWN:
+                    my = my-1;
+                    break;
+            }
+            return true;
         }
         return false;
     }

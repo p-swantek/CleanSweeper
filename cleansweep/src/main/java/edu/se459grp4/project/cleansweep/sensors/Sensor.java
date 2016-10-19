@@ -34,8 +34,4 @@ public abstract class Sensor {
         return mbStarted;
     }
     
-    //Get the sensor data according the coordinate of x and y
-    public abstract String getSensorData(int x, int y);
-    
-    
 }

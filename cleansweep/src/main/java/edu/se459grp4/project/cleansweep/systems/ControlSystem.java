@@ -7,6 +7,7 @@ package edu.se459grp4.project.cleansweep.systems;
 
 import edu.se459grp4.project.cleansweep.sensors.*;
 import edu.se459grp4.project.cleansweep.types.Direction;
+import edu.se459grp4.project.cleansweep.types.PathStatus;
 
 /**
  *
@@ -40,21 +41,21 @@ public class ControlSystem {
         return true;
     }
     
-    public String checkMoveLeft(int x, int y)
+    public PathStatus checkMoveLeft()
     {
-        return mLeftSensor.getSensorData(x, y);
+        return mLeftSensor.getSensorData();
     }
-    public String checkMoveRight(int x, int y)
+    public PathStatus checkMoveRight()
     {
-        return mRightSensor.getSensorData(x, y);
+        return mRightSensor.getSensorData();
     }
-    public String checkMoveUp(int x, int y)
+    public PathStatus checkMoveUp()
     {
-        return mUpSensor.getSensorData(x, y);
+        return mUpSensor.getSensorData();
     }
-    public String checkMoveDown(int x, int y)
+    public PathStatus checkMoveDown()
     {
-        return mDownSensor.getSensorData(x, y);
+        return mDownSensor.getSensorData();
     }
     
 }
