@@ -9,6 +9,9 @@ import java.text.SimpleDateFormat;
 public final class Logger {
 
 	private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
+	private static final String ROOT_PATH = "Log/";
+	private static final String MAIN_LOG_NAME = "MainLog.txt";
+
 	private static final Logger instance = new Logger();
 
 	private Logger(){}
@@ -25,289 +28,108 @@ public final class Logger {
 
 	public static void writeToBatteryLog(int power) throws IOException
 	{
-		File filesub = new File("Log/PowerManagement/BatteryLog.txt");
-		File filemain = new File("Log/MainLog.txt");
-		FileWriter fwm = null;
-		FileWriter fws = null;
-
-		if(filesub.exists())
-		{
-			fws = new FileWriter(filesub,true);
-		}
-		else
-		{
-			filesub.getParentFile().mkdirs();
-			filesub.createNewFile();
-			fws = new FileWriter(filesub);
-		}
-		if(filemain.exists())
-		{
-			fwm = new FileWriter(filemain,true);
-		}
-		else
-		{
-			filemain.getParentFile().mkdirs();
-			filemain.createNewFile();
-			fwm = new FileWriter(filemain);
-		}
-		String time=now();
-		String output = "<"+time+"> Clean Sweep power status is "+power+".";
-		fws.append(System.lineSeparator());
-		fws.append(output);
-		fwm.append(System.lineSeparator());
-		fwm.append(output);
-		fws.close();
-		fwm.close();
+		String filesub = "PowerManagement/BatteryLog.txt";
+		String output = "Clean Sweep power status is "+power+".";
+		writeToLogs(output, "POWER", filesub);
 	}
 
 	public static void writeToDevicePowerLog(boolean deviceOn) throws IOException
 	{
-
-		File filesub = new File("Log/PowerManagement/DevicePowerLog.txt");
-		File filemain = new File("Log/MainLog.txt");
-		FileWriter fwm = null;
-		FileWriter fws = null;
+		String filesub = "PowerManagement/DevicePowerLog.txt";
 
 		String status;
 		if(deviceOn)
 			status = "on";
 		else
 			status = "off";
-		
-		if(filesub.exists())
-		{
-			fws = new FileWriter(filesub,true);
-		}
-		else
-		{
-			filesub.getParentFile().mkdirs();
-			filesub.createNewFile();
-			fws = new FileWriter(filesub);
-		}
-		if(filemain.exists())
-		{
-			fwm = new FileWriter(filemain,true);
-		}
-		else
-		{
-			filemain.getParentFile().mkdirs();
-			filemain.createNewFile();
-			fwm = new FileWriter(filemain);
-		}
 
-		String time=now();
-		String output = "<"+time+"> Clean Sweep was turned "+status+".";
-		fws.append(System.lineSeparator());
-		fws.append(output);
-		fwm.append(System.lineSeparator());
-		fwm.append(output);
-		fws.close();
-		fwm.close();
+		String output = "Clean Sweep was turned "+status+".";
+		writeToLogs(output, "POWER", filesub);
+
 	}
 
 	public static void writeToDirtCapacityLog(int currentDirt,int maxDirt,int x,int y) throws IOException
 	{
-		File filesub = new File("Log/DirtManagement/DirtCapacityLog.txt");
-		File filemain = new File("Log/MainLog.txt");
-		FileWriter fwm = null;
-		FileWriter fws = null;
+		String filesub = "DirtManagement/DirtCapacityLog.txt";
+
 		String output;
-
-		if(filesub.exists())
-		{
-			fws = new FileWriter(filesub,true);
-		}
-		else
-		{
-			filesub.getParentFile().mkdirs();
-			filesub.createNewFile();
-			fws = new FileWriter(filesub);
-		}
-		if(filemain.exists())
-		{
-			fwm = new FileWriter(filemain,true);
-		}
-		else
-		{
-			filemain.getParentFile().mkdirs();
-			filemain.createNewFile();
-			fwm = new FileWriter(filemain);
-		}
-
-		String time=now();
 		if(maxDirt-currentDirt==0)
-			output = "<"+time+"> Clean Sweep dirt capacity has been reached("+currentDirt+"/"+maxDirt+") at tile ("+x+","+y+").";
+			output = "Clean Sweep dirt capacity has been reached("+currentDirt+"/"+maxDirt+") at tile ("+x+","+y+").";
 		else
-			output = "<"+time+"> Clean Sweep is cleaning dirt("+currentDirt+"/"+maxDirt+") at tile ("+x+","+y+").";
-		fws.append(System.lineSeparator());
-		fws.append(output);
-		fwm.append(System.lineSeparator());
-		fwm.append(output);
-		fws.close();
-		fwm.close();
+			output = "Clean Sweep is cleaning dirt("+currentDirt+"/"+maxDirt+") at tile ("+x+","+y+").";
+		writeToLogs(output, "POWER", filesub);
 	}
 
 	public static void writeToDirtSensorLog(int dirtdensity,int x,int y) throws IOException
 	{
-		File filesub = new File("Log/Sensors/DirtSensorLog.txt");
-		File filemain = new File("Log/MainLog.txt");
-		FileWriter fwm = null;
-		FileWriter fws = null;
-		String output;
+		String filesub = "Sensors/DirtSensorLog.txt";
 
-		if(filesub.exists())
-		{
-			fws = new FileWriter(filesub,true);
-		}
-		else
-		{
-			filesub.getParentFile().mkdirs();
-			filesub.createNewFile();
-			fws = new FileWriter(filesub);
-		}
-		if(filemain.exists())
-		{
-			fwm = new FileWriter(filemain,true);
-		}
-		else
-		{
-			filemain.getParentFile().mkdirs();
-			filemain.createNewFile();
-			fwm = new FileWriter(filemain);
-		}
-
-		String time=now();
-		
-		output = "<"+time+"> Clean Sweep dirt sensor has detected dirt("+dirtdensity+") at tile ("+x+","+y+").";
-		
-		fws.append(System.lineSeparator());
-		fws.append(output);
-		fwm.append(System.lineSeparator());
-		fwm.append(output);
-		fws.close();
-		fwm.close();
+		String output = "Clean Sweep dirt sensor has detected dirt("+dirtdensity+") at tile ("+x+","+y+").";
+		writeToLogs(output, "DIRT", filesub);
 	}
 
 	public static void writeToMovementSensorFile(String direction,int x, int y) throws IOException
 	{
-		File filesub = new File("Log/Sensors/MovementSensorLog.txt");
-		File filemain = new File("Log/MainLog.txt");
-		FileWriter fwm = null;
-		FileWriter fws = null;
-		String output;
+		String filesub = "Sensors/MovementSensorLog.txt";
 
-		if(filesub.exists())
-		{
-			fws = new FileWriter(filesub,true);
-		}
-		else
-		{
-			filesub.getParentFile().mkdirs();
-			filesub.createNewFile();
-			fws = new FileWriter(filesub);
-		}
-		if(filemain.exists())
-		{
-			fwm = new FileWriter(filemain,true);
-		}
-		else
-		{
-			filemain.getParentFile().mkdirs();
-			filemain.createNewFile();
-			fwm = new FileWriter(filemain);
-		}
-
-		String time=now();
-		
-		output = "<"+time+"> Clean Sweep dirt sensor is moving one tile to the "+direction+" to tile ("+x+","+y+").";
-		
-		fws.append(System.lineSeparator());
-		fws.append(output);
-		fwm.append(System.lineSeparator());
-		fwm.append(output);
-		fws.close();
-		fwm.close();
+		String output = "Clean Sweep dirt sensor is moving one tile to the "+direction+" to tile ("+x+","+y+").";
+		writeToLogs(output, "DIRT", filesub);
 	}
 
 	public static void chargeStationLog(int x,int y) throws IOException
 	{
-		File filesub = new File("Log/Sensors/ChargeStationSensorLog.txt");
-		File filemain = new File("Log/MainLog.txt");
-		FileWriter fwm = null;
-		FileWriter fws = null;
-		String output;
+		String filesub = "Sensors/ChargeStationSensorLog.txt";
 
-		if(filesub.exists())
-		{
-			fws = new FileWriter(filesub,true);
-		}
-		else
-		{
-			filesub.getParentFile().mkdirs();
-			filesub.createNewFile();
-			fws = new FileWriter(filesub);
-		}
-		if(filemain.exists())
-		{
-			fwm = new FileWriter(filemain,true);
-		}
-		else
-		{
-			filemain.getParentFile().mkdirs();
-			filemain.createNewFile();
-			fwm = new FileWriter(filemain);
-		}
-
-		String time=now();
-		
-		output = "<"+time+"> Clean sweep charge station sensor detected charging station at tile ("+x+","+y+").";
-		
-		fws.append(System.lineSeparator());
-		fws.append(output);
-		fwm.append(System.lineSeparator());
-		fwm.append(output);
-		fws.close();
-		fwm.close();
+		String output = "Clean sweep charge station sensor detected charging station at tile ("+x+","+y+").";
+		writeToLogs(output, "CHARGING_STATION", filesub);
 	}
 
 	public static void writeToObstacleSensorFile(String direction,int x, int y) throws IOException
 	{
-		File filesub = new File("Log/Sensors/ObstacleSensorLog.txt");
-		File filemain = new File("Log/MainLog.txt");
+		String filesub = "Sensors/ObstacleSensorLog.txt";
+
+		String output = "Clean Sweep obstacle sensor detected obstacle to the "+direction+" of tile ("+x+","+y+").";
+		writeToLogs(output, "SENSOR", filesub);
+	}
+
+	private static void writeToLogs(String output, String eventType, String subLogPath)
+	{
 		FileWriter fwm = null;
 		FileWriter fws = null;
-		String output;
-		if(filesub.exists())
-		{
-			fws = new FileWriter(filesub,true);
-		}
-		else
-		{
-			filesub.getParentFile().mkdirs();
-			filesub.createNewFile();
-			fws = new FileWriter(filesub);
-		}
-		if(filemain.exists())
-		{
-			fwm = new FileWriter(filemain,true);
-		}
-		else
-		{
-			filemain.getParentFile().mkdirs();
-			filemain.createNewFile();
-			fwm = new FileWriter(filemain);
-		}
 
 		String time=now();
-		
-		output = "<"+time+"> Clean Sweep obstacle sensor detected obstacle to the "+direction+" of tile ("+x+","+y+").";
-		
-		fws.append(System.lineSeparator());
-		fws.append(output);
-		fwm.append(System.lineSeparator());
-		fwm.append(output);
-		fws.close();
-		fwm.close();
+		output = time + " " + eventType + " : " + output;
+
+		File filemain = new File(ROOT_PATH + MAIN_LOG_NAME);
+		writeToFile(filemain, output);
+
+		if(subLogPath != null) {
+			File filesub = new File(ROOT_PATH + subLogPath);
+			writeToFile(filesub, output);
+		}
+	}
+
+	private static void writeToFile(File file, String output)
+	{
+		FileWriter fileWriter = null;
+
+		try
+		{
+			if (file.exists()) {
+				fileWriter = new FileWriter(file, true);
+			} else {
+				file.getParentFile().mkdirs();
+				file.createNewFile();
+				fileWriter = new FileWriter(file);
+			}
+			fileWriter.append(System.lineSeparator());
+			fileWriter.append(output);
+			fileWriter.close();
+		}
+		catch(IOException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 
