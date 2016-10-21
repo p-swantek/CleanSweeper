@@ -86,5 +86,9 @@ public class FloorSimulator {
     public boolean move(String direction){
     	return false;
     }
+    
+    public boolean clean(){
+    	return false;
+    }
 
 }
