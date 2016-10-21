@@ -2,6 +2,8 @@ package edu.se459grp4.project.simulator;
 
 import edu.se459grp4.project.simulator.gui.SimulatorGUI;
 import edu.se459grp4.project.simulator.models.FloorTile;
+import edu.se459grp4.project.simulator.types.Border;
+import edu.se459grp4.project.simulator.types.Tile;
 import edu.se459grp4.project.simulator.util.FloorPlanReader;
 
 import java.awt.*;
@@ -55,6 +57,34 @@ public class FloorSimulator {
         int cleanSweepX = cleanSweepPosition.getLocation().x;
         int cleanSweepY = cleanSweepPosition.getLocation().y;
         return floorTiles[cleanSweepX][cleanSweepY];
+    }
+    
+    /*
+     * return  the border for the particular side of a tile
+     */
+    public Border getBorder(String side){
+    	return null;
+    }
+    
+    /*
+     * get dirt amount from the tile the cleansweep is on
+     */
+    public int getDirtAmount(){
+    	return -1;
+    }
+    
+    /*
+     * return the type of tile that the clean sweep is on
+     */
+    public Tile getTileType(){
+    	return null;
+    }
+    
+    /*
+     * move the 
+     */
+    public boolean move(String direction){
+    	return false;
     }
 
 }
