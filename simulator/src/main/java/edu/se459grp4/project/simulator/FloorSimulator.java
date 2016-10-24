@@ -13,11 +13,12 @@ public class FloorSimulator {
     static final String DEFAULT_FLOOR_PLAN = "/sample-floor-plan.csv";
     FloorTile[][] floorTiles;
     Point cleanSweepPosition;
+    SimulatorGUI gui;
 
     public FloorSimulator(int cleanSweepX, int cleanSweepY, String floorPlanLocation) {
         cleanSweepPosition = new Point(cleanSweepX, cleanSweepY);
         loadFloorPlan(floorPlanLocation);
-        SimulatorGUI gui = new SimulatorGUI(getFloorTiles());
+        gui = new SimulatorGUI(getFloorTiles());
         gui.start();
     }
 
