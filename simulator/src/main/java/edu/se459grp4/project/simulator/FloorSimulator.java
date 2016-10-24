@@ -72,12 +72,71 @@ public class FloorSimulator {
     	return null;
     }
     
+    /*
+     * clients call this method with a string representing a direction to move,
+     * returns true or false depending on whether the movement can be completed successfully
+     */
     public boolean move(String direction){
-    	return false;
+    	
+    	FloorTile csTile = getCleanSweepFloorTile();
+    	boolean canMove = false;
+    	
+    	//check the direction, adjust the cleansweep point accordingly and register if the movement succeeded
+    	//checking for either an open door or null at the moment (null at the moment seems to signify an open path)
+    	//possibly change the null check to a more appropriate Border type
+    	switch(direction){
+    	
+    		case "UP":
+    			Border northBorder = csTile.getNorthBorder();
+    			if (northBorder == Border.OPEN_DOOR || northBorder == null){ //check if the desired direction is open or not, if it is...
+    				canMove = true;  //we can move
+    				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()+1); //update the clean sweep point
+    				gui.setCleanSweep(cleanSweepPosition); //tell the gui that clean sweep has a new location
+    				gui.refreshGUI(); //refresh the gui to update changes
+    			}
+    			break;
+    		
+    		case "DOWN":
+    			Border southBorder = csTile.getSouthBorder();
+    			if (southBorder == Border.OPEN_DOOR || southBorder == null){
+    				canMove = true; 
+    				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()-1);
+    				gui.setCleanSweep(cleanSweepPosition); 
+    				gui.refreshGUI(); 
+    			}
+    			break;
+    			
+    		case "LEFT":
+    			Border westBorder = csTile.getWestBorder();
+    			if (westBorder == Border.OPEN_DOOR || westBorder == null){
+    				canMove = true;
+    				cleanSweepPosition.setLocation(cleanSweepPosition.getX()-1, cleanSweepPosition.getY());
+    				gui.setCleanSweep(cleanSweepPosition); 
+    				gui.refreshGUI(); 
+    			}
+    			break;
+    			
+    		case "RIGHT":
+    			Border eastBorder = csTile.getEastBorder();
+    			if (eastBorder == Border.OPEN_DOOR || eastBorder == null){
+    				canMove = true; 
+    				cleanSweepPosition.setLocation(cleanSweepPosition.getX()+1, cleanSweepPosition.getY());
+    				gui.setCleanSweep(cleanSweepPosition);
+    				gui.refreshGUI();
+    			}
+    			break;
+    	
+    	}
+    	
+    	return canMove;
     }
     
     public boolean clean(){
     	return false;
+    }
+    
+    public void update(){
+    	gui.refreshGUI();
     }
 
 }

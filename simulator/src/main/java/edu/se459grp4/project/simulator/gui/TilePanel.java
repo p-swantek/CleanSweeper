@@ -1,5 +1,6 @@
 package edu.se459grp4.project.simulator.gui;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -52,7 +53,8 @@ public class TilePanel extends JPanel{
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);

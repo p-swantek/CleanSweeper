@@ -109,7 +109,7 @@ public class CleanSweep {
             fileLocation = args[0];
         }
         // Uses default floor plan file if none provided
-        FloorSimulator floorSimulator = new FloorSimulator(0, 1, fileLocation);
+        FloorSimulator floorSimulator = new FloorSimulator(0, 0, fileLocation); //start at (0,0)
         CleanSweep cleanSweep = new CleanSweep(floorSimulator);
         cleanSweep.start();
     }
