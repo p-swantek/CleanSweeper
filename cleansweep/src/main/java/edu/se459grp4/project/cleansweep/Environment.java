@@ -26,5 +26,7 @@ public class Environment {
         // TODO: update currentPosition based on direction
     }
 
-
+    public Position getCurrentPosition() {
+        return currentPosition;
+    }
 }

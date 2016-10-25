@@ -2,6 +2,7 @@ package edu.se459grp4.project.cleansweep.managers;
 
 import edu.se459grp4.project.cleansweep.Environment;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
+import edu.se459grp4.project.cleansweep.models.Position;
 import edu.se459grp4.project.cleansweep.navigation.BasicNavigator;
 import edu.se459grp4.project.cleansweep.navigation.Navigator;
 import edu.se459grp4.project.cleansweep.types.Direction;
@@ -20,9 +21,9 @@ public class NavigationManager {
         this.powerManager = powerManager;
     }
 
-    public Direction move(FloorUnit currentFloorUnit) {
+    public Direction move(Position currentPosition, FloorUnit currentFloorUnit) {
         // TODO: add logic to set Navigator
-        return navigator.move(currentFloorUnit);
+        return navigator.move(currentPosition, currentFloorUnit);
     }
 
     public Navigator getNavigator() {
