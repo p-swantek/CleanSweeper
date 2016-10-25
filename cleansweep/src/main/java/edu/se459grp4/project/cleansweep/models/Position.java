@@ -1,8 +1,8 @@
 package edu.se459grp4.project.cleansweep.models;
 
 public class Position {
-    private int x;
-    private int y;
+    private final int x;
+    private final int y;
 
     public Position(int x, int y) {
         this.x = x;
@@ -13,32 +13,29 @@ public class Position {
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
     }
 
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public void setCoordinates(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public static Position getCoordinate(int x, int y) {
+        return new Position(x, y);
     }
 
     @Override
     public boolean equals(Object obj) {
-        // TODO: implement means to uniquely identify position object in Map
+        Position other = (Position) obj;
+        if(this.getX() == other.getX() && this.getY() == other.getY()) {
+          return true;
+        }
         return false;
     }
 
     @Override
     public int hashCode() {
-        // TODO: implement means to uniquely identify position object in Map
-        return 0;
+        int hash = 17;
+        hash = hash * 31 + getX();
+        hash = hash * 31 + getY();
+
+        return hash;
     }
 }
