@@ -57,11 +57,13 @@ public class SimulatorGUI{
 		
 		JPanel newTilePanel = new JPanel(new GridLayout(floorplan.length, floorplan[0].length));
 		colorTiles(newTilePanel, floorplan);
-		frame.removeAll();
-		frame.revalidate();
+		frame.getContentPane().removeAll();
 		
-		frame.add(newTilePanel);
+		
+		frame.getContentPane().add(newTilePanel);
+		frame.validate();
 		frame.repaint();
+
 		
 	}
 	
