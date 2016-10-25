@@ -92,7 +92,7 @@ public class FloorSimulator {
     				canMove = true;  //we can move
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()+1); //update the clean sweep point
     				gui.setCleanSweep(cleanSweepPosition); //tell the gui that clean sweep has a new location
-    				gui.refreshGUI(); //refresh the gui to update changes
+    				//gui.refreshGUI(); //refresh the gui to update changes
     			}
     			break;
     		
@@ -102,7 +102,7 @@ public class FloorSimulator {
     				canMove = true; 
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()-1);
     				gui.setCleanSweep(cleanSweepPosition); 
-    				gui.refreshGUI(); 
+    				//gui.refreshGUI(); 
     			}
     			break;
     			
@@ -112,7 +112,7 @@ public class FloorSimulator {
     				canMove = true;
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX()-1, cleanSweepPosition.getY());
     				gui.setCleanSweep(cleanSweepPosition); 
-    				gui.refreshGUI(); 
+    				//gui.refreshGUI(); 
     			}
     			break;
     			
@@ -122,7 +122,7 @@ public class FloorSimulator {
     				canMove = true; 
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX()+1, cleanSweepPosition.getY());
     				gui.setCleanSweep(cleanSweepPosition);
-    				gui.refreshGUI();
+    				//gui.refreshGUI();
     			}
     			break;
     	
