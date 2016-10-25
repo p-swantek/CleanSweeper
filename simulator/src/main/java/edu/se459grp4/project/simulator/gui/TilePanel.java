@@ -58,7 +58,8 @@ public class TilePanel extends JPanel{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(img, 1, 1, null);
+		
+		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 		
 		if (dirtAmount > 0){
 			g.drawString("DIRT: "+dirtAmount, 10, 20);

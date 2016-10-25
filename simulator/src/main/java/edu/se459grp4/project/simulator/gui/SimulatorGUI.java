@@ -1,5 +1,6 @@
 package edu.se459grp4.project.simulator.gui;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Point;
 
@@ -19,7 +20,6 @@ public class SimulatorGUI{
 	private JPanel tilePanel;
 	private Point cleanSweepPosition; //the GUI's version of the clean sweeps position to account for fact that (0,0) on GUI is top left corner
 	private Point prevPosition; //the previous position of the clean sweep
-	//private JComponent[][] guiPanels; //array of references to the JComponents that populate the main frame
 	
 	public static final int WINDOW_HEIGHT = 1080;
 	public static final int WINDOW_WIDTH = 750;
@@ -27,8 +27,7 @@ public class SimulatorGUI{
 	
 	public SimulatorGUI(Drawable[][] drawables){
 		
-		floorplan = drawables; //cloneArray(drawables);
-		//guiPanels = new JComponent[drawables.length][drawables[0].length];
+		floorplan = drawables; 
 		cleanSweepPosition = new Point(0, 0);
 		prevPosition = cleanSweepPosition;
 		
@@ -39,9 +38,6 @@ public class SimulatorGUI{
 		frame.setSize(WINDOW_HEIGHT, WINDOW_WIDTH);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.add(tilePanel);
-		
-		
-		
 
 	}
 	
@@ -58,24 +54,19 @@ public class SimulatorGUI{
 		JPanel newTilePanel = new JPanel(new GridLayout(floorplan.length, floorplan[0].length));
 		colorTiles(newTilePanel, floorplan);
 		frame.getContentPane().removeAll();
-		
-		
 		frame.getContentPane().add(newTilePanel);
 		frame.validate();
 		frame.repaint();
 
-		
 	}
 	
 	public void setCleanSweep(Point p){
 		prevPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()); //store the old location
 		cleanSweepPosition.setLocation(p.getX(), p.getY()); //update location to be of the passed in point
 		
-		//guiPanels[prevPosition.x][prevPosition.y] = floorplan[prevPosition.x][prevPosition.y].draw(); //draw the original floorplan drawing at old location
 		JComponent panel = floorplan[cleanSweepPosition.x][cleanSweepPosition.y].draw();
 		CleanSweepPanel csTile = new CleanSweepPanel(panel);
 		panel.add(csTile);
-		//guiPanels[cleanSweepPosition.x][cleanSweepPosition.y] = panel;
 		refreshGUI();
 	}
 	
@@ -90,10 +81,11 @@ public class SimulatorGUI{
 				if (x == cleanSweepPosition.getX() && y == cleanSweepPosition.getY()){ //clean sweep initially starts at (0,0)
 					//draw a clean sweep on the spot in the array of Drawables that designates where the clean sweep is
 					CleanSweepPanel csPanel = new CleanSweepPanel(panel);
+					csPanel.setPreferredSize(new Dimension(50, 50));
 					panel.add(csPanel);
 
 				}
-				//guiPanels[x][y] = panel;
+				
 				jp.add(panel);
 			}
 		}

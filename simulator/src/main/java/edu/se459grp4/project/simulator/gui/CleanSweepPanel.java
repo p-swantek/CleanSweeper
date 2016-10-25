@@ -32,12 +32,11 @@ public class CleanSweepPanel extends JPanel{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		parent.paint(g);
+		//parent.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
-//
+
 		int x = 0;
-		int y = 0;
-//		
+		int y = 0;	
 		g2.setPaint(Color.red);
 		g2.fillRect(x, y, 50, 50);
 		
