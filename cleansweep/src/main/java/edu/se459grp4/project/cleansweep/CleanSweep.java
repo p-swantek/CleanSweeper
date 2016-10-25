@@ -39,7 +39,6 @@ public class CleanSweep {
         Position currentPosition = null;
         Direction nextDirection = null;
         while(running) {
-            currentPosition = environment.getCurrentPosition();
             if(currentFloorUnit == null) {
                 currentFloorUnit = new FloorUnit();
             }
@@ -53,7 +52,7 @@ public class CleanSweep {
             dirtSensor.update(currentFloorUnit);
             powerManager.updatePower(previousFloorUnit, currentFloorUnit);
             environment.addFloorUnit(currentFloorUnit);
-            nextDirection = navigationManager.move(currentPosition, currentFloorUnit);
+            nextDirection = navigationManager.move(currentFloorUnit);
             environment.updatePosition(nextDirection);
 
             try {

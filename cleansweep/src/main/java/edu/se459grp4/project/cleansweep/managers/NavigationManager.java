@@ -15,15 +15,15 @@ public class NavigationManager {
     private Navigator navigator;
 
     public NavigationManager(FloorSimulator floorSimulator, Environment environment, PowerManager powerManager) {
-        this.navigator = new BasicNavigator();
+        this.navigator = new BasicNavigator(environment);
         this.floorSimulator = floorSimulator;
         this.environment = environment;
         this.powerManager = powerManager;
     }
 
-    public Direction move(Position currentPosition, FloorUnit currentFloorUnit) {
+    public Direction move(FloorUnit currentFloorUnit) {
         // TODO: add logic to set Navigator
-        return navigator.move(currentPosition, currentFloorUnit);
+        return navigator.movementDirection(currentFloorUnit);
     }
 
     public Navigator getNavigator() {
