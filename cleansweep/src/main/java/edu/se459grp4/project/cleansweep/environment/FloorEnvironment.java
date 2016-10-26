@@ -22,8 +22,8 @@ public class FloorEnvironment extends FloorGrid {
     }
 
     public void updatePosition(Direction movementDirection) {
-        // TODO: assign currentPosition to previousPosition
-        // TODO: update currentPosition based on direction
+        previousPosition = currentPosition;
+        currentPosition = Position.getRelativePosition(currentPosition, movementDirection.getPosition());
     }
 
     public Position getCurrentPosition() {
