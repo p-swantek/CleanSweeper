@@ -6,6 +6,7 @@ import edu.se459grp4.project.cleansweep.types.Direction;
 
 public class BasicNavigator extends Navigator {
     private State state = State.NORTH;
+    private int retry = 0;
 
     public BasicNavigator(FloorEnvironment floorEnvironment) {
         super(floorEnvironment);
@@ -14,7 +15,6 @@ public class BasicNavigator extends Navigator {
     public Direction movementDirection(FloorUnit currentFloorUnit) {
         State lastVertical = State.NORTH;
         State defaultHorizontal = State.EAST;
-        int retry = 0;
 
         if(retry == 2) {
             return null;
