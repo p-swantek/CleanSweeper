@@ -1,5 +1,6 @@
 package edu.se459grp4.project.cleansweep.models;
 
+import edu.se459grp4.project.cleansweep.types.Direction;
 import edu.se459grp4.project.simulator.types.Border;
 import edu.se459grp4.project.simulator.types.Tile;
 
@@ -12,6 +13,7 @@ public class FloorUnit {
     Border eastBorder;
     Tile tileType;
     boolean dirtPresent;
+    Position position;
 
     public Border getNorthBorder() {
         return northBorder;
@@ -59,5 +61,32 @@ public class FloorUnit {
 
     public void setDirtPresent(boolean dirtPresent) {
         this.dirtPresent = dirtPresent;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setPosition(int x, int y) {
+        this.position = new Position(x, y);
+    }
+
+    public Border getBorder(Direction direction) {
+        switch(direction) {
+            case UP:
+                return getNorthBorder();
+            case DOWN:
+                return getSouthBorder();
+            case LEFT:
+                return getWestBorder();
+            case RIGHT:
+                return getEastBorder();
+            default:
+                return null;
+        }
     }
 }

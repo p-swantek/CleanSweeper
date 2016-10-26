@@ -1,6 +1,7 @@
 package edu.se459grp4.project.cleansweep.managers;
 
-import edu.se459grp4.project.cleansweep.Environment;
+import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
+import edu.se459grp4.project.cleansweep.models.FloorUnit;
 import edu.se459grp4.project.cleansweep.navigation.BasicNavigator;
 import edu.se459grp4.project.cleansweep.navigation.Navigator;
 import edu.se459grp4.project.cleansweep.types.Direction;
@@ -8,20 +9,20 @@ import edu.se459grp4.project.simulator.FloorSimulator;
 
 public class NavigationManager {
     private FloorSimulator floorSimulator;
-    private Environment environment;
+    private FloorEnvironment floorEnvironment;
     private PowerManager powerManager;
     private Navigator navigator;
 
-    public NavigationManager(FloorSimulator floorSimulator, Environment environment, PowerManager powerManager) {
-        this.navigator = new BasicNavigator();
+    public NavigationManager(FloorSimulator floorSimulator, FloorEnvironment floorEnvironment, PowerManager powerManager) {
+        this.navigator = new BasicNavigator(floorEnvironment);
         this.floorSimulator = floorSimulator;
-        this.environment = environment;
+        this.floorEnvironment = floorEnvironment;
         this.powerManager = powerManager;
     }
 
-    public Direction move() {
+    public Direction move(FloorUnit currentFloorUnit) {
         // TODO: add logic to set Navigator
-        return navigator.move();
+        return navigator.movementDirection(currentFloorUnit);
     }
 
     public Navigator getNavigator() {
