@@ -1,24 +1,21 @@
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.cleansweep.environment;
 
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
 import edu.se459grp4.project.cleansweep.models.Position;
 import edu.se459grp4.project.cleansweep.types.Direction;
 
-import java.util.HashMap;
-
 public class Environment {
     private Position previousPosition;
     private Position currentPosition;
-    private HashMap<Position, FloorUnit> floorMap;
+    private FloorGrid floorGrid;
 
     public Environment() {
         this.currentPosition = new Position(0, 0);
-        this.floorMap = new HashMap<>();
+        floorGrid = new FloorGrid(2000, 2000);
     }
 
-    public boolean addFloorUnit(FloorUnit floorUnit) {
-        // TODO: add currentPosition with floorUnit into floorMap
-        return true;
+    public void addFloorUnit(FloorUnit floorUnit) {
+        floorGrid.add(floorUnit, currentPosition);
     }
 
     public void updatePosition(Direction movementDirection) {
@@ -28,5 +25,9 @@ public class Environment {
 
     public Position getCurrentPosition() {
         return currentPosition;
+    }
+
+    public FloorGrid getFloorGrid() {
+        return floorGrid;
     }
 }

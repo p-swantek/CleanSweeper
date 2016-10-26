@@ -1,5 +1,6 @@
 package edu.se459grp4.project.cleansweep;
 
+import edu.se459grp4.project.cleansweep.environment.Environment;
 import edu.se459grp4.project.cleansweep.managers.NavigationManager;
 import edu.se459grp4.project.cleansweep.managers.PowerManager;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;

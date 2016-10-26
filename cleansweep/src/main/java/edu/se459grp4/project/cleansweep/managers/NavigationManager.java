@@ -1,8 +1,7 @@
 package edu.se459grp4.project.cleansweep.managers;
 
-import edu.se459grp4.project.cleansweep.Environment;
+import edu.se459grp4.project.cleansweep.environment.Environment;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
-import edu.se459grp4.project.cleansweep.models.Position;
 import edu.se459grp4.project.cleansweep.navigation.BasicNavigator;
 import edu.se459grp4.project.cleansweep.navigation.Navigator;
 import edu.se459grp4.project.cleansweep.types.Direction;
