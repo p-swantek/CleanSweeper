@@ -71,6 +71,10 @@ public class FloorUnit {
         this.position = position;
     }
 
+    public void setPosition(int x, int y) {
+        this.position = new Position(x, y);
+    }
+
     public Border getBorder(Direction direction) {
         switch(direction) {
             case UP:

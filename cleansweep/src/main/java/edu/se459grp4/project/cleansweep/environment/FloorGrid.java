@@ -51,6 +51,7 @@ public class FloorGrid {
         minYCoordinate = (adjustedY < minYCoordinate) ? adjustedY : minYCoordinate;
         maxXCoordinate = (adjustedX > maxXCoordinate) ? adjustedX : maxXCoordinate;
         maxYCoordinate = (adjustedY > maxYCoordinate) ? adjustedY : maxYCoordinate;
+        floorUnit.setPosition(adjustedX, adjustedY);
         floorUnits[adjustedX][adjustedY] = floorUnit;
     }
 
