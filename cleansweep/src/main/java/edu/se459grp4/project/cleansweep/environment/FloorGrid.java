@@ -31,6 +31,19 @@ public class FloorGrid {
         return getCoordinate(position.getX(), position.getY());
     }
 
+    public FloorUnit getRelativeCoordinate(int x, int y, int directionalX, int directionalY) {
+        int adjustedX = centerX + x;
+        int adjustedY = centerY + y;
+        adjustedX = adjustedX + directionalX;
+        adjustedY = adjustedY + directionalY;
+        return floorUnits[adjustedX][adjustedY];
+    }
+
+    public FloorUnit getRelativeCoordinate(Position position, Position directionalPosition) {
+        return getRelativeCoordinate(position.getX(), position.getY(),
+                directionalPosition.getX(), directionalPosition.getY());
+    }
+
     public void add(FloorUnit floorUnit, int x, int y) {
         int adjustedX = centerX + x;
         int adjustedY = centerY + y;

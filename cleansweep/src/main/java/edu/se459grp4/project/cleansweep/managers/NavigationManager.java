@@ -1,6 +1,6 @@
 package edu.se459grp4.project.cleansweep.managers;
 
-import edu.se459grp4.project.cleansweep.environment.Environment;
+import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
 import edu.se459grp4.project.cleansweep.navigation.BasicNavigator;
 import edu.se459grp4.project.cleansweep.navigation.Navigator;
@@ -9,14 +9,14 @@ import edu.se459grp4.project.simulator.FloorSimulator;
 
 public class NavigationManager {
     private FloorSimulator floorSimulator;
-    private Environment environment;
+    private FloorEnvironment floorEnvironment;
     private PowerManager powerManager;
     private Navigator navigator;
 
-    public NavigationManager(FloorSimulator floorSimulator, Environment environment, PowerManager powerManager) {
-        this.navigator = new BasicNavigator(environment);
+    public NavigationManager(FloorSimulator floorSimulator, FloorEnvironment floorEnvironment, PowerManager powerManager) {
+        this.navigator = new BasicNavigator(floorEnvironment);
         this.floorSimulator = floorSimulator;
-        this.environment = environment;
+        this.floorEnvironment = floorEnvironment;
         this.powerManager = powerManager;
     }
 

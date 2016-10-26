@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Border {
-    WALL(1), OPEN_DOOR(2), CLOSED_DOOR(3);
+    OPEN(0), WALL(1), OPEN_DOOR(2), CLOSED_DOOR(3);
 
     private int borderNum;
 
