@@ -22,6 +22,11 @@ public class FloorSimulator {
         gui.start();
     }
 
+    /**
+     * read in a floor plan from a CSV file and create a floor based on that file's data
+     * 
+     * @param fileLocation the location of the file on which the floor plan is based
+     */
     public void loadFloorPlan(String fileLocation) {
         InputStream inputStream = null;
         FileInputStream fileInputStream = null;
@@ -46,35 +51,92 @@ public class FloorSimulator {
         this.floorTiles = floorPlanReader.getTileElements();
     }
 
+    /**
+     * get the full floor
+     * 
+     * @return a 2D array of floor tiles that represents the currnt floor in the simulator
+     */
     public FloorTile[][] getFloorTiles() {
         return floorTiles;
     }
 
+    /**
+     * get a particular floor tile using x,y coordinates
+     * 
+     * @param x the x coordinate of the tile in the floor
+     * @param y the y coordinate of the tile in the floor
+     * @return the floor tile at this x,y coordinate
+     */
     public FloorTile getFloorTile(int x, int y) {
         return floorTiles[x][y];
     }
 
+    /**
+     * get the tile on which the clean sweep is currently located
+     * 
+     * @return the floor tile where the clean sweep currently is
+     */
     public FloorTile getCleanSweepFloorTile() {
         int cleanSweepX = cleanSweepPosition.getLocation().x;
         int cleanSweepY = cleanSweepPosition.getLocation().y;
         return floorTiles[cleanSweepX][cleanSweepY];
     }
     
+    /**
+     * returns the Border type for a given edge of the tile the clean sweep is on
+     * 
+     * @param edge string representing the edge of the tile to check (can be North, South, East, West)
+     * @return the Border type on a particular edge of the tile
+     */
     public Border getBorder(String edge){
-    	return null;
+    	
+    	FloorTile csTile = getCleanSweepFloorTile();
+    	Border border = null;
+    	
+    	switch(edge){
+    		
+    		case "North":
+    			border = csTile.getNorthBorder();
+    			break;
+    		case "South":
+    			border = csTile.getSouthBorder();
+    			break;
+    		case "East":
+    			border = csTile.getEastBorder();
+    			break;
+    		case "West":
+    			border = csTile.getWestBorder();
+    			break;
+    
+    	}
+    	
+    	return border;
     }
     
+    /**
+     * gets the amount of dirt on the tile the clean sweep is on
+     * 
+     * @return the amount of dirt on the tile
+     */
     public int getDirtAmount(){
-    	return -1;
+    	return getCleanSweepFloorTile().getDirtAmount();
     }
     
+    /**
+     * gets the type of floor tile that the clean sweep is currently on (bare floor, low pile, high pile)
+     * 
+     * @return the type of floor tile the clean sweep is on
+     */
     public Tile getTileType(){
-    	return null;
+    	return getCleanSweepFloorTile().getTileType();
     }
     
-    /*
+    /**
      * clients call this method with a string representing a direction to move,
      * returns true or false depending on whether the movement can be completed successfully
+     * 
+     * @param direction string representing the direction of movement to attempt (can be UP, DOWN, LEFT, or RIGHT)
+     * @return true if the clean sweep can move in the specified direction, false if it can not
      */
     public boolean move(String direction){
     	
@@ -88,41 +150,37 @@ public class FloorSimulator {
     	
     		case "UP":
     			Border northBorder = csTile.getNorthBorder();
-    			if (northBorder == Border.OPEN_DOOR || northBorder == null){ //check if the desired direction is open or not, if it is...
+    			if (northBorder == Border.OPEN_DOOR){ //check if the desired direction is open or not, if it is...
     				canMove = true;  //we can move
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()+1); //update the clean sweep point
     				gui.setCleanSweep(cleanSweepPosition); //tell the gui that clean sweep has a new location
-    				//gui.refreshGUI(); //refresh the gui to update changes
     			}
     			break;
     		
     		case "DOWN":
     			Border southBorder = csTile.getSouthBorder();
-    			if (southBorder == Border.OPEN_DOOR || southBorder == null){
+    			if (southBorder == Border.OPEN_DOOR){
     				canMove = true; 
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()-1);
     				gui.setCleanSweep(cleanSweepPosition); 
-    				//gui.refreshGUI(); 
     			}
     			break;
     			
     		case "LEFT":
     			Border westBorder = csTile.getWestBorder();
-    			if (westBorder == Border.OPEN_DOOR || westBorder == null){
+    			if (westBorder == Border.OPEN_DOOR){
     				canMove = true;
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX()-1, cleanSweepPosition.getY());
     				gui.setCleanSweep(cleanSweepPosition); 
-    				//gui.refreshGUI(); 
     			}
     			break;
     			
     		case "RIGHT":
     			Border eastBorder = csTile.getEastBorder();
-    			if (eastBorder == Border.OPEN_DOOR || eastBorder == null){
+    			if (eastBorder == Border.OPEN_DOOR){
     				canMove = true; 
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX()+1, cleanSweepPosition.getY());
     				gui.setCleanSweep(cleanSweepPosition);
-    				//gui.refreshGUI();
     			}
     			break;
     	
@@ -131,10 +189,18 @@ public class FloorSimulator {
     	return canMove;
     }
     
+    /**
+     * tells whether the tile the clean sweep is on is clean or not
+     * 
+     * @return true if the tile is cleaned (dirt amount is <= 0), false otherwise
+     */
     public boolean clean(){
-    	return false;
+    	return getCleanSweepFloorTile().getDirtAmount() <= 0;
     }
     
+    /**
+     * clients call this if they need to update the floor simulator at all
+     */
     public void update(){
     	gui.refreshGUI();
     }
