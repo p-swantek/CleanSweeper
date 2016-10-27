@@ -1,5 +1,6 @@
 package edu.se459grp4.project.cleansweep;
 
+import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
 import edu.se459grp4.project.cleansweep.managers.NavigationManager;
 import edu.se459grp4.project.cleansweep.managers.PowerManager;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
@@ -15,7 +16,7 @@ public class CleanSweep {
     private PowerManager powerManager;
     private NavigationManager navigationManager;
     private NavigationSensorSystem navigationSensorSystem;
-    private Environment environment;
+    private FloorEnvironment floorEnvironment;
     private DirtSensor dirtSensor;
     private FloorSensor floorSensor;
     private boolean running = false;
@@ -24,8 +25,8 @@ public class CleanSweep {
     public CleanSweep(FloorSimulator floorSimulator) {
         this.floorSimulator = floorSimulator;
         this.powerManager = new PowerManager(100, 100, 30);
-        this.environment = new Environment();
-        this.navigationManager = new NavigationManager(floorSimulator, environment, powerManager);
+        this.floorEnvironment = new FloorEnvironment(2000, 2000);
+        this.navigationManager = new NavigationManager(floorSimulator, floorEnvironment, powerManager);
         this.navigationSensorSystem = new NavigationSensorSystem(floorSimulator);
         this.dirtSensor = new DirtSensor(floorSimulator);
         this.floorSensor = new FloorSensor(floorSimulator);
@@ -51,9 +52,9 @@ public class CleanSweep {
             floorSensor.update(currentFloorUnit);
             dirtSensor.update(currentFloorUnit);
             powerManager.updatePower(previousFloorUnit, currentFloorUnit);
-            environment.addFloorUnit(currentFloorUnit);
+            floorEnvironment.addFloorUnit(currentFloorUnit);
             nextDirection = navigationManager.move(currentFloorUnit);
-            environment.updatePosition(nextDirection);
+            floorEnvironment.updatePosition(nextDirection);
 
             try {
                 Thread.sleep(LOOP_MS);

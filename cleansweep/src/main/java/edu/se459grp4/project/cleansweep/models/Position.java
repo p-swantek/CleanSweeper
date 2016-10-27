@@ -21,6 +21,14 @@ public class Position {
         return new Position(x, y);
     }
 
+    public static Position getRelativePosition(Position position, Position directionalPosition) {
+        int x = position.getX();
+        int y = position.getY();
+        int adjustedX = x + directionalPosition.getX();
+        int adjustedY = y + directionalPosition.getY();
+        return new Position(adjustedX, adjustedY);
+    }
+
     @Override
     public boolean equals(Object obj) {
         Position other = (Position) obj;

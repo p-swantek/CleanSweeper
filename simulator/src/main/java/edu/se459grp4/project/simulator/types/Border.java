@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum Border {
+
 	//need to create Type to represent open space? or else consider Null an open path?
 	//CSV file contains 0 for some borders, the valueOf is returning nulls for 0's
-    WALL(1), OPEN_DOOR(2), CLOSED_DOOR(3);
+    OPEN(0), WALL(1), OPEN_DOOR(2), CLOSED_DOOR(3);
+
 
     private int borderNum;
 
