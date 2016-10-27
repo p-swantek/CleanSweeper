@@ -150,7 +150,7 @@ public class FloorSimulator {
     	
     		case "UP":
     			Border northBorder = csTile.getNorthBorder();
-    			if (northBorder == Border.OPEN_DOOR){ //check if the desired direction is open or not, if it is...
+    			if (northBorder == Border.OPEN_DOOR || northBorder == Border.OPEN){ //check if the desired direction is open or not, if it is...
     				canMove = true;  //we can move
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()+1); //update the clean sweep point
     				gui.setCleanSweep(cleanSweepPosition); //tell the gui that clean sweep has a new location
@@ -159,7 +159,7 @@ public class FloorSimulator {
     		
     		case "DOWN":
     			Border southBorder = csTile.getSouthBorder();
-    			if (southBorder == Border.OPEN_DOOR){
+    			if (southBorder == Border.OPEN_DOOR || southBorder  == Border.OPEN){
     				canMove = true; 
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()-1);
     				gui.setCleanSweep(cleanSweepPosition); 
@@ -168,7 +168,7 @@ public class FloorSimulator {
     			
     		case "LEFT":
     			Border westBorder = csTile.getWestBorder();
-    			if (westBorder == Border.OPEN_DOOR){
+    			if (westBorder == Border.OPEN_DOOR || westBorder == Border.OPEN){
     				canMove = true;
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX()-1, cleanSweepPosition.getY());
     				gui.setCleanSweep(cleanSweepPosition); 
@@ -177,7 +177,7 @@ public class FloorSimulator {
     			
     		case "RIGHT":
     			Border eastBorder = csTile.getEastBorder();
-    			if (eastBorder == Border.OPEN_DOOR){
+    			if (eastBorder == Border.OPEN_DOOR || eastBorder == Border.OPEN ){
     				canMove = true; 
     				cleanSweepPosition.setLocation(cleanSweepPosition.getX()+1, cleanSweepPosition.getY());
     				gui.setCleanSweep(cleanSweepPosition);
