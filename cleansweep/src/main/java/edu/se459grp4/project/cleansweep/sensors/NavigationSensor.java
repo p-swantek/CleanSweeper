@@ -9,6 +9,7 @@ public class NavigationSensor implements Sensor {
     private Direction direction;
 
     public NavigationSensor(FloorSimulator floorSimulator, Direction direction) {
+    	this.floorSimulator = floorSimulator;
         this.direction = direction;
     }
 
