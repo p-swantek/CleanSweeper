@@ -12,6 +12,7 @@ public class DirtSensor implements Sensor {
 
     public boolean update(FloorUnit floorUnit) {
         // TODO: call clean method on floor simulator and update whether dirt present
-        return true;
+    	//check if we want this to return true if dirt is present?
+        return !floorSimulator.clean();
     }
 }
