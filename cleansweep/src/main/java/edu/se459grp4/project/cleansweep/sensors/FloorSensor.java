@@ -13,7 +13,13 @@ public class FloorSensor implements Sensor {
 
     public boolean update(FloorUnit floorUnit) {
         // TODO: get tile type from floor simulator and update FloorUnit
-    	Tile tile = floorSimulator.getTileType();
-        return true;
+    	if (floorUnit != null){
+    		floorUnit.setTileType(floorSimulator.getTileType());
+            return true;
+    	}
+    	
+    	else{
+    		return false;
+    	}
     }
 }
