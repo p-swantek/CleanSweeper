@@ -1,10 +1,14 @@
 package edu.se459grp4.project.simulator.gui;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Point;
 
+import javax.swing.BoxLayout;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
-
-
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import edu.se459grp4.project.simulator.types.Drawable;
 
@@ -13,6 +17,9 @@ public class SimulatorGUI{
 
 	private Drawable[][] floorplan;
 	private JFrame frame;
+	private JPanel tilePanel;
+	private Point cleanSweepPosition; //the GUI's version of the clean sweeps position to account for fact that (0,0) on GUI is top left corner
+	private Point prevPosition; //the previous position of the clean sweep
 	
 	public static final int WINDOW_HEIGHT = 1080;
 	public static final int WINDOW_WIDTH = 750;
@@ -20,39 +27,76 @@ public class SimulatorGUI{
 	
 	public SimulatorGUI(Drawable[][] drawables){
 		
-		floorplan = cloneArray(drawables);
+		floorplan = drawables; 
+		cleanSweepPosition = new Point(0, 0);
+		prevPosition = cleanSweepPosition;
+		
+		tilePanel = new JPanel(new GridLayout(floorplan.length, floorplan[0].length));
+		colorTiles(tilePanel, floorplan);
+		
 		frame = new JFrame(WINDOW_TITLE);
 		frame.setSize(WINDOW_HEIGHT, WINDOW_WIDTH);
-		frame.setLayout(new GridLayout(floorplan.length, floorplan[0].length));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		colorTiles(frame, floorplan);
-		
+		frame.add(tilePanel);
+
 	}
 	
-	public void start(){
+	public void start(){	
 		frame.setVisible(true);
+	}
+	
+	/*
+	 * clients call this method to update the GUI after any changes have been made so 
+	 * that changes are reflected in the GUI
+	 */
+	public void refreshGUI(){
 		
+		JPanel newTilePanel = new JPanel(new GridLayout(floorplan.length, floorplan[0].length));
+		colorTiles(newTilePanel, floorplan);
+		frame.getContentPane().removeAll();
+		frame.getContentPane().add(newTilePanel);
+		frame.validate();
+		frame.repaint();
+
+	}
+	
+	public void setCleanSweep(Point p){
+		prevPosition.setLocation(cleanSweepPosition.getX(), cleanSweepPosition.getY()); //store the old location
+		cleanSweepPosition.setLocation(p.getX(), p.getY()); //update location to be of the passed in point
+		
+		JComponent panel = floorplan[cleanSweepPosition.x][cleanSweepPosition.y].draw();
+		CleanSweepPanel csTile = new CleanSweepPanel(panel);
+		panel.add(csTile);
+		refreshGUI();
 	}
 	
 	
-	private static void colorTiles(JFrame f, Drawable[][] fp){
-//		for (Drawable[] subarray : fp){
-//			for (Drawable d : subarray){
-//				f.add(d.draw());
-//			}
-//		}
-		
+	
+
+	//do the initial population of the main frame with the tile panel drawings
+	private void colorTiles(JPanel jp, Drawable[][] fp){
 		for (int y = fp.length-1; y >= 0; y--){
 			for (int x = 0; x < fp[0].length; x++){
-				f.add(fp[x][y].draw());
+				JComponent panel = fp[x][y].draw();
+				if (x == cleanSweepPosition.getX() && y == cleanSweepPosition.getY()){ //clean sweep initially starts at (0,0)
+					//draw a clean sweep on the spot in the array of Drawables that designates where the clean sweep is
+					CleanSweepPanel csPanel = new CleanSweepPanel(panel);
+					csPanel.setPreferredSize(new Dimension(50, 50));
+					panel.add(csPanel);
+
+				}
+				
+				jp.add(panel);
 			}
 		}
+		
+		
+		
 	}
 	
 	/*
 	 * makes and returns a copy of a two dimensional array of Drawable objects
-	 */
+	 
 	private static Drawable[][] cloneArray(Drawable[][] src) {
 	    int length = src.length;
 	    Drawable[][] target = new Drawable[length][src[0].length];
@@ -61,6 +105,8 @@ public class SimulatorGUI{
 	    }
 	    return target;
 	}
+	
+	*/
 	
 
 }
