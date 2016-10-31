@@ -15,6 +15,7 @@ public class NavigationSensor implements Sensor {
 
     public boolean update(FloorUnit floorUnit) {
         // TODO: update appropriate FloorUnit variable based on sensor direction
+    	
         return true;
     }
 }

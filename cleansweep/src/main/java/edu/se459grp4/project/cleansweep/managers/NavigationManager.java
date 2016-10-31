@@ -22,6 +22,8 @@ public class NavigationManager {
 
     public Direction move(FloorUnit currentFloorUnit) {
         // TODO: add logic to set Navigator
+    	
+    	
         return navigator.movementDirection(currentFloorUnit);
     }
 

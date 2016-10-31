@@ -13,6 +13,7 @@ public class FloorUnit {
     Border eastBorder;
     Tile tileType;
     boolean dirtPresent;
+    int dirtAmount;
     Position position;
 
     public Border getNorthBorder() {
@@ -61,6 +62,10 @@ public class FloorUnit {
 
     public void setDirtPresent(boolean dirtPresent) {
         this.dirtPresent = dirtPresent;
+    }
+    
+    public int getDirtAmount(){
+    	return this.dirtAmount;
     }
 
     public Position getPosition() {

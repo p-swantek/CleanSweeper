@@ -1,6 +1,10 @@
 package edu.se459grp4.project.cleansweep.managers;
 
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
+
+import java.io.IOException;
+
+import edu.se459grp4.project.cleansweep.logger.*;
 import edu.se459grp4.project.simulator.types.Tile;
 
 public class PowerManager {
@@ -19,13 +23,13 @@ public class PowerManager {
         this.threshold = threshold;
     }
 
-    public boolean updatePower(FloorUnit previousFloorUnit, FloorUnit currentFloorUnit) {
+    public boolean updatePower(FloorUnit previousFloorUnit, FloorUnit currentFloorUnit) throws IOException {
         // TODO: update currentPower based on average of floor types
     	if (previousFloorUnit != null && currentFloorUnit != null){
-
+    		
     		int average = (powerRequirement(previousFloorUnit) + powerRequirement(currentFloorUnit)) / 2;
     		this.currentPower -= average;
-    		
+    		Logger.writeToBatteryLog(currentPower);
     		return true;
     	}
 
