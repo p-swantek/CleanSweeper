@@ -6,14 +6,15 @@ import edu.se459grp4.project.cleansweep.types.Direction;
 import edu.se459grp4.project.simulator.types.Border;
 
 public class FloorEnvironment extends FloorGrid {
-    private Position previousPosition;
-    private Position currentPosition;
+    private static Position previousPosition;
+    private static Position currentPosition;
     private FloorUnit currentFloorUnit;
     private FloorGrid floorGrid;
-
+    
     public FloorEnvironment(int maxXRange, int maxYRange) {
         super(maxXRange, maxYRange);
         this.currentPosition = new Position(0, 0);
+        
     }
 
     public void addFloorUnit(FloorUnit floorUnit) {

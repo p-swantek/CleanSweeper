@@ -1,5 +1,7 @@
 package edu.se459grp4.project.cleansweep;
 
+import java.io.IOException;
+
 import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
 import edu.se459grp4.project.cleansweep.managers.NavigationManager;
 import edu.se459grp4.project.cleansweep.managers.PowerManager;
@@ -33,7 +35,7 @@ public class CleanSweep {
     }
     
     //start this sweep
-    public void start() {
+    public void start() throws IOException {
         running = true;
         FloorUnit previousFloorUnit = null;
         FloorUnit currentFloorUnit = null;
@@ -71,7 +73,7 @@ public class CleanSweep {
         return true;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String fileLocation = null;
         if(args.length > 0) {
             fileLocation = args[0];
