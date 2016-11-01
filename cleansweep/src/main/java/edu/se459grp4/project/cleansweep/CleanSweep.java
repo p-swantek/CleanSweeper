@@ -26,7 +26,7 @@ public class CleanSweep {
 
     public CleanSweep(FloorSimulator floorSimulator) {
         this.floorSimulator = floorSimulator;
-        this.powerManager = new PowerManager(100, 100, 30);
+        this.powerManager = PowerManager.getInstance();
         this.floorEnvironment = new FloorEnvironment(2000, 2000);
         this.navigationManager = new NavigationManager(floorSimulator, floorEnvironment, powerManager);
         this.navigationSensorSystem = new NavigationSensorSystem(floorSimulator);

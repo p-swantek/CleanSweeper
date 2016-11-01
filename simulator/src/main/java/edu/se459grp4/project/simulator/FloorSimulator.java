@@ -82,6 +82,10 @@ public class FloorSimulator {
         return floorTiles[cleanSweepX][cleanSweepY];
     }
     
+    public Point getCleanSweepPosition() {
+    	return cleanSweepPosition;
+    }
+    
     /**
      * returns the Border type for a given edge of the tile the clean sweep is on
      * 

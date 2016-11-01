@@ -68,6 +68,13 @@ public final class Logger {
 		writeToLogs(output, "DIRT", filesub);
 	}
 
+	public static void writeToNavigationSensorLog(String direction, String directionStatus,int x, int y) throws IOException
+	{
+		String filesub = "Sensors/NavigationSensorLog.txt";
+
+		String output = "Clean Sweep Navigation sensor has detected Path("+direction+") is "+directionStatus+" at tile ("+x+","+y+").";
+		writeToLogs(output, "NAVIGATION", filesub);
+	}
 	public static void writeToMovementSensorFile(String direction,int x, int y) throws IOException
 	{
 		String filesub = "Sensors/MovementSensorLog.txt";
