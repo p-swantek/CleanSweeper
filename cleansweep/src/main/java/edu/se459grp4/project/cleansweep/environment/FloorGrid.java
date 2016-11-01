@@ -45,13 +45,13 @@ public class FloorGrid {
     }
 
     public void add(FloorUnit floorUnit, int x, int y) {
+        floorUnit.setPosition(Position.getCoordinate(x, y));
         int adjustedX = centerX + x;
         int adjustedY = centerY + y;
         minXCoordinate = (adjustedX < minXCoordinate) ? adjustedX : minXCoordinate;
         minYCoordinate = (adjustedY < minYCoordinate) ? adjustedY : minYCoordinate;
         maxXCoordinate = (adjustedX > maxXCoordinate) ? adjustedX : maxXCoordinate;
         maxYCoordinate = (adjustedY > maxYCoordinate) ? adjustedY : maxYCoordinate;
-        floorUnit.setPosition(adjustedX, adjustedY);
         floorUnits[adjustedX][adjustedY] = floorUnit;
     }
 

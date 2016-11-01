@@ -95,16 +95,16 @@ public class FloorSimulator {
     	
     	switch(edge){
     		
-    		case "North":
+    		case "UP":
     			border = csTile.getNorthBorder();
     			break;
-    		case "South":
+    		case "DOWN":
     			border = csTile.getSouthBorder();
     			break;
-    		case "East":
+    		case "LEFT":
     			border = csTile.getEastBorder();
     			break;
-    		case "West":
+    		case "RIGHT":
     			border = csTile.getWestBorder();
     			break;
     

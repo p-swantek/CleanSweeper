@@ -9,7 +9,6 @@ public class FloorEnvironment extends FloorGrid {
     private static Position previousPosition;
     private static Position currentPosition;
     private FloorUnit currentFloorUnit;
-    private FloorGrid floorGrid;
     
     public FloorEnvironment(int maxXRange, int maxYRange) {
         super(maxXRange, maxYRange);
@@ -35,12 +34,8 @@ public class FloorEnvironment extends FloorGrid {
         return currentFloorUnit;
     }
 
-    public FloorGrid getFloorGrid() {
-        return floorGrid;
-    }
-
     public boolean checkIfCleanable(Direction direction) {
-        FloorUnit neighborFloorUnit = floorGrid.getRelativeCoordinate(currentPosition, direction.getPosition());
+        FloorUnit neighborFloorUnit = getRelativeCoordinate(currentPosition, direction.getPosition());
         if(neighborFloorUnit != null) {
             return neighborFloorUnit.isDirtPresent();
         }
@@ -53,7 +48,8 @@ public class FloorEnvironment extends FloorGrid {
     }
 
     public boolean checkIfPathCleanable(Direction direction, FloorUnit floorUnit) {
-        FloorUnit neighborFloorUnit = floorGrid.getRelativeCoordinate(floorUnit.getPosition(), direction.getPosition());
+        Position position = floorUnit.getPosition();
+        FloorUnit neighborFloorUnit = getRelativeCoordinate(floorUnit.getPosition(), direction.getPosition());
         if(neighborFloorUnit != null) {
             if(neighborFloorUnit.isDirtPresent() == true) {
                 return true;
