@@ -1,5 +1,6 @@
 package edu.se459grp4.project.simulator.gui;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
@@ -52,11 +53,13 @@ public class TilePanel extends JPanel{
 			e.printStackTrace();
 		}
 	}
-
+	
+	
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(img, 1, 1, null);
+		
+		g.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), null);
 		
 		if (dirtAmount > 0){
 			g.drawString("DIRT: "+dirtAmount, 10, 20);
