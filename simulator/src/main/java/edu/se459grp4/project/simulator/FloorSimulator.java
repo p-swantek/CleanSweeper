@@ -82,15 +82,11 @@ public class FloorSimulator {
         return floorTiles[cleanSweepX][cleanSweepY];
     }
     
-<<<<<<< HEAD
 
-  
-=======
     public Point getCleanSweepPosition() {
     	return cleanSweepPosition;
     }
     
->>>>>>> 54d18083e2930e31befe165d60447461ae142f6c
     /**
      * returns the Border type for a given edge of the tile the clean sweep is on
      * 
@@ -199,11 +195,18 @@ public class FloorSimulator {
     }
     
     /**
+     * Decrements 1 unit of dirt of the tile that the clean sweep is currently on and
      * tells whether the tile the clean sweep is on is clean or not
      * 
      * @return true if the tile is cleaned (dirt amount is <= 0), false otherwise
      */
     public boolean clean(){
+    	
+    	Point csPos = getCleanSweepPosition();
+    	FloorTile csTile = getCleanSweepFloorTile();
+    	
+    	getFloorTiles()[csPos.x][csPos.y].setDirtAmount(csTile.getDirtAmount()-1);
+    	
     	return getCleanSweepFloorTile().getDirtAmount() <= 0;
     }
     
