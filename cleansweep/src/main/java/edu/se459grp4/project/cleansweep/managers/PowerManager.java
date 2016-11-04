@@ -8,21 +8,17 @@ import edu.se459grp4.project.cleansweep.logger.*;
 import edu.se459grp4.project.simulator.types.Tile;
 
 public class PowerManager {
-    private int powerCapacity;
-    private int currentPower;
-    private int threshold;
+    private static int powerCapacity=0;
+    private static int currentPower=0;
+    private static int threshold=0;
 
-    public PowerManager(int powerCapacity, int currentPower) {
-        this.powerCapacity = powerCapacity;
-        this.currentPower = currentPower;
-    }
 
-    public PowerManager(int powerCapacity, int currentPower, int threshold) {
+    private PowerManager(int powerCapacity, int currentPower, int threshold) {
         this.powerCapacity = powerCapacity;
         this.currentPower = currentPower;
         this.threshold = threshold;
     }
-
+    private static final PowerManager instance= new PowerManager(100, 100, 30);
     public boolean updatePower(FloorUnit previousFloorUnit, FloorUnit currentFloorUnit) throws IOException {
         // TODO: update currentPower based on average of floor types
     	if (previousFloorUnit != null && currentFloorUnit != null){
@@ -36,6 +32,9 @@ public class PowerManager {
     	else{
     		return false;
     	}
+    }
+    public static PowerManager getInstance(){
+    	return instance;
     }
     
     private int powerRequirement(FloorUnit f){
@@ -59,7 +58,13 @@ public class PowerManager {
 	    		break;
     	
     	}
-    	
     	return powerNeeded;
+    }
+    public boolean checkPower()
+    {
+    	if(currentPower<=threshold)
+    		return false;
+    	else
+    		return true;
     }
 }

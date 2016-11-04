@@ -24,7 +24,13 @@ public class DirtSensor implements Sensor {
     	//check if we want this to return true if dirt is present?
     	if (floorUnit != null){
         	floorUnit.setDirtPresent(floorSimulator.clean());
-        	DirtManager.dirtCleaned();
+        	floorUnit.setDirtAmount(floorSimulator.getDirtAmount());
+        	try {
+				Logger.writeToDirtSensorLog(floorSimulator.getDirtAmount(),floorUnit.getPosition().getX(),floorUnit.getPosition().getY());
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("Could not write to Dirt Sensor Log");
+			}
         	return true;
     	}
     	else

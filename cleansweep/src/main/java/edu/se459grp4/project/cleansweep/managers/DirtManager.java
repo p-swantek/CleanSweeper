@@ -1,6 +1,7 @@
 package edu.se459grp4.project.cleansweep.managers;
 
 import edu.se459grp4.project.cleansweep.logger.Logger;
+import edu.se459grp4.project.cleansweep.models.FloorUnit;
 
 import java.io.IOException;
 
@@ -14,7 +15,6 @@ public class DirtManager {
 
 	private static int dirtMaxCapacity=100;
 	private static int dirtCurrentCapacity=0;
-	private static FloorEnvironment floorUnit;
 	private static int x;
 	private static int y;
 
@@ -30,10 +30,10 @@ public class DirtManager {
 	/*
 	 * Assuming one unit of dirt is cleaned at a time
 	 */
-	public static void dirtCleaned(){
+	public static void dirtCleaned(FloorUnit currentFloorUnit){
 		if(checkCapacity()){
-			x =floorUnit.getCurrentPosition().getX();
-			y =floorUnit.getCurrentPosition().getY();
+			x =currentFloorUnit.getPosition().getX();
+			y =currentFloorUnit.getPosition().getY();
 			dirtCurrentCapacity++;
 			try {
 				Logger.writeToDirtCapacityLog(dirtCurrentCapacity, dirtMaxCapacity, x, y);
@@ -42,14 +42,14 @@ public class DirtManager {
 			}
 		}
 		else
-			emptyDirt();
+			emptyDirt(currentFloorUnit);
 	}
 	/*
 	 * Use this when floor shortest path to cleaner is available to empty the clean sweep
 	 */
-	public static void emptyDirt(){
-		x =floorUnit.getCurrentPosition().getX();
-		y =floorUnit.getCurrentPosition().getY();
+	public static void emptyDirt(FloorUnit currentFloorUnit){
+		x =currentFloorUnit.getPosition().getX();
+		y =currentFloorUnit.getPosition().getY();
 		try {
 			Logger.writeToDirtCapacityLog(dirtCurrentCapacity, dirtMaxCapacity, x, y);
 		} catch (IOException e) {
