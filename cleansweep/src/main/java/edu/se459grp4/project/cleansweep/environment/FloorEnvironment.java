@@ -65,4 +65,9 @@ public class FloorEnvironment extends FloorGrid {
             return false;
         }
     }
+
+	public FloorUnit getPowerStation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

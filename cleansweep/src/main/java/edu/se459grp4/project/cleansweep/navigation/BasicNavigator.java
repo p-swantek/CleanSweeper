@@ -71,7 +71,8 @@ public class BasicNavigator extends Navigator {
             }
         }
 
-        return null;
+
+       return null;
     }
 
     private enum State {
