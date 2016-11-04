@@ -23,17 +23,10 @@ public class NavigationManager {
 	}
 
 	public Direction move(FloorUnit currentFloorUnit) {
-		// TODO: add logic to set Navigator
-		if(powerManager.checkPower())
-		{
-			if(DirtManager.checkCapacity())
-			{
-				navigator.
-			}
-			
-		}
 
-		return navigator.movementDirection(currentFloorUnit);
+		Direction direction = navigator.movementDirection(currentFloorUnit);
+		floorSimulator.move(direction.getValue());
+		return direction;
 	}
 
 	public Navigator getNavigator() {

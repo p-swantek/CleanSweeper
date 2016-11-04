@@ -49,12 +49,12 @@ public class CleanSweep {
                 previousFloorUnit = currentFloorUnit;
                 currentFloorUnit = new FloorUnit();
             }
-
+            floorEnvironment.addFloorUnit(currentFloorUnit);
             navigationSensorSystem.update(currentFloorUnit);
             floorSensor.update(currentFloorUnit);
             dirtSensor.update(currentFloorUnit);
-            powerManager.updatePower(previousFloorUnit, currentFloorUnit);
             floorEnvironment.addFloorUnit(currentFloorUnit);
+            powerManager.updatePower(previousFloorUnit, currentFloorUnit);
             nextDirection = navigationManager.move(currentFloorUnit);
             floorEnvironment.updatePosition(nextDirection);
 
