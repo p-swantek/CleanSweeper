@@ -56,6 +56,7 @@ public class CleanSweep {
             floorEnvironment.addFloorUnit(currentFloorUnit);
             powerManager.updatePower(previousFloorUnit, currentFloorUnit);
             nextDirection = navigationManager.move(currentFloorUnit);
+            if(nextDirection!=null)
             floorEnvironment.updatePosition(nextDirection);
 
             try {

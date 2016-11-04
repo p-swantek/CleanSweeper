@@ -13,7 +13,7 @@ public class NavigationManager {
 	private FloorEnvironment floorEnvironment;
 	private PowerManager powerManager;
 	private Navigator navigator;
-	
+
 
 	public NavigationManager(FloorSimulator floorSimulator, FloorEnvironment floorEnvironment, PowerManager powerManager) {
 		this.navigator = new BasicNavigator(floorEnvironment);
@@ -25,8 +25,12 @@ public class NavigationManager {
 	public Direction move(FloorUnit currentFloorUnit) {
 
 		Direction direction = navigator.movementDirection(currentFloorUnit);
-		floorSimulator.move(direction.getValue());
-		return direction;
+		if(floorSimulator.move(direction.getValue()))
+				{
+					return direction;
+				}
+		else
+			return null;
 	}
 
 	public Navigator getNavigator() {
