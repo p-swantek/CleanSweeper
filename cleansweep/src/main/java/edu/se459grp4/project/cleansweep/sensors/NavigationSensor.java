@@ -19,28 +19,28 @@ public class NavigationSensor implements Sensor {
 
     public boolean update(FloorUnit floorUnit) {
         boolean success = false;
+		Border borderType = floorSimulator.getBorder(direction.getValue());
 
 		switch(direction) {
 			case UP:
-				floorUnit.setNorthBorder(floorSimulator.getBorder(direction.getValue()));
-				success = true;
+				floorUnit.setNorthBorder(borderType);
 				break;
 			case DOWN:
-				floorUnit.setSouthBorder(floorSimulator.getBorder(direction.getValue()));
+				floorUnit.setSouthBorder(borderType);
 				success = true;
 				break;
 			case LEFT:
-				floorUnit.setWestBorder(floorSimulator.getBorder(direction.getValue()));
+				floorUnit.setWestBorder(borderType);
 				success = true;
 				break;
 			case RIGHT:
-				floorUnit.setEastBorder(floorSimulator.getBorder(direction.getValue()));
+				floorUnit.setEastBorder(borderType);
 				success = true;
 				break;
 		}
 
     	try {
-			Logger.writeToNavigationSensorLog(direction.getValue(), String.valueOf(success), floorSimulator.getCleanSweepPosition().x , floorSimulator.getCleanSweepPosition().y);
+			Logger.writeToNavigationSensorLog(direction.getValue(), borderType.name(), floorSimulator.getCleanSweepPosition().x , floorSimulator.getCleanSweepPosition().y);
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}

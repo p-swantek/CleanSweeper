@@ -106,10 +106,10 @@ public class FloorSimulator {
     			border = csTile.getSouthBorder();
     			break;
     		case "LEFT":
-    			border = csTile.getEastBorder();
+    			border = csTile.getWestBorder();
     			break;
     		case "RIGHT":
-    			border = csTile.getWestBorder();
+    			border = csTile.getEastBorder();
     			break;
     
     	}
