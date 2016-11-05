@@ -4,7 +4,6 @@ import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
 import edu.se459grp4.project.cleansweep.navigation.BasicNavigator;
 import edu.se459grp4.project.cleansweep.navigation.Navigator;
-import edu.se459grp4.project.cleansweep.navigation.ReturnToBaseStation;
 import edu.se459grp4.project.cleansweep.types.Direction;
 import edu.se459grp4.project.simulator.FloorSimulator;
 
@@ -23,7 +22,10 @@ public class NavigationManager {
 	}
 
 	public Direction move(FloorUnit currentFloorUnit) {
-
+		
+		if(DirtManager.checkCapacity() || powerManager.checkPower()){
+			
+		}
 		Direction direction = navigator.movementDirection(currentFloorUnit);
 		if(floorSimulator.move(direction.getValue()))
 				{
