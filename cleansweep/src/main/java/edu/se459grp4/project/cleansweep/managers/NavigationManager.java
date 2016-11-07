@@ -4,6 +4,7 @@ import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
 import edu.se459grp4.project.cleansweep.navigation.BasicNavigator;
 import edu.se459grp4.project.cleansweep.navigation.Navigator;
+import edu.se459grp4.project.cleansweep.navigation.ShortestPath;
 import edu.se459grp4.project.cleansweep.types.Direction;
 import edu.se459grp4.project.simulator.FloorSimulator;
 
@@ -12,6 +13,8 @@ public class NavigationManager {
 	private FloorEnvironment floorEnvironment;
 	private PowerManager powerManager;
 	private Navigator navigator;
+	private ShortestPath navShortestPath;
+	private Direction direction;
 
 
 	public NavigationManager(FloorSimulator floorSimulator, FloorEnvironment floorEnvironment, PowerManager powerManager) {
@@ -23,10 +26,12 @@ public class NavigationManager {
 
 	public Direction move(FloorUnit currentFloorUnit) {
 		
-		if(DirtManager.checkCapacity() || powerManager.checkPower()){
-			
-		}
-		Direction direction = navigator.movementDirection(currentFloorUnit);
+//		if(DirtManager.checkCapacity() || powerManager.checkPower()){
+//			this.navShortestPath= new ShortestPath(currentFloorUnit,floorEnvironment.getPowerStation(), floorEnvironment );
+//			Direction directionShortestPath = navShortestPath.movementDirection(currentFloorUnit);
+//			return directionShortestPath;
+//		}
+		direction = navigator.movementDirection(currentFloorUnit);
 		if(floorSimulator.move(direction.getValue()))
 				{
 					return direction;

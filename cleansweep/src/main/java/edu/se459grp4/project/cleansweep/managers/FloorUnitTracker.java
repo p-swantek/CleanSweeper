@@ -21,20 +21,10 @@ public class FloorUnitTracker {
 	public static void add(FloorUnit f){
 		backTrack.push(f);
 	}
-	
-	public FloorUnit backTrack(){
-		for(FloorUnit f:backTrack)
-		{
-			
-			if(f.getNorthBorder()==Border.OPEN||f.getSouthBorder()==Border.OPEN||f.getEastBorder()==Border.OPEN||f.getWestBorder()==Border.OPEN)
-				{
-				return f;
-				}
-			else
-				backTrack.pop();
-				
-		}
-		return null;					
+	public static FloorUnit returnLast()
+	{
+		FloorUnit last = backTrack.pop();
+		return last;
 	}
 	public static boolean search(FloorUnit f)
 	{

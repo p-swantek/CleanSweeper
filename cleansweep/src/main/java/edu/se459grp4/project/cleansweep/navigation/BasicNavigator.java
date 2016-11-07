@@ -1,80 +1,64 @@
 package edu.se459grp4.project.cleansweep.navigation;
 
 import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
+import edu.se459grp4.project.cleansweep.managers.FloorUnitTracker;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
 import edu.se459grp4.project.cleansweep.types.Direction;
 
 public class BasicNavigator extends Navigator {
-    private State state = State.NORTH;
-    private int retry = 0;
 
-    public BasicNavigator(FloorEnvironment floorEnvironment) {
-        super(floorEnvironment);
-    }
+	private int retry = 0;
+	private State lastPosition;
 
-    public Direction movementDirection(FloorUnit currentFloorUnit) {
-        State lastVertical = State.NORTH;
-        State defaultHorizontal = State.EAST;
+	public BasicNavigator(FloorEnvironment floorEnvironment) {
+		super(floorEnvironment);
+	}
 
-        if(retry == 2) {
-            return null;
-        }
+	public Direction movementDirection(FloorUnit currentFloorUnit) {
 
-        if(state == State.NORTH) {
-            if (floorEnvironment.checkIfPathCleanable(Direction.UP, currentFloorUnit)) {
-                lastVertical = State.NORTH;
-                return Direction.UP;
-            } else {
-                state = defaultHorizontal;
-            }
-        }
-        if(state == State.SOUTH) {
-            if (floorEnvironment.checkIfPathCleanable(Direction.DOWN, currentFloorUnit)) {
-                lastVertical = State.SOUTH;
-                return Direction.DOWN;
-            } else {
-                state = defaultHorizontal;
-            }
-        }
-        if(state == State.EAST) {
-            if (floorEnvironment.checkIfCleanable(Direction.RIGHT)) {
-                if (lastVertical == State.NORTH) {
-                    state = State.SOUTH;
-                }
-                else {
-                    state = State.NORTH;
-                }
-                retry = 0;
-                return Direction.RIGHT;
-            }
-            else {
-                defaultHorizontal = State.WEST;
-                state = defaultHorizontal;
-                retry++;
-            }
-        }
-        if(state == State.WEST) {
-            if(floorEnvironment.checkIfCleanable(Direction.LEFT)) {
-                if (lastVertical == State.NORTH) {
-                    state = State.SOUTH;
-                }
-                else {
-                    state = State.NORTH;
-                }
-                retry = 0;
-                return Direction.LEFT;
-            }
-            else {
-                defaultHorizontal = State.EAST;
-                state = defaultHorizontal;
-                retry++;
-            }
-        }
+		if(retry == 2) {
+			return null;
+		}
 
-        return null;
-    }
+		if(lastPosition != State.NORTH && floorEnvironment.checkIfPathCleanable(Direction.UP, currentFloorUnit)) {
 
-    private enum State {
-        NORTH, EAST, WEST, SOUTH
-    }
-}
+			lastPosition = State.SOUTH;
+			FloorUnitTracker.add(currentFloorUnit);
+			return Direction.UP;
+		}
+			else {
+
+				if(lastPosition != State.SOUTH && floorEnvironment.checkIfPathCleanable(Direction.DOWN, currentFloorUnit)) {
+
+					lastPosition = State.NORTH;
+					FloorUnitTracker.add(currentFloorUnit);
+					return Direction.DOWN;
+				} else {
+
+					if(lastPosition != State.EAST && floorEnvironment.checkIfPathCleanable(Direction.RIGHT, currentFloorUnit)) {
+
+						lastPosition = State.WEST;
+						FloorUnitTracker.add(currentFloorUnit);
+						return Direction.RIGHT;
+					} else {
+						if(lastPosition != State.WEST && floorEnvironment.checkIfPathCleanable(Direction.LEFT, currentFloorUnit)) {
+							lastPosition = State.EAST;
+							FloorUnitTracker.add(currentFloorUnit);
+							return Direction.LEFT;
+						} else {
+
+							retry++;
+						}
+					}
+				}
+			}
+		return null;
+		}
+	
+			
+			
+
+	private enum State {
+		NORTH, EAST, WEST, SOUTH
+	}
+	}
