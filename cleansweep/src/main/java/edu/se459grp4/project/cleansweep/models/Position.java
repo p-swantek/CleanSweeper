@@ -1,5 +1,8 @@
 package edu.se459grp4.project.cleansweep.models;
 
+/**
+ * Storage for x, y coordinates
+ */
 public class Position {
     private final int x;
     private final int y;
@@ -21,6 +24,13 @@ public class Position {
         return new Position(x, y);
     }
 
+    /**
+     * Gets the relative position based off of the passed coordinate
+     *
+     * @param position the base x,y coordinate
+     * @param directionalPosition of the next position over to calculate
+     * @return neighboring x,y based off of the direction passed
+     */
     public static Position getRelativePosition(Position position, Position directionalPosition) {
         int x = position.getX();
         int y = position.getY();

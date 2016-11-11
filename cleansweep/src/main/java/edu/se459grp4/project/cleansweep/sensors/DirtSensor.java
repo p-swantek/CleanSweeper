@@ -22,13 +22,17 @@ public class DirtSensor implements Sensor {
     public boolean update(FloorUnit floorUnit) {
     	//check if we want this to return true if dirt is present?
     	if (floorUnit != null){
-        	floorUnit.setDirtPresent(floorSimulator.clean());
-        	floorUnit.setDirtAmount(floorSimulator.getDirtAmount());
-        	try {
-				Logger.writeToDirtSensorLog(floorSimulator.getDirtAmount(),floorUnit.getPosition().getX(),floorUnit.getPosition().getY());
-			} catch (IOException e) {
-				System.out.println("Could not write to Dirt Sensor Log");
-			}
+    		
+    		do{
+	        	floorUnit.setDirtPresent(floorSimulator.clean());
+	        	floorUnit.setDirtAmount(floorSimulator.getDirtAmount());
+	        	try {
+					Logger.writeToDirtSensorLog(floorSimulator.getDirtAmount(),floorUnit.getPosition().getX(),floorUnit.getPosition().getY());
+				} catch (IOException e) {
+					System.out.println("Could not write to Dirt Sensor Log");
+				}
+        	}
+    		while(!floorSimulator.clean());
         	return true;
     	}
     	else

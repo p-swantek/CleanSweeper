@@ -6,9 +6,16 @@ import edu.se459grp4.project.cleansweep.types.Direction;
 import edu.se459grp4.project.simulator.types.Border;
 
 public class FloorEnvironment extends FloorGrid {
-	private static Position previousPosition;
-	private static Position currentPosition;
-	private FloorUnit currentFloorUnit;
+
+    private static Position previousPosition;
+    private static Position currentPosition;
+    private FloorUnit currentFloorUnit;
+   
+	public FloorUnit getPowerStation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 	public FloorEnvironment(int maxXRange, int maxYRange) {
 		super(maxXRange, maxYRange);
@@ -45,6 +52,10 @@ public class FloorEnvironment extends FloorGrid {
 		else {
 			return false;
 		}
+	}
+	public FloorUnit getNeighbour(Direction direction){
+		FloorUnit neighbourFloorUnit = getRelativeCoordinate(currentPosition, direction.getPosition());
+		return neighbourFloorUnit;
 	}
 
 	public boolean checkIfPathCleanable(Direction direction, FloorUnit floorUnit) {

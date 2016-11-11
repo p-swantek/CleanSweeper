@@ -1,5 +1,8 @@
 package edu.se459grp4.project.cleansweep.models;
 
+/**
+ * Generic storage for any two object types
+ */
 public class Tuple<A, B> {
     private final A a;
     private final B b;

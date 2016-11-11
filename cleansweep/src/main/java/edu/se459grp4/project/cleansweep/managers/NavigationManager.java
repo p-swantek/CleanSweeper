@@ -2,6 +2,7 @@ package edu.se459grp4.project.cleansweep.managers;
 
 import edu.se459grp4.project.cleansweep.environment.FloorEnvironment;
 import edu.se459grp4.project.cleansweep.models.FloorUnit;
+import edu.se459grp4.project.cleansweep.navigation.BackTrackNav;
 import edu.se459grp4.project.cleansweep.navigation.BasicNavigator;
 import edu.se459grp4.project.cleansweep.navigation.Navigator;
 import edu.se459grp4.project.cleansweep.navigation.ShortestPath;
@@ -15,6 +16,7 @@ public class NavigationManager {
 	private Navigator navigator;
 	private ShortestPath navShortestPath;
 	private Direction direction;
+	private BackTrackNav backTrack;
 
 
 	public NavigationManager(FloorSimulator floorSimulator, FloorEnvironment floorEnvironment, PowerManager powerManager) {
@@ -32,13 +34,15 @@ public class NavigationManager {
 //			return directionShortestPath;
 //		}
 		direction = navigator.movementDirection(currentFloorUnit);
-		if(floorSimulator.move(direction.getValue()))
-				{
-					return direction;
-				}
-		else
-			return null;
+		if(direction==null)
+		{
+			direction=backTrack.movementDirection(currentFloorUnit);
+		}
+		floorSimulator.move(direction.getValue());
+		return direction;
 	}
+		
+
 
 	public Navigator getNavigator() {
 		return navigator;

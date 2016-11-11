@@ -6,6 +6,9 @@ import edu.se459grp4.project.simulator.types.Tile;
 
 import java.util.Map;
 
+/**
+ * Represents a Floor square and it's properties
+ */
 public class FloorUnit {
 	Border northBorder;
 	Border southBorder;
@@ -82,6 +85,12 @@ public class FloorUnit {
 		this.position = new Position(x, y);
 	}
 
+	/**
+	 * returns the Border type for a given edge of the tile the clean sweep is on
+	 *
+	 * @param direction enum representing the directional side of the tile
+	 * @return the Border type on a particular edge of the tile
+	 */
 	public Border getBorder(Direction direction) {
 		switch(direction) {
 		case UP:

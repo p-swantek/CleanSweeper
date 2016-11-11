@@ -17,11 +17,13 @@ public class FloorUnitTracker {
 	}
 	
 	private static Stack<FloorUnit> backTrack =new Stack<FloorUnit>();
+	private static Stack<Direction> backTrackDirection = new Stack<Direction>(); 
 	
-	public static void add(FloorUnit f){
+	public static void add(FloorUnit f,Direction d){
 		backTrack.push(f);
+		backTrackDirection.push(d);
 	}
-	public static FloorUnit returnLast()
+	public static FloorUnit returnLastFloorUnit()
 	{
 		FloorUnit last = backTrack.pop();
 		return last;
@@ -30,10 +32,10 @@ public class FloorUnitTracker {
 	{
 		if(backTrack.search(f)==-1)
 		{
-			return true;
+			return false;
 		}
 		else
-			return false;
+			return true;
 	}
 
 }
