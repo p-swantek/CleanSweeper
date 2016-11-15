@@ -11,7 +11,7 @@
     <modules>
         <module>simulator</module>
         <module>cleansweep</module>
+        <module>gui</module>
     </modules>
-
-
+    
 </project>
