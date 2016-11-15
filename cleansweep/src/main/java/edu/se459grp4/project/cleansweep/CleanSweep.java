@@ -4,6 +4,8 @@ import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.types.Direction;
 import edu.se459grp4.project.simulator.types.PathStatus;
 import edu.se459grp4.project.simulator.types.TileStatus;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -157,6 +159,11 @@ public class CleanSweep extends Observable {
         mdbPowerValue -= ndb;
         setChanged();
         notifyObservers(this);
+        try {
+			Logger.writeToBatteryLog(mdbPowerValue);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return mdbPowerValue;
     }
     public synchronized int GetVacuumLevel()
@@ -168,6 +175,16 @@ public class CleanSweep extends Observable {
         mnVacuumCapacityValue -= nnVacuumVal;
         setChanged();
         notifyObservers(this);
+        try {
+			Logger.writeToDirtSensorLog(nnVacuumVal, mx, my);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+        try {
+			Logger.writeToDirtCapacityLog(mnVacuumCapacityValue, mnMaxVacuum, mx, my);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return mnVacuumCapacityValue;
     }
     public synchronized int CleanVacuum()
@@ -175,6 +192,11 @@ public class CleanSweep extends Observable {
         mnVacuumCapacityValue = mnMaxVacuum;
         setChanged();
         notifyObservers(this);
+        try {
+			Logger.writeToDirtCapacityLog(0, mnMaxVacuum, mx, my);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return mnVacuumCapacityValue;
     }
     
@@ -183,6 +205,11 @@ public class CleanSweep extends Observable {
         mdbPowerValue = mdbMaxPower;
         setChanged();
         notifyObservers(this);
+        try {
+			Logger.writeToBatteryLog(mdbMaxPower);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
         return mdbPowerValue;
     }
    

@@ -2,7 +2,6 @@ package edu.se459grp4.project.cleansweep;
 
 import static org.junit.Assert.*;
 
-import java.io.FileOutputStream;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,27 +52,40 @@ public class CleanSweepTest {
 
 	@Test
 	public void testDetectDirtValue() {
-		fail("Not yet implemented");
+		int dirt = cleaner.DetectDirtValue();
+		assertEquals(dirt,50);
 	}
 
 	@Test
 	public void testSweepUp() {
-		fail("Not yet implemented");
+		int dirt = cleaner.DetectDirtValue();
+		assertEquals(dirt,50);
+		cleaner.SweepUp(30);
+		dirt=cleaner.DetectDirtValue();
+		assertEquals(dirt,20);
+		
 	}
 
 	@Test
 	public void testExhaustPower() {
-		fail("Not yet implemented");
+		double currentPower = cleaner.GetPowerLevel();
+		assertEquals(currentPower,100.000,0.001);
+		cleaner.ExhaustPower(10.000);
+		currentPower = cleaner.GetPowerLevel();
+		assertEquals(currentPower,90.000,0.001);
 	}
 
 	@Test
 	public void testExhaustVacuume() {
-		fail("Not yet implemented");
+		int capacity = cleaner.GetVacuumLevel();
+		assertEquals(capacity,100);
+		int newValue =cleaner.ExhaustVacuume(20);
+		assertEquals(newValue,80);
 	}
 
 	@Test
 	public void testCleanVacuum() {
-		fail("Not yet implemented");
+		
 	}
 
 	@Test
