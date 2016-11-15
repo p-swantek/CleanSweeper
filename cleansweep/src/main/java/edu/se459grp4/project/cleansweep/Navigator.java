@@ -45,6 +45,10 @@ public class Navigator implements Runnable {
     private MissionTypeToGoToChargeStation meMissionType = MissionTypeToGoToChargeStation.MissionUnkown;
     private Coordinate mReturningNodeCoordinate = new Coordinate(0,0);
     private ArrayList<String> mReturingPath = new ArrayList<String>();
+    private static final int SLEEP = 100;
+    
+    
+    
     public Navigator(CleanSweep nCleanSweep) {
         mCleanSweep = nCleanSweep;
     }
@@ -160,7 +164,7 @@ public class Navigator implements Runnable {
                         //continue;
                     }
                     
-                    Thread.sleep(500);
+                    Thread.sleep(SLEEP);
                     continue;
                 }
 

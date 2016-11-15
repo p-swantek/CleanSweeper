@@ -46,7 +46,7 @@ public class Simulator {
       }
     }
 
-    public PathStatus ProvideDirectionSensroData(Direction nDirection,int x,int y)
+    public PathStatus ProvideDirectionSensorData(Direction nDirection,int x,int y)
     {
         //
         int nDestX,nDestY;
@@ -66,7 +66,7 @@ public class Simulator {
             return mFloorPlan.CheckPath(x, y, nDestX, nDestY);
         return PathStatus.Blocked;
     }
-    public int ProvideDirtSensroData(int x,int y)
+    public int ProvideDirtSensorData(int x,int y)
     {
         if(mFloorPlan != null)
             return mFloorPlan.GetDirtVal(x, y);

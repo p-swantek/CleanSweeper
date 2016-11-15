@@ -7,9 +7,9 @@ import java.util.*;
 
 public class TilesGraph {
 
-    private HashMap<String, TileNode> mNodeMap = new HashMap<String, TileNode>();
+    private Map<String, TileNode> mNodeMap = new HashMap<>();
     //the whole graph, string is the incoming node name, and the associated hasmap with this node
-    private HashMap<String, HashMap<String, Double>> mGraphMap = new HashMap<String, HashMap<String, Double>>();
+    private Map<String, HashMap<String, Double>> mGraphMap = new HashMap<>();
 
     public boolean IsVisited(int x, int y) {
         TileNode lNode = mNodeMap.get(TileNode.GenerateKeyString(x, y));

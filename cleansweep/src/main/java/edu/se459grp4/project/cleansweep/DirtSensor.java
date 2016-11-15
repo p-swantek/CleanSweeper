@@ -13,6 +13,6 @@ public class DirtSensor {
     
     public int GetSensorData(int x,int y)
     {
-        return Simulator.getInstance().ProvideDirtSensroData(x, y);
+        return Simulator.getInstance().ProvideDirtSensorData(x, y);
     }
 }

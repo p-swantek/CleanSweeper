@@ -17,7 +17,7 @@ public class NavigationSensor  {
 
     public PathStatus GetSensorData(int x,int y)
     {
-        return Simulator.getInstance().ProvideDirectionSensroData(direction, x, y);
+        return Simulator.getInstance().ProvideDirectionSensorData(direction, x, y);
     }
    
 }
