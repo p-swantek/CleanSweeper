@@ -28,8 +28,16 @@ public class CleanSweepManagerTest {
 		
 		cs = CleanSweepManager.getInstance().GetCleanSweep(-1);
 		assertNull(cs);
-		
-		
+
+	}
+	
+	
+	@Test
+	public void testStartCleanCycle(){
+		int id = CleanSweepManager.getInstance().CreateCleanSweep(0, 0);
+		assertTrue(CleanSweepManager.getInstance().StartCleanCycle(id));
+		assertFalse(CleanSweepManager.getInstance().StartCleanCycle(-1));
+
 	}
 
 	
