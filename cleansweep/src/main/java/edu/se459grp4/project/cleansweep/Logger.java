@@ -11,9 +11,8 @@ public final class Logger {
 	private static final String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 	private static final String ROOT_PATH = "Log/";
 	private static final String MAIN_LOG_NAME = "MainLog.txt";
-
 	private static final Logger instance = new Logger();
-
+	
 	private Logger(){}
 
 	public static Logger getInstance() {
@@ -26,15 +25,22 @@ public final class Logger {
 		return sdf.format(cal.getTime());
 	}
 
-	public static void writeToBatteryLog(double power) throws IOException
+	public static void writeToBatteryLog(double power) 
 	{
+		try{
 		String filesub = "PowerManagement/BatteryLog.txt";
 		String output = "Clean Sweep power status is "+power+".";
 		writeToLogs(output, "POWER", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public static void writeToDevicePowerLog(boolean deviceOn) throws IOException
+	public static void writeToDevicePowerLog(boolean deviceOn) 
 	{
+		try{
 		String filesub = "PowerManagement/DevicePowerLog.txt";
 
 		String status;
@@ -45,11 +51,17 @@ public final class Logger {
 
 		String output = "Clean Sweep was turned "+status+".";
 		writeToLogs(output, "POWER", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 
-	public static void writeToDirtCapacityLog(int currentDirt,int maxDirt,int x,int y) throws IOException
+	public static void writeToDirtCapacityLog(int currentDirt,int maxDirt,int x,int y) 
 	{
+		try{
 		String filesub = "DirtManagement/DirtCapacityLog.txt";
 
 		String output;
@@ -58,49 +70,85 @@ public final class Logger {
 		else
 			output = "Clean Sweep is cleaning dirt("+currentDirt+"/"+maxDirt+") at tile ("+x+","+y+").";
 		writeToLogs(output, "POWER", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public static void writeToDirtSensorLog(int dirtdensity,int x,int y) throws IOException
+	public static void writeToDirtSensorLog(int dirtdensity,int x,int y)
 	{
+		try{
 		String filesub = "Sensors/DirtSensorLog.txt";
 
 		String output = "Clean Sweep dirt sensor has detected dirt("+dirtdensity+") at tile ("+x+","+y+").";
 		writeToLogs(output, "DIRT", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public static void writeToNavigationSensorLog(String direction, String directionStatus,int x, int y) throws IOException
+	public static void writeToNavigationSensorLog(String direction, String directionStatus,int x, int y) 
 	{
+		try{
 		String filesub = "Sensors/NavigationSensorLog.txt";
 
 		String output = "Clean Sweep Navigation sensor has detected Path("+direction+") is "+directionStatus+" at tile ("+x+","+y+").";
 		writeToLogs(output, "NAVIGATION", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
-	public static void writeToMovementSensorFile(String direction,int x, int y) throws IOException
+	public static void writeToMovementSensorFile(String direction,int x, int y) 
 	{
+		try{
 		String filesub = "Sensors/MovementSensorLog.txt";
 
 		String output = "Clean Sweep dirt sensor is moving one tile to the "+direction+" to tile ("+x+","+y+").";
 		writeToLogs(output, "DIRT", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public static void chargeStationLog(int x,int y) throws IOException
+	public static void chargeStationLog(int x,int y)
 	{
+		try{
 		String filesub = "Sensors/ChargeStationSensorLog.txt";
 
 		String output = "Clean sweep charge station sensor detected charging station at tile ("+x+","+y+").";
 		writeToLogs(output, "CHARGING_STATION", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
-	public static void writeToObstacleSensorFile(String direction,int x, int y) throws IOException
+	public static void writeToObstacleSensorFile(String direction,int x, int y) 
 	{
+		try{
 		String filesub = "Sensors/ObstacleSensorLog.txt";
 
 		String output = "Clean Sweep obstacle sensor detected obstacle to the "+direction+" of tile ("+x+","+y+").";
 		writeToLogs(output, "SENSOR", filesub);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	private static void writeToLogs(String output, String eventType, String subLogPath)
 	{
+		try{
 		FileWriter fwm = null;
 		FileWriter fws = null;
 
@@ -113,6 +161,11 @@ public final class Logger {
 		if(subLogPath != null) {
 			File filesub = new File(ROOT_PATH + subLogPath);
 			writeToFile(filesub, output);
+		}
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -133,7 +186,7 @@ public final class Logger {
 			fileWriter.append(output);
 			fileWriter.close();
 		}
-		catch(IOException e) {
+		catch(Exception e) {
 			e.printStackTrace();
 		}
 

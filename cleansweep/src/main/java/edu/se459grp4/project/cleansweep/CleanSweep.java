@@ -159,11 +159,7 @@ public class CleanSweep extends Observable {
         mdbPowerValue -= ndb;
         setChanged();
         notifyObservers(this);
-        try {
-			Logger.writeToBatteryLog(mdbPowerValue);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        Logger.writeToBatteryLog(mdbPowerValue);
         return mdbPowerValue;
     }
     public synchronized int GetVacuumLevel()
@@ -175,16 +171,8 @@ public class CleanSweep extends Observable {
         mnVacuumCapacityValue -= nnVacuumVal;
         setChanged();
         notifyObservers(this);
-        try {
-			Logger.writeToDirtSensorLog(nnVacuumVal, mx, my);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        try {
-			Logger.writeToDirtCapacityLog(mnVacuumCapacityValue, mnMaxVacuum, mx, my);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Logger.writeToDirtSensorLog(nnVacuumVal, mx, my);
+		Logger.writeToDirtCapacityLog(mnVacuumCapacityValue, mnMaxVacuum, mx, my);
         return mnVacuumCapacityValue;
     }
     public synchronized int CleanVacuum()
@@ -192,11 +180,7 @@ public class CleanSweep extends Observable {
         mnVacuumCapacityValue = mnMaxVacuum;
         setChanged();
         notifyObservers(this);
-        try {
-			Logger.writeToDirtCapacityLog(0, mnMaxVacuum, mx, my);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Logger.writeToDirtCapacityLog(0, mnMaxVacuum, mx, my);
         return mnVacuumCapacityValue;
     }
     
@@ -205,11 +189,7 @@ public class CleanSweep extends Observable {
         mdbPowerValue = mdbMaxPower;
         setChanged();
         notifyObservers(this);
-        try {
-			Logger.writeToBatteryLog(mdbMaxPower);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		Logger.writeToBatteryLog(mdbMaxPower);
         return mdbPowerValue;
     }
    

@@ -85,12 +85,16 @@ public class CleanSweepTest {
 
 	@Test
 	public void testCleanVacuum() {
-		
+		cleaner.CleanVacuum();
+		int value =cleaner.GetVacuumLevel();
+		assertEquals(value,100);
 	}
 
 	@Test
 	public void testRecharge() {
-		fail("Not yet implemented");
+		cleaner.Recharge();
+		double power=cleaner.GetPowerLevel();
+		assertEquals(power,100,0.001);
 	}
 
 }
