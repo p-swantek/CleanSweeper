@@ -36,8 +36,12 @@ public class CleanSweepTest {
 
 	@Test
 	public void testMoveTo() {
-		assertFalse(cleaner.MoveTo(0, 5));
 		assertTrue(cleaner.MoveTo(0, 7));
+		assertTrue(cleaner.MoveTo(1, 6));
+		cleaner.MoveTo(0, 6);
+		assertFalse(cleaner.MoveTo(0, 5));
+		CleanSweep c= new CleanSweep(1,100.00,100,4,4);
+		assertFalse(c.MoveTo(5, 4));
 	}
 
 	@Test
