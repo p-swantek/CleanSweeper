@@ -25,7 +25,12 @@ public class CleanSweepManagerTest {
 		assertEquals(0, cs.GetY());
 		assertEquals(100.0, cs.GetPowerLevel(), DELTA);
 		assertEquals(1000, cs.GetVacuumLevel());
-		
+	}
+	@Test
+	public void testStartCleanCycle(){
+		int id = CleanSweepManager.getInstance().CreateCleanSweep(0, 0);
+		assertTrue(CleanSweepManager.getInstance().StartCleanCycle(id));
+		assertFalse(CleanSweepManager.getInstance().StartCleanCycle(-1));
 	}
 
 	

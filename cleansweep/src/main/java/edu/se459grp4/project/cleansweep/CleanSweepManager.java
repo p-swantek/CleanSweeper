@@ -51,11 +51,5 @@ public class CleanSweepManager {
         (new Thread(lControlSystem)).start();
         return true;
     }
-    
-    //start the control system
-    public boolean Stop(int nID)
-    {
-        return true;
-    }
   
 }
