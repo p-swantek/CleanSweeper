@@ -26,6 +26,10 @@ public class CleanSweepManagerTest {
 		assertEquals(100.0, cs.GetPowerLevel(), DELTA);
 		assertEquals(1000, cs.GetVacuumLevel());
 		
+		cs = CleanSweepManager.getInstance().GetCleanSweep(-1);
+		assertNull(cs);
+		
+		
 	}
 
 	

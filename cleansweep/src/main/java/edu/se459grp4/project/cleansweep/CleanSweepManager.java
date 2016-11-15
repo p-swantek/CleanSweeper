@@ -52,10 +52,5 @@ public class CleanSweepManager {
         return true;
     }
     
-    //start the control system
-    public boolean Stop(int nID)
-    {
-        return true;
-    }
-  
+   
 }
