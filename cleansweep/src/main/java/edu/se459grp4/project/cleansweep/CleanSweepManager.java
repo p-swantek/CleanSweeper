@@ -11,6 +11,10 @@ import java.util.Map;
 public class CleanSweepManager {
     
     private static CleanSweepManager instance ;
+    private static final Double INIT_POWER = 100.0;
+    private static final int VACUUM_CAPACITY = 1000;
+    
+    
     public static synchronized CleanSweepManager getInstance(){
         if(instance == null){
             instance = new CleanSweepManager();
@@ -22,7 +26,7 @@ public class CleanSweepManager {
     public int CreateCleanSweep(int x,int y)
     {
         int nID = mnCurrentID++;
-        CleanSweep lCleanSweep = new CleanSweep(nID,100.0,1000,x,y);
+        CleanSweep lCleanSweep = new CleanSweep(nID,INIT_POWER,VACUUM_CAPACITY,x,y);
         mMapCleanSweep.put(nID, lCleanSweep);
         return nID;
     }
@@ -53,7 +57,5 @@ public class CleanSweepManager {
     {
         return true;
     }
-    
- 
-    
+  
 }

@@ -2,7 +2,6 @@ package edu.se459grp4.project.cleansweep;
 
 import static org.junit.Assert.*;
 
-import java.io.FileOutputStream;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
