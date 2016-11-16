@@ -83,7 +83,7 @@ public class CleanSweepTest {
 	public void testExhaustVacuume() {
 		int capacity = cleaner.GetVacuumLevel();
 		assertEquals(capacity,100);
-		int newValue =cleaner.ExhaustVacuume(20);
+		int newValue =cleaner.exhaustVacuum(20);
 		assertEquals(newValue,80);
 	}
 
