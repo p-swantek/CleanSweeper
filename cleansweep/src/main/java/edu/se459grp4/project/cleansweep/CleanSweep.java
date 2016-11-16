@@ -9,6 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+
+/**
+ * Represents a CleanSweep vacuum robot.  The robot contains a vacuum to suck up dirt off the floor, 
+ * as well as a variety of sensors to sense various aspects of the floor which it is cleaning.  The clean 
+ * sweep can use sensor data to gather information on directions it can travel as well as the floor type
+ * of the floor being traveled as well as the dirtiness of a spot on the floor. Clean sweep maintains
+ * an internal power supply and needs to be recharged to keep working.  
+ * 
+ * @author Group 4
+ * @version 1.8
+ *
+ */
 public class CleanSweep extends Observable {
 
     private int mnMaxVacuum ;
