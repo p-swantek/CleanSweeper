@@ -1,16 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.se459grp4.project.cleansweep;
 
 import edu.se459grp4.project.simulator.Simulator;
-import edu.se459grp4.project.simulator.types.TileStatus;
 
 
+/**
+ * A sensor on the clean sweep robot that can sense the amount of dirt from the floor
+ * 
+ * @author Group 4
+ * @version 1.8
+ *
+ */
 public class DirtSensor {
     
+	/**
+	 * Sense the amount of dirt at the given x, y coordinate
+	 * 
+	 * @param x the x coordinate of the location to sense
+	 * @param y the y coordinate of the location to sense
+	 * @return the amount of dirt present at that location
+	 */
     public int GetSensorData(int x,int y)
     {
         return Simulator.getInstance().ProvideDirtSensorData(x, y);

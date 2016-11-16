@@ -1,8 +1,6 @@
 
 package edu.se459grp4.project.cleansweep;
 
-import com.sun.jmx.remote.internal.ArrayQueue;
-import edu.se459grp4.project.Graph.NodeStatus;
 import edu.se459grp4.project.Graph.TileNode;
 import edu.se459grp4.project.Graph.TilesGraph;
 import edu.se459grp4.project.simulator.types.Direction;
@@ -12,8 +10,18 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.Random;
 
+
+/**
+ * Main navigation logic for the clean sweep, will continue exploring a floor and cleaning any tiles that it visits.
+ * If the vacuum fills up or the power of the sweep gets too low, it will attempt to navigate back to a nearest charging
+ * stating to either empty the vacuum or recharge its power.  The clean sweep continues cleaning until all the spots
+ * of the floor have been explored and/or cleaned
+ * 
+ * @author Group 4
+ * @version 1.8
+ *
+ */
 public class Navigator implements Runnable {
     private enum MissionTypeToGoToChargeStation
     {
@@ -48,11 +56,21 @@ public class Navigator implements Runnable {
     private static final int SLEEP = 100;
     
     
-    
+    /**
+     * Create a navigator for the given clean sweep
+     * 
+     * @param nCleanSweep the clean sweep with which this navigator is associated
+     */
     public Navigator(CleanSweep nCleanSweep) {
         mCleanSweep = nCleanSweep;
     }
 
+    /*
+     * Execute the main navigation logic
+     * 
+     * (non-Javadoc)
+     * @see java.lang.Runnable#run()
+     */
     public void run() {
         //smart control run
         try {
