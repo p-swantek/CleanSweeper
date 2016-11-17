@@ -1,18 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.se459grp4.project.simulator.models;
+
 import edu.se459grp4.project.simulator.types.*;
+
+import java.io.Serializable;
 import java.util.*;
 import java.util.Observable;
-import java.util.Observer;
+
 /**
- *
- * @author whao
+ * 
+ * 
+ * @author Group 4
+ * @version 1.8
  */
-public class FloorPlan  extends Observable implements java.io.Serializable {
+public class FloorPlan  extends Observable implements Serializable {
     private int mnTileSquareNum;
     private int mnTileSize;
     private int mnWallWidth;
@@ -34,8 +34,8 @@ public class FloorPlan  extends Observable implements java.io.Serializable {
         mnTileSize = nTileSize;
         mnWallWidth = nWallWidth;
         mnDoorLength = nDoorLength;
-        mMapTiles = new HashMap<String,Tile>();
-        mMapWalls = new HashMap<String,Wall>();
+        mMapTiles = new HashMap<>();
+        mMapWalls = new HashMap<>();
     }
     public int GetTilesSquareNum()
     {
@@ -43,7 +43,7 @@ public class FloorPlan  extends Observable implements java.io.Serializable {
     }
     public List<Tile> GetAllTiles()
     {
-        List<Tile> lList = new ArrayList<Tile>();
+        List<Tile> lList = new ArrayList<>();
         for(Map.Entry<String,Tile> entry : mMapTiles.entrySet()){
            lList.add(entry.getValue());
         }
@@ -52,7 +52,7 @@ public class FloorPlan  extends Observable implements java.io.Serializable {
     
     public List<Wall> GetAllWalls()
     {
-        List<Wall> lList = new ArrayList<Wall>();
+        List<Wall> lList = new ArrayList<>();
         for(Map.Entry<String,Wall> entry : mMapWalls.entrySet()){
            lList.add(entry.getValue());
         }
@@ -60,7 +60,7 @@ public class FloorPlan  extends Observable implements java.io.Serializable {
     }
     public List<Door> GetAllDoors()
     {
-        List<Door> lList = new ArrayList<Door>();
+        List<Door> lList = new ArrayList<>();
         for(Map.Entry<String,Wall> entry : mMapWalls.entrySet()){
            lList.addAll(entry.getValue().GetAllDoors());
         }
@@ -68,7 +68,7 @@ public class FloorPlan  extends Observable implements java.io.Serializable {
     }
     public List<Tile> GetAllChargeStations()
     {
-        List<Tile> lList = new ArrayList<Tile>();
+        List<Tile> lList = new ArrayList<>();
         for(Map.Entry<String,Tile> entry : mMapTiles.entrySet()){
            if(entry.getValue().GetStatus() == TileStatus.CHARGING_STATION)
              lList.add(entry.getValue());

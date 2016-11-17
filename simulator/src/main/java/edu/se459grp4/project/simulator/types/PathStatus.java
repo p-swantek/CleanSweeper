@@ -6,8 +6,13 @@
 package edu.se459grp4.project.simulator.types;
 
 /**
+ * Data type that represents if a path in the simulation is able to be traversed.  A path can
+ * be open, or it can be blocked by some obstacle or is a staircase.  Unexplored paths are
+ * unknown
  *
- * @author whao
+ * @author Group 4
+ * @version 1.8
+ * 
  */
  public enum PathStatus
  {

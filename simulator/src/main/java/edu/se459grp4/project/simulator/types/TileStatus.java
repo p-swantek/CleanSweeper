@@ -3,12 +3,21 @@ package edu.se459grp4.project.simulator.types;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Data type representing the type of floor a certain floor tile is.  It may either be bare floor, 
+ * low pile carpet, high pile carpet, a staircase, or a charging station for the clean sweep.
+ * 
+ * @author Group 4
+ * @version 1.8
+ *
+ */
 public enum TileStatus {
     BARE_FLOOR(1), LOW_CARPET(2), HIGH_CARPET(3), STAIRS(4), CHARGING_STATION(5);
 
     private int tileNum;
 
-    private static Map<Integer, TileStatus> tileMap = new HashMap<Integer, TileStatus>();
+    private static Map<Integer, TileStatus> tileMap = new HashMap<>();
 
     static {
         for (TileStatus tileEnum : TileStatus.values()) {
