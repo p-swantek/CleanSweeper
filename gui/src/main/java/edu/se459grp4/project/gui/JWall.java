@@ -2,16 +2,27 @@
 package edu.se459grp4.project.gui;
 
 import edu.se459grp4.project.simulator.models.*;
-import edu.se459grp4.project.simulator.types.TileStatus;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Graphical representation of a wall in the gui
+ * 
+ * @author Peter Swantek
+ * @version 1.8
+ */
 public class JWall {
+	
     private Wall mWall;
-    private List<JDoor> mJDoors = new ArrayList<JDoor>();
+    private List<JDoor> mJDoors = new ArrayList<>();
+    
+    /**
+     * Construct a graphical representation of a wall
+     * 
+     * @param nWall the wall object to draw
+     */
     public JWall(Wall nWall)
     {
         mWall = nWall;
@@ -20,6 +31,13 @@ public class JWall {
         for(Door item : lListDoor)
            mJDoors.add(new JDoor(item));
     }
+    
+    /**
+     * Draw this wall on the gui
+     * 
+     * @param g the graphics on which to draw the clean sweep
+     * @param nTileSize the total size of a tile on the gui
+     */
     public void Draw(Graphics g,int nTileSize)
     {
         if(mWall == null)

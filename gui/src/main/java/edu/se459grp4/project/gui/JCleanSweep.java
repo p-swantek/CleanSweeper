@@ -5,14 +5,32 @@ import edu.se459grp4.project.cleansweep.CleanSweep;
 import java.awt.Color;
 import java.awt.Graphics;
 
-
+/**
+ * Graphical representation of the clean sweep on the gui
+ * 
+ * @author Group 4
+ * @version 1.8
+ *
+ */
 public class JCleanSweep {
     private CleanSweep mCleanSweep;
     
+    /**
+     * Constructs a graphical representation of a clean sweep
+     * 
+     * @param nCleanSweep the clean sweep object to draw
+     */
     public JCleanSweep(CleanSweep nCleanSweep)
     {
         mCleanSweep = nCleanSweep;
     }
+    
+    /**
+     * Draws the clean sweep on the gui
+     * 
+     * @param g the graphics on which to draw the clean sweep
+     * @param nTileSize the total size of a tile on the gui
+     */
     public void Draw(Graphics g,int nTileSize)
     {
         if(mCleanSweep == null)

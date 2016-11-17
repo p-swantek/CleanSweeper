@@ -1,31 +1,45 @@
-
 package edu.se459grp4.project.gui;
+
 import edu.se459grp4.project.cleansweep.CleanSweepManager;
 import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.models.Door;
 import edu.se459grp4.project.simulator.models.Tile;
+
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+
 import javax.swing.AbstractAction;
-import static javax.swing.Action.MNEMONIC_KEY;
-import static javax.swing.Action.SMALL_ICON;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.KeyStroke;
 import javax.swing.JFileChooser;
-import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JOptionPane;
 
+import java.io.*;
+import java.util.List;
+
+/**
+ * Main driver to launch the clean sweep simulation.  Will create a graphical user interface with menu
+ * options.  A user can then use the menu to load an appropriate floor plan to the simulator.  The user
+ * can then do different customization options on the gui such as adding or removing charge stations, 
+ * and opening and closing doors.  Once the user selects a starting charge station for the clean sweep, the sweep
+ * will start off on its cleaning cycle, cleaning until the floor is completely clean.  The user can add more clean sweeps
+ * as desired.  
+ * 
+ * @author Group 4
+ * @version 1.8
+ */
 public class MainFrame extends JFrame {
 
     private  FloorPlanPanel mFloorplanPanel;
+    
+    /**
+     * Construct the main gui for the clean sweep simulation
+     * 
+     */
     public MainFrame() {
 
         initUI();
@@ -41,6 +55,7 @@ public class MainFrame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
+    
     private void createMenuBar() {
 
         JMenuBar menubar = new JMenuBar();
@@ -198,6 +213,9 @@ public class MainFrame extends JFrame {
     }
 
 
+    /*
+     * kick everything off
+     */
     public static void main(String[] args) {
 
         EventQueue.invokeLater(() -> {

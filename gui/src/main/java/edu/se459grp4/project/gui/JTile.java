@@ -5,13 +5,33 @@ import edu.se459grp4.project.simulator.types.TileStatus;
 import java.awt.Color;
 import java.awt.Graphics;
 
+/**
+ * Graphical representation of a floor tile on the gui. Floor tiles can be bare floor, low pile carpet,
+ * and high pile carpet. Tiles can also represent either a staircase or a clean sweep charging station
+ * 
+ * @author Group 4
+ *
+ */
 public class JTile {
+	
     private Tile mTile;
     
+    /**
+     * Construct a graphical representation of a floor tile
+     * 
+     * @param nTile the floor tile to draw
+     */
     public JTile(Tile nTile)
     {
         mTile = nTile;
     }
+    
+    /**
+     * Draw this tile on the gui
+     * 
+     * @param g the graphics on which to draw the clean sweep
+     * @param nTileSize the total size of a tile on the gui
+     */
     public void Draw(Graphics g,int nTileSize)
     { 
         g.setColor(Color.GRAY);
