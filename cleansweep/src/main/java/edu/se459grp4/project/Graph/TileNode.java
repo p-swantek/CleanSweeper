@@ -3,7 +3,7 @@ package edu.se459grp4.project.Graph;
 
 import edu.se459grp4.project.simulator.types.TileStatus;
 
-public class TileNode extends Object {
+public class TileNode{
 
     private int mx;
     private int my;
