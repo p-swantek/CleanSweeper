@@ -100,5 +100,11 @@ public class CleanSweepTest {
 		double power=cleaner.getCurrPower();
 		assertEquals(power,100,0.001);
 	}
+	
+	@Test
+	public void testToString() {
+		CleanSweep cleaner = new CleanSweep(1, 100.00, 100, 0, 6);
+		assertEquals("CleanSweep[ID: 1]\nPower Status --> 100.00/100.00\nVacuum Status --> 100/100", cleaner.toString());
+	}
 
 }

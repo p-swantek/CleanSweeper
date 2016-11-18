@@ -188,8 +188,7 @@ public class MainFrame extends JFrame {
                             lbOpen);
                 }
             }
-             else if(e.getActionCommand() == "AddCleanSweep" || e.getActionCommand() == "RemoveCleanSweep" )
-            {
+             else if(e.getActionCommand() == "AddCleanSweep" || e.getActionCommand() == "RemoveCleanSweep" ){
                 List<Tile> lChargeStations = Simulator.getInstance().GetAllChargeStations();
                 Tile lChargeStaion = (Tile)JOptionPane.showInputDialog(
                                     mFrame,
@@ -202,12 +201,32 @@ public class MainFrame extends JFrame {
 
                 //If a string was returned, say so.
                 if ((lChargeStaion != null)) {
-                   int nID = CleanSweepManager.getInstance().CreateCleanSweep(lChargeStaion.GetX(), lChargeStaion.GetY());
-                   mFloorplanPanel.AddCleanSweep(CleanSweepManager.getInstance().GetCleanSweep(nID));
+                   int nID = CleanSweepManager.getInstance().createCleanSweep(lChargeStaion.GetX(), lChargeStaion.GetY());
+                   mFloorplanPanel.AddCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
                    //
-                   CleanSweepManager.getInstance().StartCleanCycle(nID);
+                   CleanSweepManager.getInstance().startCleanCycle(nID);
                 }
             }
+            
+             else if(e.getActionCommand() == "Start" || e.getActionCommand() == "Stop" ){
+                 List<Tile> lChargeStations = Simulator.getInstance().GetAllChargeStations();
+                 Tile lChargeStaion = (Tile)JOptionPane.showInputDialog(
+                                     mFrame,
+                                     "Please choose a chargestation for the cleansweep:\n",
+                                     e.getActionCommand() == "OpenDoor" ?"Choose a chargestation to add a CleanSweep":"Choose a door to close",
+                                     JOptionPane.PLAIN_MESSAGE,
+                                     null,
+                                     lChargeStations.toArray(),
+                                     "");
+
+                 //If a string was returned, say so.
+                 if ((lChargeStaion != null)) {
+                    int nID = CleanSweepManager.getInstance().createCleanSweep(lChargeStaion.GetX(), lChargeStaion.GetY());
+                    mFloorplanPanel.AddCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
+                    //
+                    CleanSweepManager.getInstance().startCleanCycle(nID);
+                 }
+             }
         }
     }
 

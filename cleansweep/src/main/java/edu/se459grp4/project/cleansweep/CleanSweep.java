@@ -23,6 +23,11 @@ import java.util.Observable;
  */
 public class CleanSweep extends Observable {
 	
+	private static final double DEFAULT_POWER = 100.0;
+	private static final int DEFAULT_VAC_CAPACITY = 1000;
+	private static final int DEFAULT_X = 0;
+	private static final int DEFAULT_Y = 0;
+	
     private final int maxVacuumCapacity ;
     private final double maxPowerCapacity ;
 
@@ -58,6 +63,17 @@ public class CleanSweep extends Observable {
         id = newId;
         currX = newX;
         currY = newY;
+    }
+    
+    /**
+     * Create a clean sweep with the given id, sets the power level and vacuum capacity to default
+     * stating values of 100.0 and 1000 respectively. Will set the location to be a default of
+     * (0,0)
+     * 
+     * @param newId the id of this clean sweep
+     */
+    public CleanSweep(int newId){
+    	this(newId, DEFAULT_POWER, DEFAULT_VAC_CAPACITY, DEFAULT_X, DEFAULT_Y);
     }
     
     
@@ -212,7 +228,7 @@ public class CleanSweep extends Observable {
      * @return an integer representing the amount of dirt on the floor tile
      */
     public int senseDirtAmount(){
-        return dirtSensor.GetSensorData(currX, currY);
+        return dirtSensor.getSensorData(currX, currY);
     }
 
     /**
@@ -294,13 +310,38 @@ public class CleanSweep extends Observable {
      * 
      * @return the amount of power in the sweep after it has been recharged
      */
-     public synchronized double rechargePower()
-    {
+     public synchronized double rechargePower(){
         currentPower = maxPowerCapacity;
         setChanged();
         notifyObservers(this);
 		Logger.writeToBatteryLog(maxPowerCapacity);
         return currentPower;
     }
+
+	@Override
+	public int hashCode() {
+		int result = 17;
+		return 31 * result + getID();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null || !(obj instanceof CleanSweep)){
+			return false;
+		}
+		
+		else if (obj == this){
+			return true;
+		}
+		CleanSweep otherCS = (CleanSweep)obj;
+		return getID() == otherCS.getID();
+	}
+
+	@Override
+	public String toString() {
+		return String.format("CleanSweep[ID: %d]\nPower Status --> %.2f/%.2f\nVacuum Status --> %d/%d", getID(), getCurrPower(), maxPowerCapacity, getCurrVacuumCapacity(), maxVacuumCapacity);
+	}
+     
+     
    
 }

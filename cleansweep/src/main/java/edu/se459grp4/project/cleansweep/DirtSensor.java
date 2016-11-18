@@ -19,7 +19,7 @@ public class DirtSensor {
 	 * @param y the y coordinate of the location to sense
 	 * @return the amount of dirt present at that location
 	 */
-    public int GetSensorData(int x,int y)
+    public int getSensorData(int x,int y)
     {
         return Simulator.getInstance().ProvideDirtSensorData(x, y);
     }
