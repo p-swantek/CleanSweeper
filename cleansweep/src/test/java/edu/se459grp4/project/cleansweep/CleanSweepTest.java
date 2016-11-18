@@ -22,31 +22,31 @@ public class CleanSweepTest {
 	
 	@Test
 	public void testCheckMove() {
-		PathStatus check = cleaner.CheckMove(Direction.Up);
+		PathStatus check = cleaner.checkAbleToMove(Direction.Up);
 		assertEquals(PathStatus.Stair, check);
-		check = cleaner.CheckMove(Direction.Right);
+		check = cleaner.checkAbleToMove(Direction.Right);
 		assertEquals(PathStatus.Open, check);
-		check = cleaner.CheckMove(Direction.Left);
+		check = cleaner.checkAbleToMove(Direction.Left);
 		assertEquals(PathStatus.Blocked, check);
-		check = cleaner.CheckMove(Direction.Down);
+		check = cleaner.checkAbleToMove(Direction.Down);
 		assertEquals(PathStatus.Open, check);
-		check =cleaner.CheckMove(null);
+		check =cleaner.checkAbleToMove(null);
 		assertEquals(PathStatus.UNKNOWN,check);
 	}
 
 	@Test
 	public void testMoveTo() {
-		assertTrue(cleaner.MoveTo(0, 7));
-		assertTrue(cleaner.MoveTo(1, 6));
-		cleaner.MoveTo(0, 6);
-		assertFalse(cleaner.MoveTo(0, 5));
+		assertTrue(cleaner.moveToLoc(0, 7));
+		assertTrue(cleaner.moveToLoc(1, 6));
+		cleaner.moveToLoc(0, 6);
+		assertFalse(cleaner.moveToLoc(0, 5));
 		CleanSweep c= new CleanSweep(1,100.00,100,4,4);
-		assertFalse(c.MoveTo(5, 4));
+		assertFalse(c.moveToLoc(5, 4));
 	}
 
 	@Test
 	public void testDetectSurfaceType() {
-		TileStatus t=cleaner.DetectSurfaceType();
+		TileStatus t=cleaner.senseFloorSurface();
 		assertEquals(t,TileStatus.BARE_FLOOR);
 		assertNotEquals(t, TileStatus.CHARGING_STATION);
 		assertNotEquals(t, TileStatus.HIGH_CARPET);
@@ -56,48 +56,48 @@ public class CleanSweepTest {
 
 	@Test
 	public void testDetectDirtValue() {
-		int dirt = cleaner.DetectDirtValue();
+		int dirt = cleaner.senseDirtAmount();
 		assertEquals(dirt,50);
 	}
 
 	@Test
 	public void testSweepUp() {
-		int dirt = cleaner.DetectDirtValue();
+		int dirt = cleaner.senseDirtAmount();
 		assertEquals(dirt,50);
-		cleaner.SweepUp(30);
-		dirt=cleaner.DetectDirtValue();
+		cleaner.cleanDirt(30);
+		dirt=cleaner.senseDirtAmount();
 		assertEquals(dirt,20);
 		
 	}
 
 	@Test
 	public void testExhaustPower() {
-		double currentPower = cleaner.GetPowerLevel();
+		double currentPower = cleaner.getCurrPower();
 		assertEquals(currentPower,100.000,0.001);
-		cleaner.ExhaustPower(10.000);
-		currentPower = cleaner.GetPowerLevel();
+		cleaner.usePowerAmount(10.000);
+		currentPower = cleaner.getCurrPower();
 		assertEquals(currentPower,90.000,0.001);
 	}
 
 	@Test
 	public void testExhaustVacuume() {
-		int capacity = cleaner.GetVacuumLevel();
+		int capacity = cleaner.getCurrVacuumCapacity();
 		assertEquals(capacity,100);
-		int newValue =cleaner.exhaustVacuum(20);
+		int newValue =cleaner.fillUpVacuum(20);
 		assertEquals(newValue,80);
 	}
 
 	@Test
 	public void testCleanVacuum() {
-		cleaner.CleanVacuum();
-		int value =cleaner.GetVacuumLevel();
+		cleaner.emptyVacuum();
+		int value =cleaner.getCurrVacuumCapacity();
 		assertEquals(value,100);
 	}
 
 	@Test
 	public void testRecharge() {
-		cleaner.Recharge();
-		double power=cleaner.GetPowerLevel();
+		cleaner.rechargePower();
+		double power=cleaner.getCurrPower();
 		assertEquals(power,100,0.001);
 	}
 

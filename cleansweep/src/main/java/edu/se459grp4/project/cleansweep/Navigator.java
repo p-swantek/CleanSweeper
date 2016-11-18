@@ -83,52 +83,52 @@ public class Navigator implements Runnable {
                     break;
                 }  
                 //detect tilestatus and sweep ,Set Visit
-                TileStatus lTileStatus = mCleanSweep.DetectSurfaceType();
+                TileStatus lTileStatus = mCleanSweep.senseFloorSurface();
                 
                 //Visit this node 
-                mTileGraph.Visit(mCleanSweep.GetX(), mCleanSweep.GetY(), lTileStatus);
+                mTileGraph.Visit(mCleanSweep.getX(), mCleanSweep.getY(), lTileStatus);
 
                 //Check if there is a next mission, it 
                 if (!mMissionQueue.isEmpty()) {
                     TileNode lMovetoNode = mMissionQueue.poll();
-                    Double ldbNeedPower = mTileGraph.GetWeight(mCleanSweep.GetX(),
-                                mCleanSweep.GetY(),
+                    Double ldbNeedPower = mTileGraph.GetWeight(mCleanSweep.getX(),
+                                mCleanSweep.getY(),
                                 lMovetoNode.GetX(),
                                 lMovetoNode.GetY());
                     //if mission is working,then need to check the power is enough to return to station
                     if(MissionTypeToGoToChargeStation.MissionWork == meMissionType)
                     {
                         //Check power is enough
-                        if(CheckIfNeededGoToChargeStaionOutOfPower(mCleanSweep.GetX(),
-                                mCleanSweep.GetY(),
+                        if(CheckIfNeededGoToChargeStaionOutOfPower(mCleanSweep.getX(),
+                                mCleanSweep.getY(),
                                 lMovetoNode.GetX(),
                                 lMovetoNode.GetY(),
                                 ldbNeedPower))
                         {
-                            GoToNearestChargeStation(mCleanSweep.GetX(),mCleanSweep.GetY(),
+                            GoToNearestChargeStation(mCleanSweep.getX(),mCleanSweep.getY(),
                                     MissionTypeToGoToChargeStation.MissionCharge) ;
                             continue;
                         }
                     }
                    
                     //if no power then suspend, let the host to move the sweep to the chargesation
-                    if(mCleanSweep.GetPowerLevel() <= 0.0)
+                    if(mCleanSweep.getCurrPower() <= 0.0)
                         break;
                     
                     //if power is engough or it is a mission going to station then Move 
-                    if(false == mCleanSweep.MoveTo(lMovetoNode.GetX(), lMovetoNode.GetY()))
+                    if(false == mCleanSweep.moveToLoc(lMovetoNode.GetX(), lMovetoNode.GetY()))
                     {
                         //move fail, becausing the door is charge
                         //cancel curruent mission ,go back to charge staion
                         mMissionQueue.clear();
-                        GoToNearestChargeStation(mCleanSweep.GetX(),mCleanSweep.GetY(),
+                        GoToNearestChargeStation(mCleanSweep.getX(),mCleanSweep.getY(),
                                 MissionTypeToGoToChargeStation.MissionReturnToChargeWithUnexpectedHappened) ;
                         continue;
                         
                     }
                     
                     //move success
-                    mCleanSweep.ExhaustPower(ldbNeedPower);
+                    mCleanSweep.usePowerAmount(ldbNeedPower);
                     
                     
                     
@@ -143,8 +143,8 @@ public class Navigator implements Runnable {
                             lMovetoNode.TileStatus() == TileStatus.CHARGING_STATION)
                     {
                         //end up all cycle and thread
-                        mCleanSweep.CleanVacuum();
-                        mCleanSweep.Recharge();
+                        mCleanSweep.emptyVacuum();
+                        mCleanSweep.rechargePower();
                         meMissionType = MissionTypeToGoToChargeStation.MissionWork;
                         break;
                     }
@@ -153,8 +153,8 @@ public class Navigator implements Runnable {
                             lMovetoNode.TileStatus() == TileStatus.CHARGING_STATION)
                     {
                         //Clean vacuum and go back to last tile
-                        mCleanSweep.CleanVacuum();
-                        mCleanSweep.Recharge();
+                        mCleanSweep.emptyVacuum();
+                        mCleanSweep.rechargePower();
                         meMissionType = MissionTypeToGoToChargeStation.MissionReturnToWork;
                         //reverse the return path
                         Collections.reverse(mReturingPath);
@@ -165,16 +165,16 @@ public class Navigator implements Runnable {
                             lMovetoNode.TileStatus() == TileStatus.CHARGING_STATION)
                     {
                         //Recharge sweep and go back to last tile
-                        mCleanSweep.CleanVacuum();
-                        mCleanSweep.Recharge();
+                        mCleanSweep.emptyVacuum();
+                        mCleanSweep.rechargePower();
                         meMissionType = MissionTypeToGoToChargeStation.MissionReturnToWork;
                         Collections.reverse(mReturingPath);
                         AddStringPathToQueue(mReturingPath);
                         //continue;
                     }
                     else if(meMissionType== MissionTypeToGoToChargeStation.MissionReturnToWork && 
-                            mCleanSweep.GetX() == mReturningNodeCoordinate.mx &&
-                            mCleanSweep.GetY() == mReturningNodeCoordinate.my)
+                            mCleanSweep.getX() == mReturningNodeCoordinate.mx &&
+                            mCleanSweep.getY() == mReturningNodeCoordinate.my)
                     {
                         //go back to work
                         meMissionType = MissionTypeToGoToChargeStation.MissionWork;
@@ -187,11 +187,11 @@ public class Navigator implements Runnable {
                 }
 
                 
-                int nDirtVal = mCleanSweep.DetectDirtValue();
+                int nDirtVal = mCleanSweep.senseDirtAmount();
                 while ((lTileStatus == TileStatus.BARE_FLOOR
                         || lTileStatus == TileStatus.LOW_CARPET
                         || lTileStatus == TileStatus.HIGH_CARPET) && nDirtVal > 0) {
-                    int lnRet = mCleanSweep.SweepUp(10);
+                    int lnRet = mCleanSweep.cleanDirt(10);
                     Thread.sleep(20);
                     if (lnRet == 0) {
                         break;
@@ -199,10 +199,10 @@ public class Navigator implements Runnable {
                 }
                 
                 //if the no enough vacumme space
-                if(mCleanSweep.GetVacuumLevel() == 0)
+                if(mCleanSweep.getCurrVacuumCapacity() == 0)
                 {
-                    GoToNearestChargeStation(mCleanSweep.GetX(),
-                            mCleanSweep.GetY(),
+                    GoToNearestChargeStation(mCleanSweep.getX(),
+                            mCleanSweep.getY(),
                             MissionTypeToGoToChargeStation.MissionCleanVacuume);
                     continue;
                 }
@@ -210,8 +210,8 @@ public class Navigator implements Runnable {
                 //Get all the path it can go
                 List<Coordinate> lListAfterMatched = new ArrayList<Coordinate>();
                 for (Direction item : lListCanGo) {
-                    int x = mCleanSweep.GetX();
-                    int y = mCleanSweep.GetY();
+                    int x = mCleanSweep.getX();
+                    int y = mCleanSweep.getY();
                     //Add Node and path to the graph
                     if (item == Direction.Left)   x--;
                     if (item == Direction.Right)   x++;
@@ -226,10 +226,10 @@ public class Navigator implements Runnable {
                     //check if has unvisited node
                     List<TileNode> lListUnvisitedTileNode = mTileGraph.GetUnvisitedNode();
                     if (!lListUnvisitedTileNode.isEmpty()) {
-                        GoToNeartestUnvisitedNode(mCleanSweep.GetX(), mCleanSweep.GetY(),lListUnvisitedTileNode);
+                        GoToNeartestUnvisitedNode(mCleanSweep.getX(), mCleanSweep.getY(),lListUnvisitedTileNode);
                     } else {
                         //Go back chargestation to end this mission
-                       GoToNearestChargeStation(mCleanSweep.GetX(), mCleanSweep.GetY(),MissionTypeToGoToChargeStation.MissionCompleted);
+                       GoToNearestChargeStation(mCleanSweep.getX(), mCleanSweep.getY(),MissionTypeToGoToChargeStation.MissionCompleted);
                     }
                 } else {
                    // mCleanSweep.MoveOneStep(lListAfterMatched.get(0));
@@ -263,14 +263,14 @@ public class Navigator implements Runnable {
     private double ChooseANearestChargeStation(int x,int y,List<String> nRetPath)
     {
         List<TileNode> llistChargeStation = mTileGraph.GetChargeStationNode();
-        return ChooseShortestPath(mCleanSweep.GetX(), mCleanSweep.GetY(), llistChargeStation, nRetPath);
+        return ChooseShortestPath(mCleanSweep.getX(), mCleanSweep.getY(), llistChargeStation, nRetPath);
     }
     
     private void GoToNearestChargeStation(int x, int y, MissionTypeToGoToChargeStation neMissionType) {
         //go to charge station
        
         List<String> lRetPath = new ArrayList<String>();
-        Double ldb = ChooseANearestChargeStation(mCleanSweep.GetX(), mCleanSweep.GetY(), lRetPath);
+        Double ldb = ChooseANearestChargeStation(mCleanSweep.getX(), mCleanSweep.getY(), lRetPath);
         if (0 != Double.compare(ldb, Double.MAX_VALUE)) {
             //check the power and add the mission
             AddStringPathToQueue(lRetPath);
@@ -286,7 +286,7 @@ public class Navigator implements Runnable {
     private double GoToNeartestUnvisitedNode(int x, int y, List<TileNode> nListUnvisitedNode) {
         //pich a shortest one
         List<String> lRetPath = new ArrayList<String>();
-        Double ldb = ChooseShortestPath(mCleanSweep.GetX(), mCleanSweep.GetY(), nListUnvisitedNode, lRetPath);
+        Double ldb = ChooseShortestPath(mCleanSweep.getX(), mCleanSweep.getY(), nListUnvisitedNode, lRetPath);
         if (0 != Double.compare(ldb, Double.MAX_VALUE)) {
             //check the power and add the mission
             
@@ -297,12 +297,12 @@ public class Navigator implements Runnable {
     
     private boolean CheckIfNeededGoToChargeStaionOutOfPower(int nFromX,int nFromY,int nDestX,int nDestY,Double ndbNeedPower)
     {
-         Double lnPowerValue = mCleanSweep.GetPowerLevel();
+         Double lnPowerValue = mCleanSweep.getCurrPower();
          //double ldbNeedPower = mTileGraph.GetWeight(nFromX,nFromY,nDestX,nDestY);
          //cacluate the fewest power to the nearest chargestaion 
          List<String> lRetPath = new ArrayList<String>();
          
-         Double ldb = ChooseANearestChargeStation(mCleanSweep.GetX(), mCleanSweep.GetY(), lRetPath);
+         Double ldb = ChooseANearestChargeStation(mCleanSweep.getX(), mCleanSweep.getY(), lRetPath);
          if(ldb >= (lnPowerValue - ndbNeedPower)*0.9)
          {
              return true;
@@ -320,12 +320,12 @@ public class Navigator implements Runnable {
     
     private List<Direction> DectectAround() {
         //Get all the path it can go
-        List<Direction> lListCanGo = mCleanSweep.GetAllDirectionCanGo();
+        List<Direction> lListCanGo = mCleanSweep.getValidDirections();
 
        
         for (Direction item : lListCanGo) {
-            int x = mCleanSweep.GetX();
-            int y = mCleanSweep.GetY();
+            int x = mCleanSweep.getX();
+            int y = mCleanSweep.getY();
             //Add Node and path to the graph
             if (item == Direction.Left) {
                 x--;
@@ -339,15 +339,15 @@ public class Navigator implements Runnable {
             if (item == Direction.Down) {
                 y++;
             }
-            mTileGraph.AddEdge(mCleanSweep.GetX(), mCleanSweep.GetY(),x, y, TileStatus.HIGH_CARPET);
+            mTileGraph.AddEdge(mCleanSweep.getX(), mCleanSweep.getY(),x, y, TileStatus.HIGH_CARPET);
 
            
         }
         //If find some way I can not go because of closing door, then we need to update the graph
-        List<Direction> lListCannotGo = mCleanSweep.GetAllDirectionCannotGo();
+        List<Direction> lListCannotGo = mCleanSweep.getInvalidDirections();
         for (Direction item : lListCannotGo) {
-            int x = mCleanSweep.GetX();
-            int y = mCleanSweep.GetY();
+            int x = mCleanSweep.getX();
+            int y = mCleanSweep.getY();
             //Add Node and path to the graph
             if (item == Direction.Left) {
                 x--;
@@ -361,7 +361,7 @@ public class Navigator implements Runnable {
             if (item == Direction.Down) {
                 y++;
             }
-            mTileGraph.DeleteEdge(x, y, mCleanSweep.GetX(), mCleanSweep.GetY());
+            mTileGraph.DeleteEdge(x, y, mCleanSweep.getX(), mCleanSweep.getY());
         }
         return lListCanGo;
     }

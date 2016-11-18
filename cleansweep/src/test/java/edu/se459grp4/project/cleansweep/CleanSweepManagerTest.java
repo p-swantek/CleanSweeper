@@ -20,11 +20,11 @@ public class CleanSweepManagerTest {
 		int id = CleanSweepManager.getInstance().CreateCleanSweep(0, 0);
 		CleanSweep cs = CleanSweepManager.getInstance().GetCleanSweep(id);
 		
-		assertEquals(1, cs.GetID());
-		assertEquals(0, cs.GetX());
-		assertEquals(0, cs.GetY());
-		assertEquals(100.0, cs.GetPowerLevel(), DELTA);
-		assertEquals(1000, cs.GetVacuumLevel());
+		assertEquals(1, cs.getID());
+		assertEquals(0, cs.getX());
+		assertEquals(0, cs.getY());
+		assertEquals(100.0, cs.getCurrPower(), DELTA);
+		assertEquals(1000, cs.getCurrVacuumCapacity());
 		
 		cs = CleanSweepManager.getInstance().GetCleanSweep(-1);
 		assertNull(cs);
