@@ -83,7 +83,12 @@ public class CleanSweepManager {
         //
         Navigator lControlSystem = new Navigator(lCleanSweep);
        // lControlSystem.start();
-        (new Thread(lControlSystem)).start();
+        
+        Thread t = new Thread(lControlSystem);
+        workingSweeps.put(nID, t);
+        
+        t.start();
+       
         return true;
     }
     

@@ -23,23 +23,23 @@ import java.util.Observable;
  */
 public class CleanSweep extends Observable {
 
-    private int mnMaxVacuum ;
-    private Double mdbMaxPower ;
+    private int maxVacuumCapacity ;
+    private Double maxPowerCapacity ;
     //define the location tile coordinate
-    private int mnID;
-    private int mx;
-    private int my;
-    private Double mdbPowerValue;
-    private int mnVacuumCapacityValue;
+    private int id;
+    private int currX;
+    private int currY;
+    private double currentPower;
+    private int currentVacuum;
     
     //  each clean sweep has 4 navigation sensor
-    private NavigationSensor mLeftSensor = new NavigationSensor(Direction.Left);
-    private NavigationSensor mRightSensor = new NavigationSensor(Direction.Right);
-    private NavigationSensor mUpSensor = new NavigationSensor(Direction.Up);
-    private NavigationSensor mDownSensor = new NavigationSensor(Direction.Down);
+    private NavigationSensor leftSensor = new NavigationSensor(Direction.Left);
+    private NavigationSensor rightSensor = new NavigationSensor(Direction.Right);
+    private NavigationSensor upSensor = new NavigationSensor(Direction.Up);
+    private NavigationSensor downSensor = new NavigationSensor(Direction.Down);
     
-    private DirtSensor mDirtSensor = new DirtSensor();
-    private SurfaceSensor mSurfaceSensor = new SurfaceSensor();
+    private DirtSensor dirtSensor = new DirtSensor();
+    private SurfaceSensor surfaceSensor = new SurfaceSensor();
 
     /**
      * Constructs a new CleanSweep. CleanSweep has a unique id number, a starting power level, vacuum capacity,
@@ -56,13 +56,13 @@ public class CleanSweep extends Observable {
             int nVacuumCapacityValue,
             int nx,
             int ny) {
-        mdbPowerValue = ndbPowerValue;
-        mdbMaxPower = ndbPowerValue;
-        mnVacuumCapacityValue = nVacuumCapacityValue;
-        mnMaxVacuum = nVacuumCapacityValue;
-        mnID = nID;
-        mx = nx;
-        my = ny;
+        currentPower = ndbPowerValue;
+        maxPowerCapacity = ndbPowerValue;
+        currentVacuum = nVacuumCapacityValue;
+        maxVacuumCapacity = nVacuumCapacityValue;
+        id = nID;
+        currX = nx;
+        currY = ny;
     }
     
     
@@ -72,7 +72,7 @@ public class CleanSweep extends Observable {
      * @return the x coordinate
      */
     public synchronized int GetX() {
-        return mx;
+        return currX;
     }
 
     /**
@@ -81,7 +81,7 @@ public class CleanSweep extends Observable {
      * @return the y coordinate
      */
     public synchronized int GetY() {
-        return my;
+        return currY;
     }
     
     /**
@@ -90,7 +90,7 @@ public class CleanSweep extends Observable {
      * @return the int id number of the sweep
      */
     public int GetID() {
-        return mnID;
+        return id;
     }
 
     /**
@@ -154,16 +154,16 @@ public class CleanSweep extends Observable {
      */
     public synchronized PathStatus CheckMove(Direction nDirection) {
         if (nDirection == Direction.Left) {
-            return mLeftSensor.GetSensorData(mx, my);
+            return leftSensor.GetSensorData(currX, currY);
         }
         if (nDirection == Direction.Right) {
-            return mRightSensor.GetSensorData(mx, my);
+            return rightSensor.GetSensorData(currX, currY);
         }
         if (nDirection == Direction.Up) {
-            return mUpSensor.GetSensorData(mx, my);
+            return upSensor.GetSensorData(currX, currY);
         }
         if (nDirection == Direction.Down) {
-            return mDownSensor.GetSensorData(mx, my);
+            return downSensor.GetSensorData(currX, currY);
         }
 
         return PathStatus.UNKNOWN;
@@ -184,18 +184,18 @@ public class CleanSweep extends Observable {
     		throw new IllegalArgumentException("MoveTo() got passed an invalid x or y coordinate.");
     	}
         
-        if(x == mx)
+        if(x == currX)
         {
-            if( PathStatus.Open != CheckMove(y < my ? Direction.Up : Direction.Down))
+            if( PathStatus.Open != CheckMove(y < currY ? Direction.Up : Direction.Down))
                   return false;
         }
         else {
-            if( PathStatus.Open != CheckMove(x < mx ? Direction.Left : Direction.Right))
+            if( PathStatus.Open != CheckMove(x < currX ? Direction.Left : Direction.Right))
                   return false;
         
         }
-        mx = x;
-        my = y;
+        currX = x;
+        currY = y;
         setChanged();
         notifyObservers(this);
         return true;
@@ -208,7 +208,7 @@ public class CleanSweep extends Observable {
      * @see TileStatus
      */
     public TileStatus DetectSurfaceType() {
-        return mSurfaceSensor.GetSensorData(mx, my);
+        return surfaceSensor.GetSensorData(currX, currY);
     }
 
     /**
@@ -217,7 +217,7 @@ public class CleanSweep extends Observable {
      * @return an integer representing the amount of dirt on the floor tile
      */
     public int DetectDirtValue() {
-        return mDirtSensor.GetSensorData(mx, my);
+        return dirtSensor.GetSensorData(currX, currY);
     }
 
     /**
@@ -228,7 +228,7 @@ public class CleanSweep extends Observable {
      * @see Simulator
      */
     public synchronized int SweepUp(int nVal) {
-        int nVacummVal = Simulator.getInstance().SweepUp(mx, my, nVal);
+        int nVacummVal = Simulator.getInstance().SweepUp(currX, currY, nVal);
         exhaustVacuum(nVacummVal);
         return nVacummVal;
     }
@@ -240,7 +240,7 @@ public class CleanSweep extends Observable {
      */
     public synchronized Double GetPowerLevel()
     {
-        return mdbPowerValue;
+        return currentPower;
     }
     
     /**
@@ -251,11 +251,11 @@ public class CleanSweep extends Observable {
      */
     public synchronized Double ExhaustPower(Double ndb)
     {
-        mdbPowerValue -= ndb;
+        currentPower -= ndb;
         setChanged();
         notifyObservers(this);
-        Logger.writeToBatteryLog(mdbPowerValue);
-        return mdbPowerValue;
+        Logger.writeToBatteryLog(currentPower);
+        return currentPower;
     }
     
     /**
@@ -265,7 +265,7 @@ public class CleanSweep extends Observable {
      */
     public synchronized int GetVacuumLevel()
     {
-        return mnVacuumCapacityValue;
+        return currentVacuum;
     }
     
     /**
@@ -276,12 +276,12 @@ public class CleanSweep extends Observable {
      */
     public synchronized int exhaustVacuum(int nnVacuumVal)
     {
-        mnVacuumCapacityValue -= nnVacuumVal;
+        currentVacuum -= nnVacuumVal;
         setChanged();
         notifyObservers(this);
-		Logger.writeToDirtSensorLog(nnVacuumVal, mx, my);
-		Logger.writeToDirtCapacityLog(mnVacuumCapacityValue, mnMaxVacuum, mx, my);
-        return mnVacuumCapacityValue;
+		Logger.writeToDirtSensorLog(nnVacuumVal, currX, currY);
+		Logger.writeToDirtCapacityLog(currentVacuum, maxVacuumCapacity, currX, currY);
+        return currentVacuum;
     }
     
    
@@ -292,11 +292,11 @@ public class CleanSweep extends Observable {
      */
     public synchronized int CleanVacuum()
     {
-        mnVacuumCapacityValue = mnMaxVacuum;
+        currentVacuum = maxVacuumCapacity;
         setChanged();
         notifyObservers(this);
-		Logger.writeToDirtCapacityLog(0, mnMaxVacuum, mx, my);
-        return mnVacuumCapacityValue;
+		Logger.writeToDirtCapacityLog(0, maxVacuumCapacity, currX, currY);
+        return currentVacuum;
     }
     
     /**
@@ -306,11 +306,11 @@ public class CleanSweep extends Observable {
      */
      public synchronized Double Recharge()
     {
-        mdbPowerValue = mdbMaxPower;
+        currentPower = maxPowerCapacity;
         setChanged();
         notifyObservers(this);
-		Logger.writeToBatteryLog(mdbMaxPower);
-        return mdbPowerValue;
+		Logger.writeToBatteryLog(maxPowerCapacity);
+        return currentPower;
     }
    
 }

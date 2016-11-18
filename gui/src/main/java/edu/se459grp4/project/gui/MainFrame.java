@@ -191,7 +191,6 @@ public class MainFrame extends JFrame {
              else if(e.getActionCommand() == "AddCleanSweep" || e.getActionCommand() == "RemoveCleanSweep" )
             {
                 List<Tile> lChargeStations = Simulator.getInstance().GetAllChargeStations();
-                boolean lbOpen = e.getActionCommand() == "OpenDoor" ? true : false;
                 Tile lChargeStaion = (Tile)JOptionPane.showInputDialog(
                                     mFrame,
                                     "Please choose a chargestation for the cleansweep:\n",
