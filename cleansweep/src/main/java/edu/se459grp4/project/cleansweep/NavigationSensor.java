@@ -34,8 +34,7 @@ public class NavigationSensor  {
      * @return the path status of the direction that is sensed by this sensor at the given x,y coordinate
      * @see PathStatus
      */
-    public PathStatus GetSensorData(int x,int y)
-    {
+    public PathStatus getSensorData(int x,int y){
         return Simulator.getInstance().ProvideDirectionSensorData(direction, x, y);
     }
    

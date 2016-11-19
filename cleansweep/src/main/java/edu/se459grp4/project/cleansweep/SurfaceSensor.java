@@ -22,8 +22,7 @@ public class SurfaceSensor {
 	 * @return the TileStatus of the floor at that point
 	 * @see TileStatus
 	 */
-    public TileStatus GetSensorData(int x,int y)
-    {
+    public TileStatus getSensorData(int x,int y){
         return Simulator.getInstance().ProvideSurfaceSensorData(x, y);
     }
 }

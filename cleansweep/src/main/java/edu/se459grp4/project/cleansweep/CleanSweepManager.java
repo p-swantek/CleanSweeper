@@ -1,6 +1,8 @@
 package edu.se459grp4.project.cleansweep;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -95,6 +97,15 @@ public class CleanSweepManager {
         }
         
         cs.interrupt(); //interrupt that Thread
+    }
+    
+    /**
+     * Provides a list of all the ID numbers of the clean sweeps currently in service
+     * 
+     * @return a list of the integer ID numbers of all the current clean sweeps
+     */
+    public synchronized List<Integer> getAllSweeps(){
+    	return new ArrayList<Integer>(allSweeps.keySet());
     }
 
 }

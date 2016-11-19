@@ -165,16 +165,16 @@ public class CleanSweep extends Observable {
      */
     public synchronized PathStatus checkAbleToMove(Direction nDirection){
         if (nDirection == Direction.Left) {
-            return leftSensor.GetSensorData(currX, currY);
+            return leftSensor.getSensorData(currX, currY);
         }
         if (nDirection == Direction.Right) {
-            return rightSensor.GetSensorData(currX, currY);
+            return rightSensor.getSensorData(currX, currY);
         }
         if (nDirection == Direction.Up) {
-            return upSensor.GetSensorData(currX, currY);
+            return upSensor.getSensorData(currX, currY);
         }
         if (nDirection == Direction.Down) {
-            return downSensor.GetSensorData(currX, currY);
+            return downSensor.getSensorData(currX, currY);
         }
 
         return PathStatus.UNKNOWN;
@@ -219,7 +219,7 @@ public class CleanSweep extends Observable {
      * @see TileStatus
      */
     public TileStatus senseFloorSurface(){
-        return surfaceSensor.GetSensorData(currX, currY);
+        return surfaceSensor.getSensorData(currX, currY);
     }
 
     /**
