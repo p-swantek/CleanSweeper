@@ -22,7 +22,7 @@ public class TilesGraph {
     /**
      * Tells whether a certain section of floor has been previously visited
      * 
-     * @param x the x coordiante of the location to check
+     * @param x the x coordinate of the location to check
      * @param y the y coordinate of the location to check
      * @return true if the section has been visited, false otherwise
      */
@@ -191,12 +191,10 @@ public class TilesGraph {
             {
                 Double ldbMinimunWeight = Double.MAX_VALUE;
                 String lsMinWeightNodeName = "";
-                Set set = lRecRow.entrySet();
-                Iterator lIte = set.iterator();
-                while (lIte.hasNext()) {
-                    Map.Entry me = (Map.Entry) lIte.next();
-                    String lsToNodeKey = me.getKey().toString();
-                    GraphNode lTemp = (GraphNode) me.getValue();
+                Set<Entry<String, GraphNode>> set = lRecRow.entrySet();
+                for (Entry<String, GraphNode> e : set) {
+                    String lsToNodeKey = e.getKey();
+                    GraphNode lTemp = e.getValue();
                     if (lTemp.nodeStatus() == NodeStatus.eNodeNotVisited && lTemp.getWeight() < ldbMinimunWeight) {
                         ldbMinimunWeight = lTemp.getWeight();
                         lsMinWeightNodeName = lsToNodeKey;
@@ -214,7 +212,7 @@ public class TilesGraph {
         //Generate the path
         nArrayPath.add(TileNode.generateKeyString(nDestX, nDestY));
         GraphNode lFinalNode = lRecRow.get(TileNode.generateKeyString(nDestX, nDestY));
-        Double ldbRetWeight = lFinalNode.getWeight();
+        double ldbRetWeight = lFinalNode.getWeight();
         String lsTempName = lFinalNode.getNodeName();
         do {
             nArrayPath.add(lsTempName);
@@ -335,7 +333,7 @@ public class TilesGraph {
      * @param nDestY the y coordinate of the other node
      * @return the weight value between these two nodes
      */
-    public double GetWeight(int nFromX,int nFromY,int nDestX,int nDestY){
+    public double getWeight(int nFromX,int nFromY,int nDestX,int nDestY){
     	double ldbWeight = 0.0;
         if (mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
             //If existed then get the submap

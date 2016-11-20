@@ -92,7 +92,7 @@ public class Navigator implements Runnable {
                 //Check if there is a next mission, it 
                 if (!mMissionQueue.isEmpty()){
                     TileNode lMovetoNode = mMissionQueue.poll();
-                    double ldbNeedPower = tileGraph.GetWeight(cleanSweep.getX(), cleanSweep.getY(), lMovetoNode.getX(), lMovetoNode.getY());
+                    double ldbNeedPower = tileGraph.getWeight(cleanSweep.getX(), cleanSweep.getY(), lMovetoNode.getX(), lMovetoNode.getY());
                     
                     //if mission is working,then need to check the power is enough to return to station
                     if(MissionTypeToGoToChargeStation.MissionWork == currentMission){
