@@ -1,5 +1,5 @@
 
-package edu.se459grp4.project.Graph;
+package edu.se459grp4.project.graph;
 
 
 /**
@@ -14,7 +14,7 @@ package edu.se459grp4.project.Graph;
 public class GraphNode {
     
         private String msNodeName;
-        private Double mdbWeigth;
+        private double mdbWeigth;
         private NodeStatus meStatus;  //the visiting status of this node 
         
         /**
@@ -25,8 +25,7 @@ public class GraphNode {
          * @param neValue the status of this node
          * @see NodeStatus
          */
-        public GraphNode(String nsName,double ndbWeigth,NodeStatus neValue)
-        {
+        public GraphNode(String nsName, double ndbWeigth, NodeStatus neValue){
             msNodeName = nsName;
             mdbWeigth = ndbWeigth;
             meStatus = neValue;
@@ -37,41 +36,53 @@ public class GraphNode {
          * 
          * @return the NodeStatus associated with this node
          */
-        public NodeStatus NodeStatus() {return meStatus;}
+        public NodeStatus nodeStatus(){
+        	return meStatus;
+        }
         
         /**
          * Sets the status of this node
          * 
          * @param neVal the status that this node should have
          */
-        public void SetNodeStatus(NodeStatus neVal) { meStatus = neVal;}  
+        public void setNodeStatus(NodeStatus neVal){ 
+        	meStatus = neVal;
+        }  
        
         /**
          * Gets the weight associated with this node
          * 
          * @return the node's weight
          */
-        public Double Weight() {return mdbWeigth;}
+        public double getWeight(){
+        	return mdbWeigth;
+        }
         
         /**
          * Sets the weight for this node
          * 
          * @param ndbVal the weight that this node should have
          */
-        public void SetWeight(Double ndbVal) { mdbWeigth = ndbVal;}  
+        public void setWeight(double ndbVal){
+        	mdbWeigth = ndbVal;
+        }  
         
         /**
          * Gets the name of this node
          * 
          * @return the name of the node
          */
-        public String NodeName() {return msNodeName;}
+        public String getNodeName(){
+        	return msNodeName;
+        }
         
         /**
          * Sets the name of this node
          * 
          * @param nName the name the node should have
          */
-        public void SetNodeName(String nName) { msNodeName = nName;}  
+        public void setNodeName(String nName){
+        	msNodeName = nName;
+        }  
         
 }
