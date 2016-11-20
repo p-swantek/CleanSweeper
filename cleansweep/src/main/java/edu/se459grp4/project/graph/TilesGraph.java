@@ -1,8 +1,9 @@
 
-package edu.se459grp4.project.Graph;
+package edu.se459grp4.project.graph;
 
 import edu.se459grp4.project.simulator.types.TileStatus;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * Graph representation of the floor that is being cleaned by the clean sweep. This graph will allow
@@ -25,9 +26,9 @@ public class TilesGraph {
      * @param y the y coordinate of the location to check
      * @return true if the section has been visited, false otherwise
      */
-    public boolean IsVisited(int x, int y) {
-        TileNode lNode = mNodeMap.get(TileNode.GenerateKeyString(x, y));
-        if (lNode != null && lNode.NodeStatus() == NodeStatus.eNodeVisited) {
+    public boolean isVisited(int x, int y) {
+        TileNode lNode = mNodeMap.get(TileNode.generateKeyString(x, y));
+        if (lNode != null && lNode.getNodeStatus() == NodeStatus.eNodeVisited) {
             return true;
         }
         return false;
@@ -39,7 +40,7 @@ public class TilesGraph {
      * @param nsKey the string designating the node to retrieve
      * @return the TileNode associated with the given key
      */
-    public TileNode GetTileNode(String nsKey) {
+    public TileNode getTileNode(String nsKey) {
         return mNodeMap.get(nsKey);
     }
 
@@ -48,10 +49,10 @@ public class TilesGraph {
      * 
      * @return a list of the charging stations from the graph
      */
-    public List<TileNode> GetChargeStationNode() {
+    public List<TileNode> getChargeStationNode() {
         List<TileNode> lListNode = new ArrayList<>();
         for (Map.Entry<String, TileNode> entry : mNodeMap.entrySet()) {
-            if (entry.getValue().TileStatus() == TileStatus.CHARGING_STATION) {
+            if (entry.getValue().getTileStatus() == TileStatus.CHARGING_STATION) {
                 lListNode.add(entry.getValue());
             }
         }
@@ -63,10 +64,10 @@ public class TilesGraph {
      * 
      * @return a list of the unvisited nodes
      */
-    public List<TileNode> GetUnvisitedNode() {
+    public List<TileNode> getUnvisitedNodes() {
         List<TileNode> lListNode = new ArrayList<>();
         for (Map.Entry<String, TileNode> entry : mNodeMap.entrySet()) {
-            if (entry.getValue().NodeStatus() == NodeStatus.eNodeNoVisited) {
+            if (entry.getValue().getNodeStatus() == NodeStatus.eNodeNotVisited) {
                 lListNode.add(entry.getValue());
             }
         }
@@ -80,36 +81,33 @@ public class TilesGraph {
      * @param x the x coordinate of the visited section
      * @param y the y coordinate of the visited section
      * @param nTileStatus the new status of the visited tile
-     * @return true if the tile was successfully registered as being visited
+     * 
      */
-    public boolean Visit(int x, int y, TileStatus nTileStatus) {
-        TileNode lNode = mNodeMap.get(TileNode.GenerateKeyString(x, y));
-        if (lNode == null) {
+    public void visit(int x, int y, TileStatus nTileStatus){
+        TileNode lNode = mNodeMap.get(TileNode.generateKeyString(x, y));
+        if (lNode == null){
             lNode = new TileNode(x, y, nTileStatus, NodeStatus.eNodeVisited);
             mNodeMap.put(lNode.toString(), lNode);
 
             HashMap<String, Double> lSubmap = new HashMap<>();
             mGraphMap.put(lNode.toString(), lSubmap);
-        } else {
-            lNode.SetTileStatus(nTileStatus);
-            lNode.SetNodeStatus(NodeStatus.eNodeVisited);
+        } 
+        else{
+            lNode.setTileStatus(nTileStatus);
+            lNode.setNodeStatus(NodeStatus.eNodeVisited);
         }
         //Update Weight
 
         HashMap<String, Double> lSubmap = mGraphMap.get(lNode.toString());
 
-        for (Map.Entry<String, Double> entry : lSubmap.entrySet()) {
+        for (Map.Entry<String, Double> entry : lSubmap.entrySet()){
             TileNode lDestNode = mNodeMap.get(entry.getKey());
-
-            double ldbWeight = TileStatus.Weight(lNode.TileStatus()) / 2
-                    + TileStatus.Weight(lDestNode.TileStatus()) / 2;
+            double ldbWeight = TileStatus.Weight(lNode.getTileStatus()) / 2 + TileStatus.Weight(lDestNode.getTileStatus()) / 2;
             lSubmap.put(entry.getKey(), ldbWeight);
 
             //Modify the reverse edge
             mGraphMap.get(lDestNode.toString()).put(entry.getKey(), ldbWeight);
         }
-
-        return true;
     }
     //Get the Shortest Path function
     //return : >0 && < Double.MAX_VALUE means We get a shortest way answer
@@ -125,21 +123,17 @@ public class TilesGraph {
      * @param nArrayPath the current path that is being traveled, shortest path is added to this list
      * @return the power cost of the shortest path between the 2 points
      */
-    public double GetShortestPath(int nFromX,
-            int nFromY,
-            int nDestX,
-            int nDestY, //Destination Node
-            List<String> nArrayPath){
+    public double getShortestPath(int nFromX, int nFromY, int nDestX, int nDestY, List<String> nArrayPath){
         if (nArrayPath == null) {
             return Double.MAX_VALUE;
         }
 
         //nsInputNode = nsInputNode.toUpperCase();
         // = nsDestinationNode.toUpperCase();
-        if (!mGraphMap.containsKey(TileNode.GenerateKeyString(nFromX, nFromY))) {
+        if (!mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
             return Double.MAX_VALUE;
         }
-        if (!mGraphMap.containsKey(TileNode.GenerateKeyString(nDestX, nDestY))) {
+        if (!mGraphMap.containsKey(TileNode.generateKeyString(nDestX, nDestY))){
             return Double.MAX_VALUE;
         }
 
@@ -157,20 +151,20 @@ public class TilesGraph {
             while (lIte.hasNext()) {
                 Map.Entry me = (Map.Entry) lIte.next();
                 String lsKey = me.getKey().toString();
-                if (lsKey != TileNode.GenerateKeyString(nFromX, nFromY)) {
-                    lRecRow.put(lsKey, new GraphNode(TileNode.GenerateKeyString(nFromX, nFromY), Double.MAX_VALUE, NodeStatus.eNodeNoVisited));
+                if (lsKey != TileNode.generateKeyString(nFromX, nFromY)) {
+                    lRecRow.put(lsKey, new GraphNode(TileNode.generateKeyString(nFromX, nFromY), Double.MAX_VALUE, NodeStatus.eNodeNotVisited));
                 }
             }
         }
 
         //We use a Queue to store those node waiting for handling
         LinkedList<GraphNode> lQueue = new LinkedList<>();
-        lQueue.add(new GraphNode(TileNode.GenerateKeyString(nFromX, nFromY), 0.00, NodeStatus.eNodeNoVisited));
+        lQueue.add(new GraphNode(TileNode.generateKeyString(nFromX, nFromY), 0.00, NodeStatus.eNodeNotVisited));
 
         while (!lQueue.isEmpty()) {
             GraphNode lTempNode = lQueue.removeFirst();
-            String lsFromNode = lTempNode.NodeName();
-            Double ldbShortestDistande = lTempNode.Weight();
+            String lsFromNode = lTempNode.getNodeName();
+            double ldbShortestDistande = lTempNode.getWeight();
             //Iterate the output edge from this node
             //check the minimum weight
             {
@@ -180,14 +174,14 @@ public class TilesGraph {
                 while (lIte.hasNext()) {
                     Map.Entry me = (Map.Entry) lIte.next();
                     String lsToNodeKey = me.getKey().toString();
-                    Double lsToWeight = (Double) me.getValue();
-                    Double ldbTempWeight = ldbShortestDistande + lsToWeight;
+                    double lsToWeight = (double) me.getValue();
+                    double ldbTempWeight = ldbShortestDistande + lsToWeight;
 
                     //Do not deal the node with the same name of original source node
-                    if (lsToNodeKey != TileNode.GenerateKeyString(nFromX, nFromY)) {
-                        if (ldbTempWeight < lRecRow.get(lsToNodeKey).Weight()) {
-                            lRecRow.get(lsToNodeKey).SetWeight(ldbTempWeight);
-                            lRecRow.get(lsToNodeKey).SetNodeName(lsFromNode);
+                    if (lsToNodeKey != TileNode.generateKeyString(nFromX, nFromY)) {
+                        if (ldbTempWeight < lRecRow.get(lsToNodeKey).getWeight()) {
+                            lRecRow.get(lsToNodeKey).setWeight(ldbTempWeight);
+                            lRecRow.get(lsToNodeKey).setNodeName(lsFromNode);
                         }
                     }
                 }
@@ -203,14 +197,14 @@ public class TilesGraph {
                     Map.Entry me = (Map.Entry) lIte.next();
                     String lsToNodeKey = me.getKey().toString();
                     GraphNode lTemp = (GraphNode) me.getValue();
-                    if (lTemp.NodeStatus() == NodeStatus.eNodeNoVisited && lTemp.Weight() < ldbMinimunWeight) {
-                        ldbMinimunWeight = lTemp.Weight();
+                    if (lTemp.nodeStatus() == NodeStatus.eNodeNotVisited && lTemp.getWeight() < ldbMinimunWeight) {
+                        ldbMinimunWeight = lTemp.getWeight();
                         lsMinWeightNodeName = lsToNodeKey;
                     }
                 }
 
                 if (!lsMinWeightNodeName.isEmpty()) {
-                    lRecRow.get(lsMinWeightNodeName).SetNodeStatus(NodeStatus.eNodeVisited);
+                    lRecRow.get(lsMinWeightNodeName).setNodeStatus(NodeStatus.eNodeVisited);
                     lQueue.add(new GraphNode(lsMinWeightNodeName, ldbMinimunWeight, NodeStatus.eNodeInVisitingQueue));
                 }
             }
@@ -218,17 +212,17 @@ public class TilesGraph {
         }
 
         //Generate the path
-        nArrayPath.add(TileNode.GenerateKeyString(nDestX, nDestY));
-        GraphNode lFinalNode = lRecRow.get(TileNode.GenerateKeyString(nDestX, nDestY));
-        Double ldbRetWeight = lFinalNode.Weight();
-        String lsTempName = lFinalNode.NodeName();
+        nArrayPath.add(TileNode.generateKeyString(nDestX, nDestY));
+        GraphNode lFinalNode = lRecRow.get(TileNode.generateKeyString(nDestX, nDestY));
+        Double ldbRetWeight = lFinalNode.getWeight();
+        String lsTempName = lFinalNode.getNodeName();
         do {
             nArrayPath.add(lsTempName);
             lFinalNode = lRecRow.get(lsTempName);
-            lsTempName = lFinalNode.NodeName();
+            lsTempName = lFinalNode.getNodeName();
         } while (Double.compare(ldbRetWeight, Double.MAX_VALUE) != 0 &&
-                lsTempName.compareTo(TileNode.GenerateKeyString(nFromX, nFromY)) != 0 &&
-                lsTempName.compareTo(TileNode.GenerateKeyString(nDestX, nDestY)) != 0 );
+                lsTempName.compareTo(TileNode.generateKeyString(nFromX, nFromY)) != 0 &&
+                lsTempName.compareTo(TileNode.generateKeyString(nDestX, nDestY)) != 0 );
         
      //  nArrayPath.add(TileNode.GenerateKeyString(nFromX, nFromY));
         //Reverse the array
@@ -247,23 +241,22 @@ public class TilesGraph {
      * @param nDestY the y coordinate of the second node
      * @return true if the edge was successfully deleted, false otherwise
      */
-    public Boolean DeleteEdge(int nFromX, int nFromY, int nDestX, int nDestY) {
+    public boolean deleteEdge(int nFromX, int nFromY, int nDestX, int nDestY){
 
-        if (nFromX == nDestX && nFromY == nDestY) {
+        if (nFromX == nDestX && nFromY == nDestY){
             return false;
         }
 
-        if (mGraphMap.containsKey(TileNode.GenerateKeyString(nFromX, nFromY))) {
+        if (mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
             //If existed then get the submap
-            HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.GenerateKeyString(nFromX, nFromY));
-            lSubmap.remove(TileNode.GenerateKeyString(nDestX, nDestY));
-
+            HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.generateKeyString(nFromX, nFromY));
+            lSubmap.remove(TileNode.generateKeyString(nDestX, nDestY));
         }
-        if (mGraphMap.containsKey(TileNode.GenerateKeyString(nDestX, nDestY))) {
+        
+        if (mGraphMap.containsKey(TileNode.generateKeyString(nDestX, nDestY))){
             //If existed then get the submap
-            HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.GenerateKeyString(nDestX, nDestY));
-            lSubmap.remove(TileNode.GenerateKeyString(nFromX, nFromY));
-
+            HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.generateKeyString(nDestX, nDestY));
+            lSubmap.remove(TileNode.generateKeyString(nFromX, nFromY));
         }
         return true;
     }
@@ -282,28 +275,26 @@ public class TilesGraph {
      * @param nTileStatus the type of tile this is
      * @return true if the edge was successfully added, false otherwise
      */
-    public Boolean AddEdge(int nFromX, int nFromY,
-            int nDestX, int nDestY, TileStatus nTileStatus) {
+    public boolean addEdge(int nFromX, int nFromY, int nDestX, int nDestY, TileStatus nTileStatus){
 
         if (nFromX == nDestX && nFromY == nDestY) {
             return false;
         }
-        TileNode lSourceNode = mNodeMap.get(TileNode.GenerateKeyString(nFromX, nFromY));
+        TileNode lSourceNode = mNodeMap.get(TileNode.generateKeyString(nFromX, nFromY));
         if (lSourceNode == null) {
-            lSourceNode = new TileNode(nFromX, nFromY, nTileStatus, NodeStatus.eNodeNoVisited);
+            lSourceNode = new TileNode(nFromX, nFromY, nTileStatus, NodeStatus.eNodeNotVisited);
             mNodeMap.put(lSourceNode.toString(), lSourceNode);
         }
 
-        Boolean lbRet = true;
+        boolean lbRet = true;
 
-        TileNode lDestNode = mNodeMap.get(TileNode.GenerateKeyString(nDestX, nDestY));
+        TileNode lDestNode = mNodeMap.get(TileNode.generateKeyString(nDestX, nDestY));
         if (lDestNode == null) {
-            lDestNode = new TileNode(nDestX, nDestY, nTileStatus, NodeStatus.eNodeNoVisited);
+            lDestNode = new TileNode(nDestX, nDestY, nTileStatus, NodeStatus.eNodeNotVisited);
             mNodeMap.put(lDestNode.toString(), lDestNode);
         } 
 
-        double ldbWeight = TileStatus.Weight(lSourceNode.TileStatus()) / 2
-                + TileStatus.Weight(lDestNode.TileStatus()) / 2;
+        double ldbWeight = TileStatus.Weight(lSourceNode.getTileStatus()) / 2 + TileStatus.Weight(lDestNode.getTileStatus()) / 2;
 
         //Check the node of input if it exists in the GraphMap  
         if (mGraphMap.containsKey(lSourceNode.toString())) {
@@ -311,9 +302,10 @@ public class TilesGraph {
             HashMap<String, Double> lSubmap = mGraphMap.get(lSourceNode.toString());
             lSubmap.put(lDestNode.toString(), ldbWeight);
 
-        } else {
+        } 
+        else {
             //this is a new node,we should create all
-            HashMap<String, Double> lSubmap = new HashMap<String, Double>();
+            HashMap<String, Double> lSubmap = new HashMap<>();
             lSubmap.put(lDestNode.toString(), ldbWeight);
             mGraphMap.put(lSourceNode.toString(), lSubmap);
         }
@@ -324,9 +316,10 @@ public class TilesGraph {
             HashMap<String, Double> lSubmap = mGraphMap.get(lDestNode.toString());
             lSubmap.put(lSourceNode.toString(), ldbWeight);
 
-        } else {
+        } 
+        else {
             //this is a new node,we should create all
-            HashMap<String, Double> lSubmap = new HashMap<String, Double>();
+            HashMap<String, Double> lSubmap = new HashMap<>();
             lSubmap.put(lSourceNode.toString(), ldbWeight);
             mGraphMap.put(lDestNode.toString(), lSubmap);
         }
@@ -342,15 +335,14 @@ public class TilesGraph {
      * @param nDestY the y coordinate of the other node
      * @return the weight value between these two nodes
      */
-    public Double GetWeight(int nFromX,int nFromY,int nDestX,int nDestY)
-    {
-        Double ldbWeight = 0.0;
-         if (mGraphMap.containsKey(TileNode.GenerateKeyString(nFromX, nFromY))) {
+    public double GetWeight(int nFromX,int nFromY,int nDestX,int nDestY){
+    	double ldbWeight = 0.0;
+        if (mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
             //If existed then get the submap
-            HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.GenerateKeyString(nFromX, nFromY));
-            ldbWeight = lSubmap.get(TileNode.GenerateKeyString(nDestX, nDestY));
-
+        	HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.generateKeyString(nFromX, nFromY));
+            ldbWeight = lSubmap.get(TileNode.generateKeyString(nDestX, nDestY));
         } 
+        
         return ldbWeight;
     }
 

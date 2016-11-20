@@ -324,7 +324,7 @@ public class Navigator implements Runnable {
             if (direction == Direction.Down) {
                 y++;
             }
-            tileGraph.AddEdge(cleanSweep.getX(), cleanSweep.getY(),x, y, TileStatus.HIGH_CARPET);
+            tileGraph.addEdge(cleanSweep.getX(), cleanSweep.getY(),x, y, TileStatus.HIGH_CARPET);
 
            
         }
@@ -346,7 +346,7 @@ public class Navigator implements Runnable {
             if (direction == Direction.Down) {
                 y++;
             }
-            tileGraph.DeleteEdge(x, y, cleanSweep.getX(), cleanSweep.getY());
+            tileGraph.deleteEdge(x, y, cleanSweep.getX(), cleanSweep.getY());
         }
         return validDirections;
     }
