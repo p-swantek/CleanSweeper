@@ -22,7 +22,7 @@ public class NavigationSensor  {
      * 
      * @param direction the direction that this sensor gets sensor data from
      */
-    public NavigationSensor( Direction direction) {
+    public NavigationSensor(Direction direction) {
         this.direction = direction;
     }
 
