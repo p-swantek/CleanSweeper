@@ -144,18 +144,7 @@ public class TilesGraph {
 
         //Construct the line from the GraphMap
         Map<String, GraphNode> lRecRow = new HashMap<>();
-        {
-
-            Set set = mGraphMap.entrySet();
-            Iterator lIte = set.iterator();
-            while (lIte.hasNext()) {
-                Map.Entry me = (Map.Entry) lIte.next();
-                String lsKey = me.getKey().toString();
-                if (lsKey != TileNode.generateKeyString(nFromX, nFromY)) {
-                    lRecRow.put(lsKey, new GraphNode(TileNode.generateKeyString(nFromX, nFromY), Double.MAX_VALUE, NodeStatus.eNodeNotVisited));
-                }
-            }
-        }
+        setUpMap(mGraphMap, lRecRow, nFromX, nFromY);
 
         //We use a Queue to store those node waiting for handling
         LinkedList<GraphNode> lQueue = new LinkedList<>();
@@ -167,6 +156,8 @@ public class TilesGraph {
             double ldbShortestDistande = lTempNode.getWeight();
             //Iterate the output edge from this node
             //check the minimum weight
+            
+          //TODO: migrate this block to a method
             {
                 HashMap<String, Double> lRow = mGraphMap.get(lsFromNode);
                 Set set = lRow.entrySet();
@@ -188,6 +179,8 @@ public class TilesGraph {
             }
 
             //Find the mininum and Nonvisited Node to Enqueue
+            
+          //TODO: migrate this block to a method
             {
                 Double ldbMinimunWeight = Double.MAX_VALUE;
                 String lsMinWeightNodeName = "";
@@ -227,6 +220,17 @@ public class TilesGraph {
         Collections.reverse(nArrayPath);
 
         return ldbRetWeight;
+    }
+    
+    private void setUpMap(Map<String, HashMap<String, Double>> graphMap, Map<String, GraphNode> mapToBuild, int nFromX, int nFromY){
+    	Set<Entry<String, HashMap<String, Double>>> set = graphMap.entrySet();  
+        for (Entry<String, HashMap<String, Double>> entry : set) {
+            String lsKey = entry.getKey();
+            if (lsKey != TileNode.generateKeyString(nFromX, nFromY)) {
+                mapToBuild.put(lsKey, new GraphNode(TileNode.generateKeyString(nFromX, nFromY), Double.MAX_VALUE, NodeStatus.eNodeNotVisited));
+            }
+        }
+    	
     }
 
     /**
