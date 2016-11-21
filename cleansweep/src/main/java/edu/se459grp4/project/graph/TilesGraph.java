@@ -157,31 +157,10 @@ public class TilesGraph {
             //Iterate the output edge from this node
             //check the minimum weight
             
-          //TODO: migrate this block to a method
             updateWeights(mGraphMap, lRecRow, lsFromNode, nFromX, nFromY, ldbShortestDistance);
 
             //Find the mininum and Nonvisited Node to Enqueue
-            
-          //TODO: migrate this block to a method
-            {
-                Double ldbMinimunWeight = Double.MAX_VALUE;
-                String lsMinWeightNodeName = "";
-                Set<Entry<String, GraphNode>> set = lRecRow.entrySet();
-                for (Entry<String, GraphNode> e : set) {
-                    String lsToNodeKey = e.getKey();
-                    GraphNode lTemp = e.getValue();
-                    if (lTemp.nodeStatus() == NodeStatus.eNodeNotVisited && lTemp.getWeight() < ldbMinimunWeight) {
-                        ldbMinimunWeight = lTemp.getWeight();
-                        lsMinWeightNodeName = lsToNodeKey;
-                    }
-                }
-
-                if (!lsMinWeightNodeName.isEmpty()) {
-                    lRecRow.get(lsMinWeightNodeName).setNodeStatus(NodeStatus.eNodeVisited);
-                    lQueue.add(new GraphNode(lsMinWeightNodeName, ldbMinimunWeight, NodeStatus.eNodeInVisitingQueue));
-                }
-            }
-
+            determineMinimumWeights(lRecRow, lQueue);
         }
 
         //Generate the path
@@ -193,7 +172,7 @@ public class TilesGraph {
             nArrayPath.add(lsTempName);
             lFinalNode = lRecRow.get(lsTempName);
             lsTempName = lFinalNode.getNodeName();
-        } while (Double.compare(ldbRetWeight, Double.MAX_VALUE) != 0 &&
+        } while (ldbRetWeight != Double.MAX_VALUE &&
                 lsTempName.compareTo(TileNode.generateKeyString(nFromX, nFromY)) != 0 &&
                 lsTempName.compareTo(TileNode.generateKeyString(nDestX, nDestY)) != 0 );
         
@@ -229,6 +208,25 @@ public class TilesGraph {
                 	mapToBuild.get(lsToNodeKey).setNodeName(fromNode);
                 }
             }
+        }
+    }
+    
+    private void determineMinimumWeights(Map<String, GraphNode> mapBeingBuilt, LinkedList<GraphNode> queue){
+    	double ldbMinimunWeight = Double.MAX_VALUE;
+        String lsMinWeightNodeName = "";
+        Set<Entry<String, GraphNode>> set = mapBeingBuilt.entrySet();
+        for (Entry<String, GraphNode> entry : set) {
+            String lsToNodeKey = entry.getKey();
+            GraphNode lTemp = entry.getValue();
+            if (lTemp.nodeStatus() == NodeStatus.eNodeNotVisited && lTemp.getWeight() < ldbMinimunWeight) {
+                ldbMinimunWeight = lTemp.getWeight();
+                lsMinWeightNodeName = lsToNodeKey;
+            }
+        }
+
+        if (!lsMinWeightNodeName.isEmpty()) {
+        	mapBeingBuilt.get(lsMinWeightNodeName).setNodeStatus(NodeStatus.eNodeVisited);
+        	queue.add(new GraphNode(lsMinWeightNodeName, ldbMinimunWeight, NodeStatus.eNodeInVisitingQueue));
         }
     }
 
