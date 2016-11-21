@@ -28,8 +28,8 @@ public class CleanSweep extends Observable {
 	private static final int DEFAULT_X = 0;
 	private static final int DEFAULT_Y = 0;
 	
-    private final int maxVacuumCapacity ;
-    private final double maxPowerCapacity ;
+    private final int maxVacuumCapacity;
+    private final double maxPowerCapacity;
 
     private final int id;
     private int currX;

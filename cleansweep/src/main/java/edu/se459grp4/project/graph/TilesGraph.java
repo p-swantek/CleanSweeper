@@ -153,30 +153,12 @@ public class TilesGraph {
         while (!lQueue.isEmpty()) {
             GraphNode lTempNode = lQueue.removeFirst();
             String lsFromNode = lTempNode.getNodeName();
-            double ldbShortestDistande = lTempNode.getWeight();
+            double ldbShortestDistance = lTempNode.getWeight();
             //Iterate the output edge from this node
             //check the minimum weight
             
           //TODO: migrate this block to a method
-            {
-                HashMap<String, Double> lRow = mGraphMap.get(lsFromNode);
-                Set set = lRow.entrySet();
-                Iterator lIte = set.iterator();
-                while (lIte.hasNext()) {
-                    Map.Entry me = (Map.Entry) lIte.next();
-                    String lsToNodeKey = me.getKey().toString();
-                    double lsToWeight = (double) me.getValue();
-                    double ldbTempWeight = ldbShortestDistande + lsToWeight;
-
-                    //Do not deal the node with the same name of original source node
-                    if (lsToNodeKey != TileNode.generateKeyString(nFromX, nFromY)) {
-                        if (ldbTempWeight < lRecRow.get(lsToNodeKey).getWeight()) {
-                            lRecRow.get(lsToNodeKey).setWeight(ldbTempWeight);
-                            lRecRow.get(lsToNodeKey).setNodeName(lsFromNode);
-                        }
-                    }
-                }
-            }
+            updateWeights(mGraphMap, lRecRow, lsFromNode, nFromX, nFromY, ldbShortestDistance);
 
             //Find the mininum and Nonvisited Node to Enqueue
             
@@ -231,6 +213,23 @@ public class TilesGraph {
             }
         }
     	
+    }
+    
+    private void updateWeights(Map<String, HashMap<String, Double>> graphMap, Map<String, GraphNode> mapToBuild, String fromNode, int fromX, int fromY, double ldbShortestDistance){
+    	Set<Entry<String, Double>> lRow = mGraphMap.get(fromNode).entrySet();
+        for (Entry<String, Double> entry : lRow) {
+            String lsToNodeKey = entry.getKey();
+            double lsToWeight = entry.getValue();
+            double ldbTempWeight = ldbShortestDistance + lsToWeight;
+
+            //Do not deal the node with the same name of original source node
+            if (lsToNodeKey != TileNode.generateKeyString(fromX, fromY)) {
+                if (ldbTempWeight < mapToBuild.get(lsToNodeKey).getWeight()) {
+                	mapToBuild.get(lsToNodeKey).setWeight(ldbTempWeight);
+                	mapToBuild.get(lsToNodeKey).setNodeName(fromNode);
+                }
+            }
+        }
     }
 
     /**
