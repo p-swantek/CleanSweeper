@@ -33,21 +33,26 @@ class FloorPlanPanel extends JPanel implements Observer{
      * @return true if the floorplan was successfully set, false otherwise
      * @see FloorPlan
      */
-    public boolean SetFloorPlan(FloorPlan nFloorplan)
-    {
-        if(nFloorplan == null)
+    public boolean setFloorPlan(FloorPlan nFloorplan){
+        if(nFloorplan == null){
             return false;
+        }
+        
         mFloorPlan = nFloorplan;
         mFloorPlan.addObserver(this);
         mJTiles.clear();
+        
         //add the tile
         List<Tile> lListTile = mFloorPlan.GetAllTiles();
-        for(Tile item : lListTile)
+        for(Tile item : lListTile){
            mJTiles.add(new JTile(item));
+        }
+        
         //add the wall
         List<Wall> lListWall = mFloorPlan.GetAllWalls();
-        for(Wall item : lListWall)
+        for(Wall item : lListWall){
            mJWalls.add(new JWall(item));
+        }
         
         this.repaint();
         return true;
@@ -60,10 +65,12 @@ class FloorPlanPanel extends JPanel implements Observer{
      * @param nCleanSweep the CleanSweep robot to draw on the floorplan
      * @return true if the clean sweep was successfully drawn, false otherwise
      */
-    public boolean AddCleanSweep(CleanSweep nCleanSweep)
+    public boolean addCleanSweep(CleanSweep nCleanSweep)
     {
-        if(nCleanSweep == null)
+        if(nCleanSweep == null){
             return false;
+        }
+        
         mJCleanSweeps.add(new JCleanSweep(nCleanSweep));
         nCleanSweep.addObserver(this);
         this.updateUI();
@@ -75,8 +82,9 @@ class FloorPlanPanel extends JPanel implements Observer{
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.blue);
-        if(mFloorPlan == null)
+        if(mFloorPlan == null){
             return;
+        }
         
        //draw floor plan background
        Dimension lDim = this.getSize();
@@ -85,27 +93,30 @@ class FloorPlanPanel extends JPanel implements Observer{
        mnSqureTileSize = nSqureSize/mnSqureTilesNum;
       
        //draw tiles
-       for(JTile item:mJTiles)
-           item.Draw(g,mnSqureTileSize);
+       for (JTile item : mJTiles){
+           item.Draw(g, mnSqureTileSize);
+       }
+       
        //draw walls
-        for(JWall item:mJWalls)
-           item.Draw(g,mnSqureTileSize);
+        for (JWall item : mJWalls){
+           item.Draw(g, mnSqureTileSize);
+        }
+        
        //draw sweepcleans
-        for(JCleanSweep item:mJCleanSweeps)
-           item.Draw(g,mnSqureTileSize);
+        for (JCleanSweep item : mJCleanSweeps){
+           item.Draw(g, mnSqureTileSize);
+        }
       
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-
+    public void paintComponent(Graphics g){
         super.paintComponent(g);
         doDrawing(g);
     }
     
     @Override
-    public void update(Observable o, Object arg) {
-   
+    public void update(Observable o, Object arg){
         //need to set the clip rect to improve the perfomance
         //get the invalidate rect, then just update this rect to improve the performance of drawing
         this.repaint();

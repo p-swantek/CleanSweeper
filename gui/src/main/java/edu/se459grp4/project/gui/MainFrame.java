@@ -163,7 +163,7 @@ public class MainFrame extends JFrame {
                  if (returnValue == JFileChooser.APPROVE_OPTION) {
                      File selectedFile = fileChooser.getSelectedFile();
                      //System.out.println(selectedFile.getName());
-                     mFloorplanPanel.SetFloorPlan( Simulator.getInstance().loadFloorPlan(selectedFile.getPath()));
+                     mFloorplanPanel.setFloorPlan( Simulator.getInstance().loadFloorPlan(selectedFile.getPath()));
                  }
             }
             else if("OpenDoor".equals(e.getActionCommand()) || "CloseDoor".equals(e.getActionCommand()))
@@ -203,7 +203,7 @@ public class MainFrame extends JFrame {
 
                 if ((sweepTile != null)) {
                    int nID = CleanSweepManager.getInstance().createCleanSweep(sweepTile.GetX(), sweepTile.GetY());
-                   mFloorplanPanel.AddCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
+                   mFloorplanPanel.addCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
                    //
                    CleanSweepManager.getInstance().startCleanCycle(nID);
                 }
@@ -224,7 +224,7 @@ public class MainFrame extends JFrame {
                  //If a string was returned, say so.
                  if ((lChargeStaion != null)) {
                     int nID = CleanSweepManager.getInstance().createCleanSweep(lChargeStaion.GetX(), lChargeStaion.GetY());
-                    mFloorplanPanel.AddCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
+                    mFloorplanPanel.addCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
                     //
                     CleanSweepManager.getInstance().startCleanCycle(nID);
                  }
