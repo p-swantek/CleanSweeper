@@ -94,17 +94,17 @@ class FloorPlanPanel extends JPanel implements Observer{
       
        //draw tiles
        for (JTile item : mJTiles){
-           item.Draw(g, mnSqureTileSize);
+           item.draw(g, mnSqureTileSize);
        }
        
        //draw walls
         for (JWall item : mJWalls){
-           item.Draw(g, mnSqureTileSize);
+           item.draw(g, mnSqureTileSize);
         }
         
        //draw sweepcleans
         for (JCleanSweep item : mJCleanSweeps){
-           item.Draw(g, mnSqureTileSize);
+           item.draw(g, mnSqureTileSize);
         }
       
     }

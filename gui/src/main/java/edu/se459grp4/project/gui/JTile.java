@@ -21,8 +21,7 @@ public class JTile {
      * 
      * @param nTile the floor tile to draw
      */
-    public JTile(Tile nTile)
-    {
+    public JTile(Tile nTile){
         mTile = nTile;
     }
     
@@ -32,8 +31,7 @@ public class JTile {
      * @param g the graphics on which to draw the clean sweep
      * @param nTileSize the total size of a tile on the gui
      */
-    public void Draw(Graphics g,int nTileSize)
-    { 
+    public void draw(Graphics g,int nTileSize){ 
         g.setColor(Color.GRAY);
         g.drawRect(mTile.GetX()*nTileSize, mTile.GetY()*nTileSize, nTileSize, nTileSize);
         if(mTile.GetStatus() == TileStatus.BARE_FLOOR)

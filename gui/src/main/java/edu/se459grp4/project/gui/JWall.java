@@ -23,13 +23,13 @@ public class JWall {
      * 
      * @param nWall the wall object to draw
      */
-    public JWall(Wall nWall)
-    {
+    public JWall(Wall nWall){
         mWall = nWall;
         //add the door
         List<Door> lListDoor = mWall.GetAllDoors();
-        for(Door item : lListDoor)
+        for(Door item : lListDoor){
            mJDoors.add(new JDoor(item));
+        }
     }
     
     /**
@@ -38,10 +38,11 @@ public class JWall {
      * @param g the graphics on which to draw the clean sweep
      * @param nTileSize the total size of a tile on the gui
      */
-    public void Draw(Graphics g,int nTileSize)
-    {
-        if(mWall == null)
+    public void draw(Graphics g,int nTileSize){
+        if(mWall == null){
             return;
+        }
+        
         g.setColor(Color.YELLOW);
         boolean lbVer = mWall.GetVertical();
         int lnBase = mWall.GetBase() +1;
@@ -53,11 +54,12 @@ public class JWall {
         int lWid = lbVer == false? nTileSize/5: (Math.abs(lnFrom-lnTo) + 1)*nTileSize;
         g.fillRect(x, y, lLen, lWid);
         g.setColor(Color.YELLOW);
+        
         //draw door
-         for(JDoor item:mJDoors)
-           item.Draw(g,nTileSize);
+        for(JDoor item:mJDoors){
+        	item.draw(g,nTileSize);
+        }
         //g.fillRect(nTileSize, nTileSize, nTileSize, nTileSize);
        // g.drawString(""+mTile.GetDirtVal(), mTile.GetX()*nTileSize + nTileSize/2 -5, mTile.GetY()*nTileSize + nTileSize/2 -5);
-        return;
     }
 }

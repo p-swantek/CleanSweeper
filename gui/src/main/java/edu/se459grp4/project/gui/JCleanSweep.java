@@ -1,4 +1,3 @@
-
 package edu.se459grp4.project.gui;
 
 import edu.se459grp4.project.cleansweep.CleanSweep;
@@ -20,8 +19,7 @@ public class JCleanSweep {
      * 
      * @param nCleanSweep the clean sweep object to draw
      */
-    public JCleanSweep(CleanSweep nCleanSweep)
-    {
+    public JCleanSweep(CleanSweep nCleanSweep){
         mCleanSweep = nCleanSweep;
     }
     
@@ -31,11 +29,11 @@ public class JCleanSweep {
      * @param g the graphics on which to draw the clean sweep
      * @param nTileSize the total size of a tile on the gui
      */
-    public void Draw(Graphics g,int nTileSize)
-    {
-        if(mCleanSweep == null)
+    public void draw(Graphics g,int nTileSize){
+        if(mCleanSweep == null){
             return;
-       
+        }
+        
         g.setColor(Color.ORANGE);
         int lnX = mCleanSweep.getX();
         int lnY = mCleanSweep.getY();

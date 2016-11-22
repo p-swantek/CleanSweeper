@@ -19,8 +19,7 @@ public class JDoor {
      * 
      * @param nDoor the door object to draw
      */
-    public JDoor(Door nDoor)
-    {
+    public JDoor(Door nDoor){
         mDoor = nDoor;
     }
     
@@ -30,10 +29,10 @@ public class JDoor {
      * @param g the graphics on which to draw the clean sweep
      * @param nTileSize the total size of a tile on the gui
      */
-    public void Draw(Graphics g,int nTileSize)
-    {
-        if(mDoor == null)
+    public void draw(Graphics g,int nTileSize){
+        if(mDoor == null){
             return;
+        }
        
         boolean lbVer = mDoor.GetVertical();
         int lnBase = mDoor.GetBase() +1;
