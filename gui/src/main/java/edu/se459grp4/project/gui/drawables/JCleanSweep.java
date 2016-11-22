@@ -1,4 +1,4 @@
-package edu.se459grp4.project.gui;
+package edu.se459grp4.project.gui.drawables;
 
 import edu.se459grp4.project.cleansweep.CleanSweep;
 import java.awt.Color;
@@ -11,7 +11,7 @@ import java.awt.Graphics;
  * @version 1.8
  *
  */
-public class JCleanSweep {
+public class JCleanSweep implements Drawable{
     private CleanSweep mCleanSweep;
     
     /**
@@ -23,12 +23,7 @@ public class JCleanSweep {
         mCleanSweep = nCleanSweep;
     }
     
-    /**
-     * Draws the clean sweep on the gui
-     * 
-     * @param g the graphics on which to draw the clean sweep
-     * @param nTileSize the total size of a tile on the gui
-     */
+    @Override
     public void draw(Graphics g,int nTileSize){
         if(mCleanSweep == null){
             return;

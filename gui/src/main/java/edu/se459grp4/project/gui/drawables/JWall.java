@@ -1,5 +1,5 @@
 
-package edu.se459grp4.project.gui;
+package edu.se459grp4.project.gui.drawables;
 
 import edu.se459grp4.project.simulator.models.*;
 import java.awt.Color;
@@ -13,7 +13,7 @@ import java.util.List;
  * @author Peter Swantek
  * @version 1.8
  */
-public class JWall {
+public class JWall implements Drawable{
 	
     private Wall mWall;
     private List<JDoor> mJDoors = new ArrayList<>();
@@ -32,12 +32,7 @@ public class JWall {
         }
     }
     
-    /**
-     * Draw this wall on the gui
-     * 
-     * @param g the graphics on which to draw the clean sweep
-     * @param nTileSize the total size of a tile on the gui
-     */
+    @Override
     public void draw(Graphics g,int nTileSize){
         if(mWall == null){
             return;

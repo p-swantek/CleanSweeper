@@ -1,4 +1,4 @@
-package edu.se459grp4.project.gui;
+package edu.se459grp4.project.gui.drawables;
 
 import edu.se459grp4.project.simulator.models.*;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import java.awt.Graphics;
  * @author Group 4
  * @version 1.8
  */
-public class JDoor {
+public class JDoor implements Drawable{
 	
     private Door mDoor;
     
@@ -23,12 +23,7 @@ public class JDoor {
         mDoor = nDoor;
     }
     
-    /**
-     * Draws this door on the gui
-     * 
-     * @param g the graphics on which to draw the clean sweep
-     * @param nTileSize the total size of a tile on the gui
-     */
+    @Override
     public void draw(Graphics g,int nTileSize){
         if(mDoor == null){
             return;

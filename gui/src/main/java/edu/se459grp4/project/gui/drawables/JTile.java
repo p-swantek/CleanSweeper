@@ -1,5 +1,5 @@
 
-package edu.se459grp4.project.gui;
+package edu.se459grp4.project.gui.drawables;
 import edu.se459grp4.project.simulator.models.*; 
 import edu.se459grp4.project.simulator.types.TileStatus;
 import java.awt.Color;
@@ -12,7 +12,7 @@ import java.awt.Graphics;
  * @author Group 4
  *
  */
-public class JTile {
+public class JTile implements Drawable{
 	
     private Tile mTile;
     
@@ -25,12 +25,7 @@ public class JTile {
         mTile = nTile;
     }
     
-    /**
-     * Draw this tile on the gui
-     * 
-     * @param g the graphics on which to draw the clean sweep
-     * @param nTileSize the total size of a tile on the gui
-     */
+    @Override
     public void draw(Graphics g,int nTileSize){ 
         g.setColor(Color.GRAY);
         g.drawRect(mTile.GetX()*nTileSize, mTile.GetY()*nTileSize, nTileSize, nTileSize);
