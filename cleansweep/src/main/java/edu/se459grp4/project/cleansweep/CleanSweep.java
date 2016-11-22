@@ -239,7 +239,7 @@ public class CleanSweep extends Observable {
      * @see Simulator
      */
     public synchronized int cleanDirt(int toRemove){
-        int dirtRemoved = Simulator.getInstance().SweepUp(currX, currY, toRemove);
+        int dirtRemoved = Simulator.getInstance().removeDirt(currX, currY, toRemove);
         fillUpVacuum(dirtRemoved);
         return dirtRemoved;
     }

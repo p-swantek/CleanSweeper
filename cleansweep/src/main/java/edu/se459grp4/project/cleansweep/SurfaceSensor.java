@@ -23,6 +23,6 @@ public class SurfaceSensor {
 	 * @see TileStatus
 	 */
     public TileStatus getSensorData(int x,int y){
-        return Simulator.getInstance().ProvideSurfaceSensorData(x, y);
+        return Simulator.getInstance().getSurfaceData(x, y);
     }
 }

@@ -21,8 +21,7 @@ public class Simulator {
     private FloorPlan mFloorPlan;
     
     
-    private Simulator()
-    {
+    private Simulator(){
        mFloorPlan = null; 
     }
     
@@ -75,23 +74,31 @@ public class Simulator {
      * @param y the y coordinate of the location being checked from
      * @return the PathStatus in the desired direction at the given coordinate point
      */
-    public PathStatus ProvideDirectionSensorData(Direction nDirection,int x,int y)
-    {
-        int nDestX,nDestY;
-        nDestX = x;
-        nDestY = y;
-        if(nDirection == Direction.Up)
+    public PathStatus getDirectionalData(Direction nDirection,int x,int y){
+        int nDestX = x;
+        int nDestY = y;
+        
+        if(nDirection == Direction.Up){
             nDestY--;
-        if(nDirection == Direction.Down)
+        }
+        
+        if(nDirection == Direction.Down){
             nDestY++;
-        if(nDirection == Direction.Left)
+        }
+        
+        if(nDirection == Direction.Left){
             nDestX--;
-        if(nDirection == Direction.Right)
+        }
+        
+        if(nDirection == Direction.Right){
            nDestX++;
+        }
         
         //Check if there is path from (x,y) to (nDestX,nDestY)
-        if(mFloorPlan != null)
+        if(mFloorPlan != null){
             return mFloorPlan.CheckPath(x, y, nDestX, nDestY);
+        }
+        
         return PathStatus.Blocked;
     }
     
@@ -102,10 +109,10 @@ public class Simulator {
      * @param y the y coordinate of the location being checked
      * @return the amount of dirt at the given location
      */
-    public int ProvideDirtSensorData(int x,int y)
-    {
-        if(mFloorPlan != null)
+    public int getDirtData(int x,int y){
+        if(mFloorPlan != null){
             return mFloorPlan.GetDirtVal(x, y);
+        }
           
         return 0;
     }
@@ -118,10 +125,10 @@ public class Simulator {
      * @param y the y coordinate of the location to check
      * @return the TileStatus at the given location
      */
-    public TileStatus ProvideSurfaceSensorData(int x,int y)
-    {
-        if(mFloorPlan != null)
+    public TileStatus getSurfaceData(int x,int y){
+        if(mFloorPlan != null){
             return mFloorPlan.GetTileSatus(x, y);
+        }
          
         return TileStatus.BARE_FLOOR;
     }
@@ -134,10 +141,11 @@ public class Simulator {
      * @param nVal the amount of dirt to remove
      * @return the amount of dirt that was cleaned
      */
-    public int SweepUp(int x,int y,int nVal)
-    {
-         if(mFloorPlan != null)
-            return mFloorPlan.SweepUp(x, y,nVal);
+    public int removeDirt(int x,int y,int nVal){
+    	if(mFloorPlan != null){
+    		return mFloorPlan.SweepUp(x, y,nVal);
+        }
+    	
         return 0;
     }
     
@@ -151,10 +159,11 @@ public class Simulator {
      * @param bOpen is the door open or not
      * @return true if the door was able to be successfully opened/closed, false otherwise
      */
-    public boolean OperateDoor(boolean nVer,int nBase,int nFrom,int nTo,boolean bOpen)
-    {
-          if(mFloorPlan != null)
-            return mFloorPlan.OperateDoor(nVer, nBase, nFrom, nTo, bOpen);
+    public boolean operateDoor(boolean nVer,int nBase,int nFrom,int nTo,boolean bOpen){
+    	if(mFloorPlan != null){
+    		return mFloorPlan.OperateDoor(nVer, nBase, nFrom, nTo, bOpen);
+        }
+          
         return false;
     }
    
@@ -165,10 +174,11 @@ public class Simulator {
      * @param nY the y coordinate of the charging
      * @return true if the charge station was successfully added, false otherwise
      */
-    public boolean AddChargeStation(int nX,int nY)
-    {
-         if(mFloorPlan == null)
+    public boolean addChargeStation(int nX,int nY){
+         if(mFloorPlan == null){
              return false;
+         }
+         
          return mFloorPlan.SetTileSatus(nX, nY, TileStatus.CHARGING_STATION);
         
     }
@@ -180,10 +190,10 @@ public class Simulator {
      * @param nY the y coordinate of the charge station to remove
      * @return true if the charge station was successfully removed, false otherwise
      */
-    public boolean RemoveChargeStation(int nX,int nY)
-    {
-        if(mFloorPlan == null)
+    public boolean removeChargeStation(int nX,int nY){
+        if(mFloorPlan == null){
              return false;
+        }
         return mFloorPlan.SetTileSatus(nX, nY, TileStatus.BARE_FLOOR);
     }
     
@@ -192,10 +202,11 @@ public class Simulator {
      * 
      * @return a list of all the doors
      */
-    public List<Door> GetAllDoors()
-    {
-         if(mFloorPlan == null)
-             return null;
+    public List<Door> getAllDoors(){
+    	if(mFloorPlan == null){
+    		return null;
+    	}
+    	
         return mFloorPlan.GetAllDoors();
     }
     
@@ -204,11 +215,12 @@ public class Simulator {
      * 
      * @return the list of all the charge stations
      */
-    public List<Tile> GetAllChargeStations()
-    {
-       if(mFloorPlan == null)
+    public List<Tile> getAllChargeStations(){
+       if(mFloorPlan == null){
              return null;
-        return mFloorPlan.GetAllChargeStations();
+       }
+       
+       return mFloorPlan.GetAllChargeStations();
     }
    
 }

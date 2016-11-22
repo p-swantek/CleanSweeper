@@ -168,7 +168,7 @@ public class MainFrame extends JFrame {
             }
             else if("OpenDoor".equals(e.getActionCommand()) || "CloseDoor".equals(e.getActionCommand()))
             {
-                List<Door> lDoors = Simulator.getInstance().GetAllDoors();
+                List<Door> lDoors = Simulator.getInstance().getAllDoors();
                 boolean lbOpen = "OpenDoor".equals(e.getActionCommand()) ? true : false;
                 Door lDoor = (Door)JOptionPane.showInputDialog(
                                     mFrame,
@@ -181,7 +181,7 @@ public class MainFrame extends JFrame {
 
                 //If a string was returned, say so.
                 if ((lDoor != null)) {
-                    Simulator.getInstance().OperateDoor(lDoor.GetVertical(), 
+                    Simulator.getInstance().operateDoor(lDoor.GetVertical(), 
                             lDoor.GetBase(),
                             lDoor.GetFrom(), 
                             lDoor.GetTo(),
@@ -191,7 +191,7 @@ public class MainFrame extends JFrame {
             
             //TODO: fix to make it remove a clean sweep
             else if("AddCleanSweep".equals(e.getActionCommand()) || "RemoveCleanSweep".equals(e.getActionCommand())){
-            	List<Tile> lChargeStations = Simulator.getInstance().GetAllChargeStations();
+            	List<Tile> lChargeStations = Simulator.getInstance().getAllChargeStations();
                 Tile sweepTile = (Tile)JOptionPane.showInputDialog(
                                     mFrame,
                                     "Please choose a chargestation for the cleansweep:\n",
@@ -211,7 +211,7 @@ public class MainFrame extends JFrame {
             
             //TODO: fix to make it start and stop certain sweeps
              else if("Start".equals(e.getActionCommand()) || "Stop".equals(e.getActionCommand()) ){
-                 List<Tile> lChargeStations = Simulator.getInstance().GetAllChargeStations();
+                 List<Tile> lChargeStations = Simulator.getInstance().getAllChargeStations();
                  Tile lChargeStaion = (Tile)JOptionPane.showInputDialog(
                                      mFrame,
                                      "Please choose a CleanSweep:\n",

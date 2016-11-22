@@ -20,6 +20,6 @@ public class DirtSensor {
 	 * @return the amount of dirt present at that location
 	 */
     public int getSensorData(int x,int y){
-        return Simulator.getInstance().ProvideDirtSensorData(x, y);
+        return Simulator.getInstance().getDirtData(x, y);
     }
 }

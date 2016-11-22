@@ -43,46 +43,46 @@ public class SimulatorTest extends TestCase {
 
     public void testProvideDirectionSensroData() {
         
-         assertTrue(Simulator.getInstance().ProvideDirectionSensorData(Direction.Left, 0, 6) == PathStatus.Blocked);
-          assertTrue(Simulator.getInstance().ProvideDirectionSensorData(Direction.Up, 0, 6) == PathStatus.Stair);
-           assertTrue(Simulator.getInstance().ProvideDirectionSensorData(Direction.Right, 0, 6) == PathStatus.Open);
-            assertTrue(Simulator.getInstance().ProvideDirectionSensorData(Direction.Down, 0, 6) == PathStatus.Open);
+         assertTrue(Simulator.getInstance().getDirectionalData(Direction.Left, 0, 6) == PathStatus.Blocked);
+          assertTrue(Simulator.getInstance().getDirectionalData(Direction.Up, 0, 6) == PathStatus.Stair);
+           assertTrue(Simulator.getInstance().getDirectionalData(Direction.Right, 0, 6) == PathStatus.Open);
+            assertTrue(Simulator.getInstance().getDirectionalData(Direction.Down, 0, 6) == PathStatus.Open);
           
     }
 
     public void testProvideDirtSensroData() {
-        assertTrue( Simulator.getInstance().ProvideDirtSensorData(5, 5)  == 50);
+        assertTrue( Simulator.getInstance().getDirtData(5, 5)  == 50);
     }
 
     public void testProvideSurfaceSensorData() {
-        assertTrue( Simulator.getInstance().ProvideSurfaceSensorData(5, 5)  == TileStatus.HIGH_CARPET);
+        assertTrue( Simulator.getInstance().getSurfaceData(5, 5)  == TileStatus.HIGH_CARPET);
     }
 
     public void testSweepUp() {
-        Simulator.getInstance().SweepUp(5, 5,10);
-        assertTrue( Simulator.getInstance().ProvideDirtSensorData(5, 5)  == 40);
+        Simulator.getInstance().removeDirt(5, 5,10);
+        assertTrue( Simulator.getInstance().getDirtData(5, 5)  == 40);
     }
 
     public void testOperateDoor() {
-        assertTrue(Simulator.getInstance().ProvideDirectionSensorData(Direction.Right, 4, 0) == PathStatus.Open); 
-        Simulator.getInstance().OperateDoor(true, 4, 0, 0, false);
-        assertTrue(Simulator.getInstance().ProvideDirectionSensorData(Direction.Right, 4, 0) == PathStatus.Blocked); 
+        assertTrue(Simulator.getInstance().getDirectionalData(Direction.Right, 4, 0) == PathStatus.Open); 
+        Simulator.getInstance().operateDoor(true, 4, 0, 0, false);
+        assertTrue(Simulator.getInstance().getDirectionalData(Direction.Right, 4, 0) == PathStatus.Blocked); 
     }
 
     public void testAddChargeStation() {
-         Simulator.getInstance().AddChargeStation(9, 9);
-         List<Tile> lList =  Simulator.getInstance().GetAllChargeStations();
+         Simulator.getInstance().addChargeStation(9, 9);
+         List<Tile> lList =  Simulator.getInstance().getAllChargeStations();
          assertTrue(lList.size() == 3);
     }
 
     public void testRemoveChargeStation() {
-        Simulator.getInstance().RemoveChargeStation(9, 9);
-        List<Tile> lList =  Simulator.getInstance().GetAllChargeStations();
+        Simulator.getInstance().removeChargeStation(9, 9);
+        List<Tile> lList =  Simulator.getInstance().getAllChargeStations();
         assertTrue(lList.size() == 2);
     }
 
     public void testGetAllDoors() {
-        List<Door> lList =  Simulator.getInstance().GetAllDoors();
+        List<Door> lList =  Simulator.getInstance().getAllDoors();
         assertTrue(lList.size() == 2);
     }
 
