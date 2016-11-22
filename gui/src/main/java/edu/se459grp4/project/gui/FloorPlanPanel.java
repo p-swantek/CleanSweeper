@@ -42,23 +42,26 @@ class FloorPlanPanel extends JPanel implements Observer{
         
         mFloorPlan = nFloorplan;
         mFloorPlan.addObserver(this);
-        guiElements.clear();
-        
-
-        //add the tile
-        List<Tile> lListTile = mFloorPlan.GetAllTiles();
+        prepareGUI(mFloorPlan, guiElements);
+        this.repaint();
+        return true;
+    }
+    
+    private void prepareGUI(FloorPlan floorplan, List<Drawable> guiElements){
+    	
+    	guiElements.clear();
+    	//add the tile
+        List<Tile> lListTile = floorplan.GetAllTiles();
         for(Tile tile : lListTile){
         	guiElements.add(DrawableFactory.makeTile(tile));
         }
         
         //add the wall
-        List<Wall> lListWall = mFloorPlan.GetAllWalls();
+        List<Wall> lListWall = floorplan.GetAllWalls();
         for(Wall wall : lListWall){
         	guiElements.add(DrawableFactory.makeWall(wall));
         }
-        
-        this.repaint();
-        return true;
+    	
     }
     
     /**
