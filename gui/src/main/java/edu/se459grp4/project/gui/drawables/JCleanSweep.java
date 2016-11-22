@@ -11,7 +11,7 @@ import java.awt.Graphics;
  * @version 1.8
  *
  */
-public class JCleanSweep implements Drawable{
+class JCleanSweep implements Drawable{
     private CleanSweep mCleanSweep;
     
     /**

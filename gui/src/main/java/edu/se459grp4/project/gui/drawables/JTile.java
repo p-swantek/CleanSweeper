@@ -12,7 +12,7 @@ import java.awt.Graphics;
  * @author Group 4
  *
  */
-public class JTile implements Drawable{
+class JTile implements Drawable{
 	
     private Tile mTile;
     

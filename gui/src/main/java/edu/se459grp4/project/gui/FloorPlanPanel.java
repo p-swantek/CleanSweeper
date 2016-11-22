@@ -2,9 +2,7 @@ package edu.se459grp4.project.gui;
 
 import edu.se459grp4.project.cleansweep.CleanSweep;
 import edu.se459grp4.project.gui.drawables.Drawable;
-import edu.se459grp4.project.gui.drawables.JCleanSweep;
-import edu.se459grp4.project.gui.drawables.JTile;
-import edu.se459grp4.project.gui.drawables.JWall;
+import edu.se459grp4.project.gui.drawables.DrawableFactory;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -27,10 +25,6 @@ class FloorPlanPanel extends JPanel implements Observer{
     private FloorPlan mFloorPlan;
     private int mnSqureTileSize;
     private int mnSqureTilesNum;
-//    private List<JTile> mJTiles = new ArrayList<>();
-//    private List<JWall> mJWalls = new ArrayList<>();
-//    private List<JCleanSweep> mJCleanSweeps = new ArrayList<>();
-    
     private List<Drawable> guiElements = new ArrayList<>();
 
     
@@ -54,13 +48,13 @@ class FloorPlanPanel extends JPanel implements Observer{
         //add the tile
         List<Tile> lListTile = mFloorPlan.GetAllTiles();
         for(Tile tile : lListTile){
-        	guiElements.add(new JTile(tile));
+        	guiElements.add(DrawableFactory.makeTile(tile));
         }
         
         //add the wall
         List<Wall> lListWall = mFloorPlan.GetAllWalls();
         for(Wall wall : lListWall){
-        	guiElements.add(new JWall(wall));
+        	guiElements.add(DrawableFactory.makeWall(wall));
         }
         
         this.repaint();
@@ -79,7 +73,7 @@ class FloorPlanPanel extends JPanel implements Observer{
             return false;
         }
         
-        guiElements.add(new JCleanSweep(nCleanSweep));
+        guiElements.add(DrawableFactory.makeCleanSweep(nCleanSweep));
         nCleanSweep.addObserver(this);
         this.updateUI();
         return true;
@@ -100,21 +94,7 @@ class FloorPlanPanel extends JPanel implements Observer{
        mnSqureTilesNum = mFloorPlan.GetTilesSquareNum();
        mnSqureTileSize = nSqureSize/mnSqureTilesNum;
       
-       //draw tiles
-//       for (JTile item : mJTiles){
-//           item.draw(g, mnSqureTileSize);
-//       }
-//       
-//       //draw walls
-//        for (JWall item : mJWalls){
-//           item.draw(g, mnSqureTileSize);
-//        }
-//        
-//       //draw sweepcleans
-//        for (JCleanSweep item : mJCleanSweeps){
-//           item.draw(g, mnSqureTileSize);
-//        }
-       
+       //draw everything
        for (Drawable item : guiElements){
     	   item.draw(g, mnSqureTileSize);
        }

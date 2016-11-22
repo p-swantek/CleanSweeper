@@ -10,7 +10,7 @@ import java.awt.Graphics;
  * @author Group 4
  * @version 1.8
  */
-public class JDoor implements Drawable{
+class JDoor implements Drawable{
 	
     private Door mDoor;
     

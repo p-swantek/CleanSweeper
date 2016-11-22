@@ -13,10 +13,10 @@ import java.util.List;
  * @author Peter Swantek
  * @version 1.8
  */
-public class JWall implements Drawable{
+class JWall implements Drawable{
 	
     private Wall mWall;
-    private List<JDoor> mJDoors = new ArrayList<>();
+    private List<Drawable> mJDoors = new ArrayList<>();
     
     /**
      * Construct a graphical representation of a wall
@@ -27,8 +27,8 @@ public class JWall implements Drawable{
         mWall = nWall;
         //add the door
         List<Door> lListDoor = mWall.GetAllDoors();
-        for(Door item : lListDoor){
-           mJDoors.add(new JDoor(item));
+        for(Door door : lListDoor){
+           mJDoors.add(DrawableFactory.makeDoor(door));
         }
     }
     
@@ -50,9 +50,9 @@ public class JWall implements Drawable{
         g.fillRect(x, y, lLen, lWid);
         g.setColor(Color.YELLOW);
         
-        //draw door
-        for(JDoor item:mJDoors){
-        	item.draw(g,nTileSize);
+        //draw doors
+        for(Drawable item : mJDoors){
+        	item.draw(g, nTileSize);
         }
         //g.fillRect(nTileSize, nTileSize, nTileSize, nTileSize);
        // g.drawString(""+mTile.GetDirtVal(), mTile.GetX()*nTileSize + nTileSize/2 -5, mTile.GetY()*nTileSize + nTileSize/2 -5);
