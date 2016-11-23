@@ -51,13 +51,13 @@ class FloorPlanPanel extends JPanel implements Observer{
     	
     	guiElements.clear();
     	//add the tile
-        List<Tile> lListTile = floorplan.GetAllTiles();
+        List<Tile> lListTile = floorplan.getAllTiles();
         for(Tile tile : lListTile){
         	guiElements.add(DrawableFactory.makeTile(tile));
         }
         
         //add the wall
-        List<Wall> lListWall = floorplan.GetAllWalls();
+        List<Wall> lListWall = floorplan.getAllWalls();
         for(Wall wall : lListWall){
         	guiElements.add(DrawableFactory.makeWall(wall));
         }
@@ -94,7 +94,7 @@ class FloorPlanPanel extends JPanel implements Observer{
        //draw floor plan background
        Dimension lDim = this.getSize();
        int nSqureSize = Math.min(lDim.height, lDim.width);
-       mnSqureTilesNum = mFloorPlan.GetTilesSquareNum();
+       mnSqureTilesNum = mFloorPlan.getRowLength();
        mnSqureTileSize = nSqureSize/mnSqureTilesNum;
       
        //draw everything

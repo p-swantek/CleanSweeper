@@ -18,11 +18,11 @@ import java.util.List;
 public class Simulator {
 	
     private static Simulator instance ;
-    private FloorPlan mFloorPlan;
+    private FloorPlan floorPlan;
     
     
     private Simulator(){
-       mFloorPlan = null; 
+       floorPlan = null; 
     }
     
     /**
@@ -48,20 +48,20 @@ public class Simulator {
      */
     public FloorPlan loadFloorPlan(String fileLocation) {
      // FloorPlan lLoadedFloorPlan = null;
-      mFloorPlan = null;
+      floorPlan = null;
       try {
          FileInputStream fileIn = new FileInputStream(fileLocation);
          ObjectInputStream in = new ObjectInputStream(fileIn);
-         mFloorPlan = (FloorPlan) in.readObject();
+         floorPlan = (FloorPlan) in.readObject();
          in.close();
          fileIn.close();
-         return mFloorPlan;
+         return floorPlan;
       }catch(IOException i) {
-        // i.printStackTrace();
+        i.printStackTrace();
          return null;
       }catch(ClassNotFoundException c) {
-         //System.out.println("./example.flr class not found");
-         //c.printStackTrace();
+         System.out.println("./example.flr class not found");
+         c.printStackTrace();
          return null;
       }
     }
@@ -95,8 +95,8 @@ public class Simulator {
         }
         
         //Check if there is path from (x,y) to (nDestX,nDestY)
-        if(mFloorPlan != null){
-            return mFloorPlan.CheckPath(x, y, nDestX, nDestY);
+        if(floorPlan != null){
+            return floorPlan.checkPath(x, y, nDestX, nDestY);
         }
         
         return PathStatus.Blocked;
@@ -110,8 +110,8 @@ public class Simulator {
      * @return the amount of dirt at the given location
      */
     public int getDirtData(int x,int y){
-        if(mFloorPlan != null){
-            return mFloorPlan.GetDirtVal(x, y);
+        if(floorPlan != null){
+            return floorPlan.getDirtAmount(x, y);
         }
           
         return 0;
@@ -126,8 +126,8 @@ public class Simulator {
      * @return the TileStatus at the given location
      */
     public TileStatus getSurfaceData(int x,int y){
-        if(mFloorPlan != null){
-            return mFloorPlan.GetTileSatus(x, y);
+        if(floorPlan != null){
+            return floorPlan.getSurfaceType(x, y);
         }
          
         return TileStatus.BARE_FLOOR;
@@ -142,8 +142,8 @@ public class Simulator {
      * @return the amount of dirt that was cleaned
      */
     public int removeDirt(int x,int y,int nVal){
-    	if(mFloorPlan != null){
-    		return mFloorPlan.SweepUp(x, y,nVal);
+    	if(floorPlan != null){
+    		return floorPlan.removeDirt(x, y,nVal);
         }
     	
         return 0;
@@ -160,8 +160,8 @@ public class Simulator {
      * @return true if the door was able to be successfully opened/closed, false otherwise
      */
     public boolean operateDoor(boolean nVer,int nBase,int nFrom,int nTo,boolean bOpen){
-    	if(mFloorPlan != null){
-    		return mFloorPlan.OperateDoor(nVer, nBase, nFrom, nTo, bOpen);
+    	if(floorPlan != null){
+    		return floorPlan.OperateDoor(nVer, nBase, nFrom, nTo, bOpen);
         }
           
         return false;
@@ -175,11 +175,11 @@ public class Simulator {
      * @return true if the charge station was successfully added, false otherwise
      */
     public boolean addChargeStation(int nX,int nY){
-         if(mFloorPlan == null){
+         if(floorPlan == null){
              return false;
          }
          
-         return mFloorPlan.SetTileSatus(nX, nY, TileStatus.CHARGING_STATION);
+         return floorPlan.setSurfaceType(nX, nY, TileStatus.CHARGING_STATION);
         
     }
     
@@ -191,10 +191,10 @@ public class Simulator {
      * @return true if the charge station was successfully removed, false otherwise
      */
     public boolean removeChargeStation(int nX,int nY){
-        if(mFloorPlan == null){
+        if(floorPlan == null){
              return false;
         }
-        return mFloorPlan.SetTileSatus(nX, nY, TileStatus.BARE_FLOOR);
+        return floorPlan.setSurfaceType(nX, nY, TileStatus.BARE_FLOOR);
     }
     
     /**
@@ -203,11 +203,11 @@ public class Simulator {
      * @return a list of all the doors
      */
     public List<Door> getAllDoors(){
-    	if(mFloorPlan == null){
+    	if(floorPlan == null){
     		return null;
     	}
     	
-        return mFloorPlan.GetAllDoors();
+        return floorPlan.getAllDoors();
     }
     
     /**
@@ -216,11 +216,11 @@ public class Simulator {
      * @return the list of all the charge stations
      */
     public List<Tile> getAllChargeStations(){
-       if(mFloorPlan == null){
+       if(floorPlan == null){
              return null;
        }
        
-       return mFloorPlan.GetAllChargeStations();
+       return floorPlan.getAllChargeStations();
     }
    
 }

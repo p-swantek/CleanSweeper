@@ -8,13 +8,15 @@ import java.io.Serializable;
  * @author Group 4
  * @version 1.8
  */
-public class Door implements Serializable  {
+public class Door implements Serializable{
 	
-    private boolean mbVertical;
+
+	private static final long serialVersionUID = 1L;
+	private boolean isVertical;
     private int mnBase;
     private int mnFrom;
     private int mnTo;
-    private boolean mbOpen;
+    private boolean isOpen;
   
     /**
      * Construct a new door object to be used in the simulation
@@ -25,13 +27,12 @@ public class Door implements Serializable  {
      * @param nTo the ending coordinate of the door
      * @param nbOpen true if the door is open, false otherwise
      */
-    public Door(boolean nVer,int nBase,int nFrom,int nTo,boolean nbOpen)
-    {
-        mbVertical = nVer;
+    public Door(boolean nVer,int nBase,int nFrom,int nTo,boolean nbOpen){
+        isVertical = nVer;
         mnBase = nBase;
         mnFrom = nFrom;
         mnTo = nTo;
-        mbOpen = nbOpen;
+        isOpen = nbOpen;
     }
     
     /**
@@ -39,8 +40,7 @@ public class Door implements Serializable  {
      * 
      * @return the door's length
      */
-    public int GetBase()
-    {
+    public int getBase(){
         return mnBase;
     }
     
@@ -49,8 +49,7 @@ public class Door implements Serializable  {
      * 
      * @return the starting coordinate
      */
-    public int GetFrom()
-    {
+    public int getFrom(){
         return mnFrom;
     }
     
@@ -59,8 +58,7 @@ public class Door implements Serializable  {
      * 
      * @return the ending coordinate
      */
-    public int GetTo()
-    {
+    public int getTo(){
         return mnTo;
     }
     
@@ -69,9 +67,8 @@ public class Door implements Serializable  {
      * 
      * @return true if this is a vertical door, false otherwise
      */
-    public boolean GetVertical()
-    {
-        return mbVertical;
+    public boolean isVertical(){
+        return isVertical;
     }
     
     /**
@@ -79,19 +76,18 @@ public class Door implements Serializable  {
      * 
      * @return true if the door is currently open, false otherwise
      */
-    public synchronized  boolean GetIsOpened()
-    {
-        return mbOpen;
+    public synchronized  boolean isOpen(){
+        return isOpen;
     }
     
     /**
      * Sets a door to be open
      * 
-     * @return true if the door is successfully set to be open
+     * @return true or false on whether the door got opened
+     * 
      */
-    public synchronized  boolean Open()
-    {
-        mbOpen = true;
+    public synchronized boolean openDoor(){
+        isOpen = true;
         return true;
     }
     
@@ -100,9 +96,8 @@ public class Door implements Serializable  {
      * 
      * @return true if the door is successfully closed, false otherwise
      */
-    public synchronized  boolean Close()
-    {
-         mbOpen = false;
+    public synchronized  boolean closeDoor(){
+         isOpen = false;
          return true;
     }
     
@@ -113,20 +108,19 @@ public class Door implements Serializable  {
      * @param nTo the destination
      * @return true if able to pass through, false otherwise
      */
-    public synchronized  boolean CheckPass(int nFrom,int nTo)
-    {
-        if(mbOpen != false &&
-          (nFrom == mnFrom || nTo == mnTo) )
+    public synchronized  boolean canPassThrough(int nFrom,int nTo){
+        if(isOpen && (nFrom == mnFrom || nTo == mnTo)){
             return true;
+        }
+        
         return false;
         
     }
     
     
     @Override
-    public String toString()
-    {
-        return  "Door"+(mbVertical?"Vertical":"Horizontal") + "Base " + mnBase+" From "+mnFrom+" To "+mnTo;
+    public String toString(){
+        return  "Door"+(isVertical ? "Vertical" : "Horizontal") + "Base " + mnBase + " From " + mnFrom + " To " + mnTo;
     }
     
 }

@@ -11,7 +11,10 @@ import edu.se459grp4.project.simulator.types.TileStatus;
  */
 
 public class Tile extends Object implements java.io.Serializable{
-    private int mx;
+
+
+	private static final long serialVersionUID = 1L;
+	private int mx;
     private int my;
     private TileStatus mTileStatus;
     private int mnDirtVal;

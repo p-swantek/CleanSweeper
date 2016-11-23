@@ -181,10 +181,10 @@ public class MainFrame extends JFrame {
 
                 //If a string was returned, say so.
                 if ((lDoor != null)) {
-                    Simulator.getInstance().operateDoor(lDoor.GetVertical(), 
-                            lDoor.GetBase(),
-                            lDoor.GetFrom(), 
-                            lDoor.GetTo(),
+                    Simulator.getInstance().operateDoor(lDoor.isVertical(), 
+                            lDoor.getBase(),
+                            lDoor.getFrom(), 
+                            lDoor.getTo(),
                             lbOpen);
                 }
             }

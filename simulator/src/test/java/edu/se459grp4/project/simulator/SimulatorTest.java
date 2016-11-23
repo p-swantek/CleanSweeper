@@ -38,7 +38,7 @@ public class SimulatorTest extends TestCase {
  
     public void testLoadFloorPlan() {
         
-         assertTrue( mFloorPlan.GetDirtVal(5, 5)  == 50);
+         assertTrue( mFloorPlan.getDirtAmount(5, 5)  == 50);
     }
 
     public void testProvideDirectionSensroData() {

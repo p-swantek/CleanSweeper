@@ -10,7 +10,10 @@ import java.util.*;
  * @author whao
  */
 public class Wall implements java.io.Serializable {
-    private boolean mbVertical;
+
+
+	private static final long serialVersionUID = 1L;
+	private boolean mbVertical;
     private int mnBase; 
     private int mnFrom;
     private int mnTo;
@@ -81,7 +84,7 @@ public class Wall implements java.io.Serializable {
             //check if there is a open door
            
             for(Map.Entry<String,Door> entry : mDoors.entrySet()){
-                if(entry.getValue().CheckPass(nFrom,nTo))
+                if(entry.getValue().canPassThrough(nFrom,nTo))
                     return true;
                     
             }
@@ -101,6 +104,6 @@ public class Wall implements java.io.Serializable {
        if(lDoor == null)
            return false;
        
-       return nbVal == false ? lDoor.Close():lDoor.Open();
+       return nbVal == false ? lDoor.closeDoor():lDoor.openDoor();
     }
 }

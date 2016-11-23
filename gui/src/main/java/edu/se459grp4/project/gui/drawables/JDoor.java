@@ -29,11 +29,11 @@ class JDoor implements Drawable{
             return;
         }
        
-        boolean lbVer = mDoor.GetVertical();
-        int lnBase = mDoor.GetBase() +1;
-        int lnFrom = mDoor.GetFrom() ;
-        int lnTo = mDoor.GetTo() ;
-        boolean lbOpen = mDoor.GetIsOpened(); 
+        boolean lbVer = mDoor.isVertical();
+        int lnBase = mDoor.getBase() +1;
+        int lnFrom = mDoor.getFrom() ;
+        int lnTo = mDoor.getTo() ;
+        boolean lbOpen = mDoor.isOpen(); 
         if(lbOpen == false)
             g.setColor(Color.RED);
         else g.setColor(Color.GREEN);
