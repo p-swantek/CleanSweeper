@@ -67,7 +67,6 @@ public class CleanSweepManager {
      * Gets the CleanSweep corresponding to the given id and starts it on a cleaning cycle
      * 
      * @param nID the id of the clean sweep which should be started on its cleaning cycle
-     * @return true if the sweep was successfully located and started, false otherwise
      */
     public synchronized void startCleanCycle(int nID){
         CleanSweep cs = allSweeps.get(nID);
@@ -87,7 +86,6 @@ public class CleanSweepManager {
      * Gets the CleanSweep corresponding to the given id and stops it from cleaning further
      * 
      * @param nID the id of the clean sweep which should be stopped
-     * @return true if the sweep was able to be located and stopped, false otherwise
      */
     public synchronized void stopCleanCycle(int nID){
         Thread cs = workingSweeps.get(nID); //get the clean sweep to stop
