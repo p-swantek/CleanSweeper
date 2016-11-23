@@ -151,9 +151,9 @@ public class FloorPlan  extends Observable implements Serializable {
      * Add a door to the floor plan
      * 
      * @param isVertical true if this door is a vertical door, false otherwise
-     * @param nBase 
-     * @param x
-     * @param y
+     * @param nBase todo
+     * @param x todo
+     * @param y todo
      * @param isOpen true if this door starts out open, false otherwise
      * @return true if the door was successfully added, false otherwise
      */
@@ -320,10 +320,10 @@ public class FloorPlan  extends Observable implements Serializable {
      * Allows for a door in the floor plan to be open or closed as desired
      * 
      * @param isVertical true if this door is vertical, false otherwise
-     * @param nBase
-     * @param x
-     * @param y
-     * @param nbVal
+     * @param nBase todo
+     * @param x todo
+     * @param y todo
+     * @param nbVal todo
      * @return true if the door was successfully operated, false otherwise
      */
     public boolean OperateDoor(boolean isVertical, int nBase, int x, int y, boolean nbVal){
