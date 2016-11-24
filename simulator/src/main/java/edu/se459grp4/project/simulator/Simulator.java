@@ -161,7 +161,7 @@ public class Simulator {
      */
     public boolean operateDoor(boolean nVer,int nBase,int nFrom,int nTo,boolean bOpen){
     	if(floorPlan != null){
-    		return floorPlan.OperateDoor(nVer, nBase, nFrom, nTo, bOpen);
+    		return floorPlan.operateDoor(nVer, nBase, nFrom, nTo, bOpen);
         }
           
         return false;

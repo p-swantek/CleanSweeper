@@ -102,7 +102,7 @@ public class FloorPlan  extends Observable implements Serializable {
     public List<Tile> getAllChargeStations(){
         List<Tile> lList = new ArrayList<>();
         for(Entry<String, Tile> entry : mMapTiles.entrySet()){
-           if(entry.getValue().GetStatus() == TileStatus.CHARGING_STATION){
+           if(entry.getValue().getSurfaceType() == TileStatus.CHARGING_STATION){
              lList.add(entry.getValue());
            }
         }
@@ -207,20 +207,20 @@ public class FloorPlan  extends Observable implements Serializable {
         }
         
         //Check Stair
-        if(lTile.GetStatus() == TileStatus.STAIRS){
+        if(lTile.getSurfaceType() == TileStatus.STAIRS){
             return PathStatus.Stair;
         }
         
         //check if there is a wall 
-        boolean lbVertical = (x == nDestX ? false : true);
-        int nBase = (lbVertical == false ? Math.min(y, nDestY) : Math.min(x, nDestX));
-        int nFrom = (lbVertical == false ? Math.min(x, nDestX) : Math.min(y, nDestY));
+        boolean isWallVertical = x == nDestX ? false : true;
+        int nBase = !isWallVertical ? Math.min(y, nDestY) : Math.min(x, nDestX);
+        int nFrom = !isWallVertical ? Math.min(x, nDestX) : Math.min(y, nDestY);
         int nTo = nFrom;
 
         //Find the wall include lbVertical,x,y
         boolean lbRet = true;
         for(Entry<String, Wall> entry : mMapWalls.entrySet()){
-            if(!entry.getValue().CheckCanPass(lbVertical, nBase, nFrom, nTo)){
+            if(!entry.getValue().CheckCanPass(isWallVertical, nBase, nFrom, nTo)){
                 lbRet = false;
                 break;
             }
@@ -240,7 +240,7 @@ public class FloorPlan  extends Observable implements Serializable {
     public int getDirtAmount(int x, int y){
         Tile lTile = mMapTiles.get(generateTileKey(x,y));
         if(lTile != null){
-            return lTile.GetDirtVal();
+            return lTile.getDirtAmount();
         }
         
         return 0;
@@ -252,14 +252,12 @@ public class FloorPlan  extends Observable implements Serializable {
      * @param x the x coordinate of the location to set dirt
      * @param y the y coordinate of the location to set dirt
      * @param nVal the amount of dirt to put at that spot
-     * @return true if the dirt was successfully added, false otherwise
      */
-    public boolean setDirtAmount(int x, int y, int nVal){
+    public void setDirtAmount(int x, int y, int nVal){
         Tile lTile = mMapTiles.get(generateTileKey(x,y));
         if(lTile != null){
-            return lTile.SetDirtVal(nVal);
+        	lTile.setDirtAmount(nVal);
         }
-        return false;
     }
     
     /**
@@ -273,7 +271,7 @@ public class FloorPlan  extends Observable implements Serializable {
     public TileStatus getSurfaceType(int x,int y){
         Tile lTile = mMapTiles.get(generateTileKey(x,y));
         if(lTile != null){
-            return lTile.GetStatus();
+            return lTile.getSurfaceType();
         }
         return TileStatus.BARE_FLOOR;
     }
@@ -289,7 +287,7 @@ public class FloorPlan  extends Observable implements Serializable {
     public boolean setSurfaceType(int x, int y, TileStatus surfaceType){
         Tile lTile = mMapTiles.get(generateTileKey(x,y));
         if(lTile != null){
-            lTile.SetStatus(surfaceType);
+            lTile.setFloorType(surfaceType);
             setChanged();
             notifyObservers(lTile);
             return true;
@@ -308,7 +306,7 @@ public class FloorPlan  extends Observable implements Serializable {
     public int removeDirt(int x, int y, int amtToRemove){
         Tile lTile = mMapTiles.get(generateTileKey(x,y));
         if(lTile != null){
-            int lnVal = lTile.Sweep(amtToRemove);
+            int lnVal = lTile.removeDirt(amtToRemove);
             setChanged();
             notifyObservers(lTile);
             return lnVal;
@@ -326,7 +324,7 @@ public class FloorPlan  extends Observable implements Serializable {
      * @param nbVal todo
      * @return true if the door was successfully operated, false otherwise
      */
-    public boolean OperateDoor(boolean isVertical, int nBase, int x, int y, boolean nbVal){
+    public boolean operateDoor(boolean isVertical, int nBase, int x, int y, boolean nbVal){
         //find the door from the wall
         boolean lbRet = false;
         

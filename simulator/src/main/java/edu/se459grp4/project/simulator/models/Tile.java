@@ -1,70 +1,111 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.se459grp4.project.simulator.models;
+
+import java.io.Serializable;
+
 import edu.se459grp4.project.simulator.types.TileStatus;
+
 /**
+ * Represents a floor tile object in the simulation environment
  *
  * @author whao
+ * @version 1.8
  */
-
-public class Tile extends Object implements java.io.Serializable{
+public class Tile implements Serializable{
 
 
 	private static final long serialVersionUID = 1L;
 	private int mx;
     private int my;
-    private TileStatus mTileStatus;
+    private TileStatus surfaceType;
     private int mnDirtVal;
     
-    public Tile(int x,int y,TileStatus nStatus,int nVal)
-    {
+    /**
+     * Construct a new tile with the given x, y coordinates, surface type, and dirt amount
+     * 
+     * @param x the x coordinate of this tile
+     * @param y the y coordinate of this tile
+     * @param nStatus the surface type of this tile
+     * @param nVal the dirt amount on this tile
+     */
+    public Tile(int x, int y, TileStatus nStatus, int nVal){
         mx = x;
         my = y;
-        mTileStatus = nStatus;
+        surfaceType = nStatus;
         mnDirtVal = nVal;
     }
-    public int GetX()
-    {
+    
+    /**
+     * Get the x coordinate of this tile
+     * 
+     * @return the x coordinate
+     */
+    public int getX(){
         return mx;
     }
-    public int GetY()
-    {
+    
+    /**
+     * Get the y coordinate of this tile
+     * 
+     * @return the y coordinate
+     */
+    public int getY(){
         return my;
     }
-    public synchronized TileStatus GetStatus()
-    {
-        return mTileStatus;
+    
+    /**
+     * Get the surface type of this tile
+     * 
+     * @return the TileStatus indicating the surface type
+     * @see TileStatus
+     */
+    public synchronized TileStatus getSurfaceType(){
+        return surfaceType;
     }
-     public synchronized boolean SetStatus(TileStatus nStatus)
-    {
-        mTileStatus = nStatus;
-        return true;
+    
+    /**
+     * Set the surface type for a tile
+     * 
+     * @param type the type of floor this tile represents
+     */
+    public synchronized void setFloorType(TileStatus type){
+        surfaceType = type;
     }
-    public synchronized  int GetDirtVal()
-    {
+    
+    /**
+     * Get the amount of dirt on this tile
+     * 
+     * @return the amount of dirt
+     */
+    public synchronized  int getDirtAmount(){
         return mnDirtVal;
     }
-    public synchronized  boolean SetDirtVal(int nVal)
-    {
+    
+    /**
+     * Set the amount of dirt that should be on this tile
+     * 
+     * @param nVal the amount of dirt that should be on this tile
+     */
+    public synchronized void setDirtAmount(int nVal){
         mnDirtVal = nVal;
-        return true;
-        
     }
-    public synchronized  int Sweep(int nVal)
-    {
-        if(mnDirtVal == 0)
+    
+    /**
+     * Removes an amount of dirt from this tile
+     * 
+     * @param nVal the amount of dirt to remove
+     * @return the amount of dirt that was successfully removed
+     */
+    public synchronized int removeDirt(int nVal){
+        if(mnDirtVal == 0){
             return 0;
+        }
         
-        if(mnDirtVal > nVal)
-        {
+        else if(mnDirtVal > nVal){
             mnDirtVal -= nVal;
             return nVal;
         }
-        else
-        {
+        
+        else{
             int lTemp = mnDirtVal;
             mnDirtVal = 0;
             return lTemp;
@@ -72,8 +113,7 @@ public class Tile extends Object implements java.io.Serializable{
     }
     
     @Override
-    public String toString()
-    {
-        return  (mTileStatus == TileStatus.CHARGING_STATION?"ChargeStation":"Tile") + " X "+mx+" Y "+my;
+    public String toString(){
+        return (getSurfaceType() == TileStatus.CHARGING_STATION ? "ChargeStation" : "Tile") + " X "+ getX() + " Y " + getY();
     }
 }

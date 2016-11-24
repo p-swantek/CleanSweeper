@@ -202,7 +202,7 @@ public class MainFrame extends JFrame {
                                     "");
 
                 if ((sweepTile != null)) {
-                   int nID = CleanSweepManager.getInstance().createCleanSweep(sweepTile.GetX(), sweepTile.GetY());
+                   int nID = CleanSweepManager.getInstance().createCleanSweep(sweepTile.getX(), sweepTile.getY());
                    mFloorplanPanel.addCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
                    //
                    CleanSweepManager.getInstance().startCleanCycle(nID);
@@ -223,7 +223,7 @@ public class MainFrame extends JFrame {
 
                  //If a string was returned, say so.
                  if ((lChargeStaion != null)) {
-                    int nID = CleanSweepManager.getInstance().createCleanSweep(lChargeStaion.GetX(), lChargeStaion.GetY());
+                    int nID = CleanSweepManager.getInstance().createCleanSweep(lChargeStaion.getX(), lChargeStaion.getY());
                     mFloorplanPanel.addCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
                     //
                     CleanSweepManager.getInstance().startCleanCycle(nID);
