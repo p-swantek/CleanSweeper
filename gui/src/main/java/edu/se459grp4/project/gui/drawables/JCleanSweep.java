@@ -36,7 +36,6 @@ class JCleanSweep implements Drawable{
         int x = lnX*nTileSize;
         int y = lnY*nTileSize ;
         g.fillOval(x+nTileSize/4, y+nTileSize/4, nTileSize/2, nTileSize/2);
-        //g.fillRect(nTileSize, nTileSize, nTileSize, nTileSize);
         g.drawString(""+mCleanSweep.getID() +" P"+mCleanSweep.getCurrPower() + " V"+mCleanSweep.getCurrVacuumCapacity(),
                 x+nTileSize/4 + 5 , 
                 y+nTileSize/4 + 5);

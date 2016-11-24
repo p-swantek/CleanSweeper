@@ -39,14 +39,14 @@ class JWall implements Drawable{
         }
         
         g.setColor(Color.YELLOW);
-        boolean lbVer = mWall.isVertical();
-        int lnBase = mWall.getBase() +1;
-        int lnFrom = mWall.getFrom() ;
+        boolean isVertical = mWall.isVertical();
+        int lnBase = mWall.getBase()+1;
+        int lnFrom = mWall.getFrom();
         int lnTo = mWall.getTo();
-        int x = lbVer == false ? lnFrom*nTileSize : lnBase*nTileSize - (nTileSize/5)/2;
-        int y = lbVer == false ? lnBase*nTileSize- (nTileSize/5)/2 : lnFrom*nTileSize;
-        int lLen =  lbVer == false ? ((Math.abs(lnFrom-lnTo)) + 1)*nTileSize : nTileSize/5;
-        int lWid = lbVer == false? nTileSize/5: (Math.abs(lnFrom-lnTo) + 1)*nTileSize;
+        int x = !isVertical ? lnFrom*nTileSize : lnBase*nTileSize - (nTileSize/5)/2;
+        int y = !isVertical ? lnBase*nTileSize- (nTileSize/5)/2 : lnFrom*nTileSize;
+        int lLen =  !isVertical ? ((Math.abs(lnFrom-lnTo)) + 1)*nTileSize : nTileSize/5;
+        int lWid = !isVertical ? nTileSize/5 : (Math.abs(lnFrom-lnTo) + 1)*nTileSize;
         g.fillRect(x, y, lLen, lWid);
         g.setColor(Color.YELLOW);
         
@@ -54,7 +54,5 @@ class JWall implements Drawable{
         for(Drawable item : mJDoors){
         	item.draw(g, nTileSize);
         }
-        //g.fillRect(nTileSize, nTileSize, nTileSize, nTileSize);
-       // g.drawString(""+mTile.GetDirtVal(), mTile.GetX()*nTileSize + nTileSize/2 -5, mTile.GetY()*nTileSize + nTileSize/2 -5);
     }
 }

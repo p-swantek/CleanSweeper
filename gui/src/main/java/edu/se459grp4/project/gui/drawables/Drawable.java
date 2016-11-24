@@ -2,6 +2,7 @@ package edu.se459grp4.project.gui.drawables;
 
 import java.awt.Graphics;
 
+@FunctionalInterface
 public interface Drawable {
 	
 	/**

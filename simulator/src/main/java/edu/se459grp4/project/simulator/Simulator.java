@@ -5,6 +5,7 @@ import edu.se459grp4.project.simulator.types.TileStatus;
 import edu.se459grp4.project.simulator.models.*;
 import edu.se459grp4.project.simulator.types.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +48,6 @@ public class Simulator {
      * @see FloorPlan
      */
     public FloorPlan loadFloorPlan(String fileLocation) {
-     // FloorPlan lLoadedFloorPlan = null;
       floorPlan = null;
       try {
          FileInputStream fileIn = new FileInputStream(fileLocation);
@@ -204,7 +204,7 @@ public class Simulator {
      */
     public List<Door> getAllDoors(){
     	if(floorPlan == null){
-    		return null;
+    		return new ArrayList<>(0); //return an empty list if there is no floor plan loaded
     	}
     	
         return floorPlan.getAllDoors();
@@ -217,7 +217,7 @@ public class Simulator {
      */
     public List<Tile> getAllChargeStations(){
        if(floorPlan == null){
-             return null;
+             return new ArrayList<>(0); //return an empty list if there is no floor plan loaded
        }
        
        return floorPlan.getAllChargeStations();
