@@ -270,7 +270,6 @@ public class Navigator implements Runnable {
     
     private boolean shouldReturnToChargingStation(int nFromX, int nFromY, int nDestX, int nDestY, double ndbNeedPower){
          double csCurrPower = cleanSweep.getCurrPower();
-         //double ldbNeedPower = mTileGraph.GetWeight(nFromX,nFromY,nDestX,nDestY);
          //cacluate the fewest power to the nearest chargestaion 
          List<String> lRetPath = new ArrayList<>();
          
