@@ -339,7 +339,7 @@ public class CleanSweep extends Observable {
 
 	@Override
 	public String toString() {
-		return String.format("CleanSweep[ID: %d]%nPower Status --> %.2f/%.2f%nVacuum Status --> %d/%d", getID(), getCurrPower(), maxPowerCapacity, getCurrVacuumCapacity(), maxVacuumCapacity);
+		return String.format("CleanSweep[ID: %d]\nPower Status --> %.2f/%.2f\nVacuum Status --> %d/%d", getID(), getCurrPower(), maxPowerCapacity, getCurrVacuumCapacity(), maxVacuumCapacity);
 	}
      
      

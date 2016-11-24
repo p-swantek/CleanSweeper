@@ -23,17 +23,17 @@ import java.util.Queue;
  */
 public class Navigator implements Runnable {
 	
-    private enum MissionTypeToGoToChargeStation{
-        MissionUnkown,
-        MissionWork,
-        MissionCompleted,
-        MissionCharge,
-        MissionCleanVacuume,
-        MissionReturnToWork,
-        MissionReturnToChargeWithUnexpectedHappened
+    private enum MissionType{
+        MISSION_UNKNOWN,
+        MISSION_WORK,
+        MISSION_COMPLETED,
+        MISSION_CHARGE,
+        MISSION_EMPTY_VACUUM,
+        MISSION_RETURN_TO_WORK,
+        MISSION_RETURN_TO_CHARGE_STATION_ERROR_OCCURRED
     };
-        
-        
+    
+  
     private class Coordinate {
 
         public int currX;
@@ -48,13 +48,13 @@ public class Navigator implements Runnable {
         }
     }
 
-    private CleanSweep cleanSweep;
-    private TilesGraph tileGraph = new TilesGraph();
-    private Queue<TileNode> mMissionQueue = new LinkedList<>();
-    private MissionTypeToGoToChargeStation currentMission = MissionTypeToGoToChargeStation.MissionUnkown;
-    private Coordinate returnNodeCoordinate = new Coordinate(0,0);
-    private List<String> returnPath = new ArrayList<>();
-    private static final int SLEEP = 500;
+    private final CleanSweep cleanSweep;
+    private final TilesGraph tileGraph;
+    private final Queue<TileNode> mMissionQueue;
+    private MissionType currentMission;
+    private Coordinate returnNodeCoordinate;
+    private final List<String> returnPath;
+    private static final int SLEEP_TIME_MS = 100;
     
     
     /**
@@ -63,7 +63,12 @@ public class Navigator implements Runnable {
      * @param nCleanSweep the clean sweep with which this navigator is associated
      */
     public Navigator(CleanSweep nCleanSweep){
-        cleanSweep = nCleanSweep;
+    	cleanSweep = nCleanSweep;
+        tileGraph = new TilesGraph();
+        mMissionQueue = new LinkedList<>();
+        currentMission = MissionType.MISSION_UNKNOWN;
+        returnNodeCoordinate = new Coordinate(0,0);
+        returnPath = new ArrayList<>();
     }
 
     /*
@@ -72,10 +77,11 @@ public class Navigator implements Runnable {
      * (non-Javadoc)
      * @see java.lang.Runnable#run()
      */
+    @Override
     public void run(){
         //smart control run
         try {
-            currentMission = MissionTypeToGoToChargeStation.MissionWork;
+            currentMission = MissionType.MISSION_WORK;
             while (!Thread.currentThread().isInterrupted() && cleanSweep != null){
                 
                 //Detect Around
@@ -95,10 +101,10 @@ public class Navigator implements Runnable {
                     double ldbNeedPower = tileGraph.getWeight(cleanSweep.getX(), cleanSweep.getY(), lMovetoNode.getX(), lMovetoNode.getY());
                     
                     //if mission is working,then need to check the power is enough to return to station
-                    if(MissionTypeToGoToChargeStation.MissionWork == currentMission){
+                    if(MissionType.MISSION_WORK == currentMission){
                         //Check power is enough
                         if(shouldReturnToChargingStation(cleanSweep.getX(), cleanSweep.getY(), lMovetoNode.getX(), lMovetoNode.getY(), ldbNeedPower)){
-                            goToNearestChargeStation(cleanSweep.getX(), cleanSweep.getY(), MissionTypeToGoToChargeStation.MissionCharge);
+                            goToNearestChargeStation(cleanSweep.getX(), cleanSweep.getY(), MissionType.MISSION_CHARGE);
                             continue;
                         }
                     }
@@ -113,7 +119,7 @@ public class Navigator implements Runnable {
                         //move fail, becausing the door is charge
                         //cancel curruent mission ,go back to charge staion
                         mMissionQueue.clear();
-                        goToNearestChargeStation(cleanSweep.getX(),cleanSweep.getY(), MissionTypeToGoToChargeStation.MissionReturnToChargeWithUnexpectedHappened);
+                        goToNearestChargeStation(cleanSweep.getX(),cleanSweep.getY(), MissionType.MISSION_RETURN_TO_CHARGE_STATION_ERROR_OCCURRED);
                         continue;
                         
                     }
@@ -124,49 +130,46 @@ public class Navigator implements Runnable {
                     
                     
                     //check if arrived the charge station
-                    if(currentMission == MissionTypeToGoToChargeStation.MissionCompleted && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    if(currentMission == MissionType.MISSION_COMPLETED && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
                         //end up all cycle and thread
                         break;
                     }
                     
-                    if(currentMission == MissionTypeToGoToChargeStation.MissionReturnToChargeWithUnexpectedHappened && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    if(currentMission == MissionType.MISSION_RETURN_TO_CHARGE_STATION_ERROR_OCCURRED && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
                         //end up all cycle and thread
                         cleanSweep.emptyVacuum();
                         cleanSweep.rechargePower();
-                        currentMission = MissionTypeToGoToChargeStation.MissionWork;
+                        currentMission = MissionType.MISSION_WORK;
                         break;
                     }
                    
-                    else if(currentMission== MissionTypeToGoToChargeStation.MissionCleanVacuume && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    else if(currentMission== MissionType.MISSION_EMPTY_VACUUM && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
                         //Clean vacuum and go back to last tile
                         cleanSweep.emptyVacuum();
                         cleanSweep.rechargePower();
-                        currentMission = MissionTypeToGoToChargeStation.MissionReturnToWork;
+                        currentMission = MissionType.MISSION_RETURN_TO_WORK;
                         //reverse the return path
                         Collections.reverse(returnPath);
                         addPathToQueue(returnPath);
-                        //continue;
                     }
                     
-                    else if(currentMission== MissionTypeToGoToChargeStation.MissionCharge && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    else if(currentMission== MissionType.MISSION_CHARGE && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
                         //Recharge sweep and go back to last tile
                         cleanSweep.emptyVacuum();
                         cleanSweep.rechargePower();
-                        currentMission = MissionTypeToGoToChargeStation.MissionReturnToWork;
+                        currentMission = MissionType.MISSION_RETURN_TO_WORK;
                         Collections.reverse(returnPath);
                         addPathToQueue(returnPath);
-                        //continue;
                     }
                     
-                    else if(currentMission == MissionTypeToGoToChargeStation.MissionReturnToWork && 
+                    else if(currentMission == MissionType.MISSION_RETURN_TO_WORK && 
                     		cleanSweep.getX() == returnNodeCoordinate.currX && cleanSweep.getY() == returnNodeCoordinate.currY){
                         //go back to work
-                        currentMission = MissionTypeToGoToChargeStation.MissionWork;
+                        currentMission = MissionType.MISSION_WORK;
                         returnPath.clear();
-                        //continue;
                     }
                     
-                    Thread.sleep(SLEEP);
+                    Thread.sleep(SLEEP_TIME_MS);
                     continue;
                 }
 
@@ -180,38 +183,21 @@ public class Navigator implements Runnable {
                     }
                 }
                 
-                //if the no enough vacumme space
+                //if the no enough vacuum space
                 if(cleanSweep.getCurrVacuumCapacity() == 0){
-                    goToNearestChargeStation(cleanSweep.getX(), cleanSweep.getY(), MissionTypeToGoToChargeStation.MissionCleanVacuume);
+                    goToNearestChargeStation(cleanSweep.getX(), cleanSweep.getY(), MissionType.MISSION_EMPTY_VACUUM);
                     continue;
                 }
                 
                 //Get all the path it can go
                 List<Coordinate> lListAfterMatched = new ArrayList<>();
                 for (Direction direction : lListCanGo) {
-                    int x = cleanSweep.getX();
-                    int y = cleanSweep.getY();
-                    //Add Node and path to the graph
-                    if (direction == Direction.Left){
-                    	x--;
-                    }
-                    
-                    if (direction == Direction.Right){
-                    	x++;
-                    }
-                    
-                    if (direction == Direction.Up){
-                    	y--;
-                    }
-                    
-                    if (direction == Direction.Down){
-                    	y++;
-                    }
-                    
-                    if (!tileGraph.isVisited(x, y)) {
-                        lListAfterMatched.add(new Coordinate(x, y));
+                    int[] newCoords = getModifiedCoordinates(direction);
+                    if (!tileGraph.isVisited(newCoords[0], newCoords[1])) {
+                        lListAfterMatched.add(new Coordinate(newCoords[0], newCoords[1]));
                     }
                 }
+                
                 //decide which one should go
                 if (lListAfterMatched.isEmpty()) {
                     //check if has unvisited node
@@ -220,10 +206,9 @@ public class Navigator implements Runnable {
                         goToNeartestUnvisitedNode(cleanSweep.getX(), cleanSweep.getY(),lListUnvisitedTileNode);
                     } else {
                         //Go back chargestation to end this mission
-                       goToNearestChargeStation(cleanSweep.getX(), cleanSweep.getY(),MissionTypeToGoToChargeStation.MissionCompleted);
+                       goToNearestChargeStation(cleanSweep.getX(), cleanSweep.getY(),MissionType.MISSION_COMPLETED);
                     }
                 } else {
-                   // mCleanSweep.MoveOneStep(lListAfterMatched.get(0));
                    Coordinate lMovingNode = lListAfterMatched.get(0);
                    mMissionQueue.add(tileGraph.getTileNode(TileNode.generateKeyString(lMovingNode.currX, lMovingNode.currY)));
                 }
@@ -244,7 +229,6 @@ public class Navigator implements Runnable {
                 currMinimum = minimum;
                 returnPath.clear();
                 returnPath.addAll(shortestPath);
-                // nretPath = nArrayPath;
             }
         }
 
@@ -256,7 +240,7 @@ public class Navigator implements Runnable {
         return findShortestPathWeight(cleanSweep.getX(), cleanSweep.getY(), chargeStations, nRetPath);
     }
     
-    private void goToNearestChargeStation(int x, int y, MissionTypeToGoToChargeStation neMissionType){
+    private void goToNearestChargeStation(int x, int y, MissionType neMissionType){
         //go to charge station
        
         List<String> lRetPath = new ArrayList<>();
@@ -306,34 +290,30 @@ public class Navigator implements Runnable {
     private List<Direction> detectPossibleDirectionsFromHere() {
         //Get all the path it can go
         List<Direction> validDirections = cleanSweep.getValidDirections();
-
-       
         for (Direction direction : validDirections) {
-            int x = cleanSweep.getX();
-            int y = cleanSweep.getY();
-            //Add Node and path to the graph
-            if (direction == Direction.Left) {
-                x--;
-            }
-            if (direction == Direction.Right) {
-                x++;
-            }
-            if (direction == Direction.Up) {
-                y--;
-            }
-            if (direction == Direction.Down) {
-                y++;
-            }
-            tileGraph.addEdge(cleanSweep.getX(), cleanSweep.getY(),x, y, TileStatus.HIGH_CARPET);
-
-           
+        	int[] newCoords = getModifiedCoordinates(direction);
+            tileGraph.addEdge(cleanSweep.getX(), cleanSweep.getY(), newCoords[0], newCoords[1], TileStatus.HIGH_CARPET);
         }
+        
         //If find some way I can not go because of closing door, then we need to update the graph
         List<Direction> invalidDirections = cleanSweep.getInvalidDirections();
         for (Direction direction : invalidDirections) {
+        	int[] newCoords = getModifiedCoordinates(direction);
+            tileGraph.deleteEdge(newCoords[0], newCoords[1], cleanSweep.getX(), cleanSweep.getY());
+        }
+        return validDirections;
+    }
+    
+    /*
+     * generates a modified x and y coordinate based on possible directions, starting values of x and y are the clean sweep's current
+     * x an y coordinates. Is passed in a direction, will add or subtract 1 from the x and y coordinates based on which direction
+     * it is. final result for x and y will be the new coordinates that should be used for new location. First item of the
+     * array is the x coordinate, 2nd is the y coordinate
+     */
+    private int[] getModifiedCoordinates(Direction direction){
             int x = cleanSweep.getX();
             int y = cleanSweep.getY();
-            //Add Node and path to the graph
+            
             if (direction == Direction.Left) {
                 x--;
             }
@@ -346,8 +326,7 @@ public class Navigator implements Runnable {
             if (direction == Direction.Down) {
                 y++;
             }
-            tileGraph.deleteEdge(x, y, cleanSweep.getX(), cleanSweep.getY());
-        }
-        return validDirections;
+
+    	return new int[]{x, y};
     }
 }
