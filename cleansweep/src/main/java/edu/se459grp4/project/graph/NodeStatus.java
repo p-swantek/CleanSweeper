@@ -10,8 +10,8 @@ package edu.se459grp4.project.graph;
  *
  */
 public enum NodeStatus {
-    eNodeVisited, //Indicate this node has been visited
-    eNodeNotVisited, //Reveal this node has not been visited
-    eNodeInVisitingQueue //show this node is waiting for being visited.
+    NODE_VISITED, //Indicate this node has been visited
+    NODE_NOT_VISITED, //Reveal this node has not been visited
+    NODE_IN_VISITING_QUEUE //show this node is waiting for being visited.
 
 };

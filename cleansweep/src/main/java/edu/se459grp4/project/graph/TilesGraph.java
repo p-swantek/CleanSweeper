@@ -28,7 +28,7 @@ public class TilesGraph {
      */
     public boolean isVisited(int x, int y) {
         TileNode lNode = mNodeMap.get(TileNode.generateKeyString(x, y));
-        if (lNode != null && lNode.getNodeStatus() == NodeStatus.eNodeVisited) {
+        if (lNode != null && lNode.getNodeStatus() == NodeStatus.NODE_VISITED) {
             return true;
         }
         return false;
@@ -67,7 +67,7 @@ public class TilesGraph {
     public List<TileNode> getUnvisitedNodes() {
         List<TileNode> lListNode = new ArrayList<>();
         for (Map.Entry<String, TileNode> entry : mNodeMap.entrySet()) {
-            if (entry.getValue().getNodeStatus() == NodeStatus.eNodeNotVisited) {
+            if (entry.getValue().getNodeStatus() == NodeStatus.NODE_NOT_VISITED) {
                 lListNode.add(entry.getValue());
             }
         }
@@ -86,7 +86,7 @@ public class TilesGraph {
     public void visit(int x, int y, TileStatus nTileStatus){
         TileNode lNode = mNodeMap.get(TileNode.generateKeyString(x, y));
         if (lNode == null){
-            lNode = new TileNode(x, y, nTileStatus, NodeStatus.eNodeVisited);
+            lNode = new TileNode(x, y, nTileStatus, NodeStatus.NODE_VISITED);
             mNodeMap.put(lNode.toString(), lNode);
 
             HashMap<String, Double> lSubmap = new HashMap<>();
@@ -94,7 +94,7 @@ public class TilesGraph {
         } 
         else{
             lNode.setTileStatus(nTileStatus);
-            lNode.setNodeStatus(NodeStatus.eNodeVisited);
+            lNode.setNodeStatus(NodeStatus.NODE_VISITED);
         }
         //Update Weight
 
@@ -148,7 +148,7 @@ public class TilesGraph {
 
         //We use a Queue to store those node waiting for handling
         LinkedList<GraphNode> lQueue = new LinkedList<>();
-        lQueue.add(new GraphNode(TileNode.generateKeyString(nFromX, nFromY), 0.00, NodeStatus.eNodeNotVisited));
+        lQueue.add(new GraphNode(TileNode.generateKeyString(nFromX, nFromY), 0.00, NodeStatus.NODE_NOT_VISITED));
 
         while (!lQueue.isEmpty()) {
             GraphNode lTempNode = lQueue.removeFirst();
@@ -188,7 +188,7 @@ public class TilesGraph {
         for (Entry<String, HashMap<String, Double>> entry : set) {
             String lsKey = entry.getKey();
             if (lsKey != TileNode.generateKeyString(nFromX, nFromY)) {
-                mapToBuild.put(lsKey, new GraphNode(TileNode.generateKeyString(nFromX, nFromY), Double.MAX_VALUE, NodeStatus.eNodeNotVisited));
+                mapToBuild.put(lsKey, new GraphNode(TileNode.generateKeyString(nFromX, nFromY), Double.MAX_VALUE, NodeStatus.NODE_NOT_VISITED));
             }
         }
     	
@@ -218,15 +218,15 @@ public class TilesGraph {
         for (Entry<String, GraphNode> entry : set) {
             String lsToNodeKey = entry.getKey();
             GraphNode lTemp = entry.getValue();
-            if (lTemp.nodeStatus() == NodeStatus.eNodeNotVisited && lTemp.getWeight() < ldbMinimunWeight) {
+            if (lTemp.nodeStatus() == NodeStatus.NODE_NOT_VISITED && lTemp.getWeight() < ldbMinimunWeight) {
                 ldbMinimunWeight = lTemp.getWeight();
                 lsMinWeightNodeName = lsToNodeKey;
             }
         }
 
         if (!lsMinWeightNodeName.isEmpty()) {
-        	mapBeingBuilt.get(lsMinWeightNodeName).setNodeStatus(NodeStatus.eNodeVisited);
-        	queue.add(new GraphNode(lsMinWeightNodeName, ldbMinimunWeight, NodeStatus.eNodeInVisitingQueue));
+        	mapBeingBuilt.get(lsMinWeightNodeName).setNodeStatus(NodeStatus.NODE_VISITED);
+        	queue.add(new GraphNode(lsMinWeightNodeName, ldbMinimunWeight, NodeStatus.NODE_IN_VISITING_QUEUE));
         }
     }
 
@@ -281,7 +281,7 @@ public class TilesGraph {
         }
         TileNode lSourceNode = mNodeMap.get(TileNode.generateKeyString(nFromX, nFromY));
         if (lSourceNode == null) {
-            lSourceNode = new TileNode(nFromX, nFromY, nTileStatus, NodeStatus.eNodeNotVisited);
+            lSourceNode = new TileNode(nFromX, nFromY, nTileStatus, NodeStatus.NODE_NOT_VISITED);
             mNodeMap.put(lSourceNode.toString(), lSourceNode);
         }
 
@@ -289,7 +289,7 @@ public class TilesGraph {
 
         TileNode lDestNode = mNodeMap.get(TileNode.generateKeyString(nDestX, nDestY));
         if (lDestNode == null) {
-            lDestNode = new TileNode(nDestX, nDestY, nTileStatus, NodeStatus.eNodeNotVisited);
+            lDestNode = new TileNode(nDestX, nDestY, nTileStatus, NodeStatus.NODE_NOT_VISITED);
             mNodeMap.put(lDestNode.toString(), lDestNode);
         } 
 
