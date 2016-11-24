@@ -1,4 +1,4 @@
-package edu.se459grp4.project.cleansweep.sensors;
+package edu.se459grp4.project.sensors;
 
 
 

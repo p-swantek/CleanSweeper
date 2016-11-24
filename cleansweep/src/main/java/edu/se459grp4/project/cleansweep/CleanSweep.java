@@ -1,7 +1,7 @@
 package edu.se459grp4.project.cleansweep;
 
-import edu.se459grp4.project.cleansweep.sensors.SensorPanel;
-import edu.se459grp4.project.cleansweep.sensors.SensorPanelFactory;
+import edu.se459grp4.project.sensors.SensorPanel;
+import edu.se459grp4.project.sensors.SensorPanelFactory;
 import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.types.Direction;
 import edu.se459grp4.project.simulator.types.PathStatus;
