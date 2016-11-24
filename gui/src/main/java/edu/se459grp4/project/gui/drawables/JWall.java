@@ -26,7 +26,7 @@ class JWall implements Drawable{
     public JWall(Wall nWall){
         mWall = nWall;
         //add the door
-        List<Door> lListDoor = mWall.GetAllDoors();
+        List<Door> lListDoor = mWall.getAllDoors();
         for(Door door : lListDoor){
            mJDoors.add(DrawableFactory.makeDoor(door));
         }
@@ -39,10 +39,10 @@ class JWall implements Drawable{
         }
         
         g.setColor(Color.YELLOW);
-        boolean lbVer = mWall.GetVertical();
-        int lnBase = mWall.GetBase() +1;
-        int lnFrom = mWall.GetFrom() ;
-        int lnTo = mWall.GetTo();
+        boolean lbVer = mWall.isVertical();
+        int lnBase = mWall.getBase() +1;
+        int lnFrom = mWall.getFrom() ;
+        int lnTo = mWall.getTo();
         int x = lbVer == false ? lnFrom*nTileSize : lnBase*nTileSize - (nTileSize/5)/2;
         int y = lbVer == false ? lnBase*nTileSize- (nTileSize/5)/2 : lnFrom*nTileSize;
         int lLen =  lbVer == false ? ((Math.abs(lnFrom-lnTo)) + 1)*nTileSize : nTileSize/5;

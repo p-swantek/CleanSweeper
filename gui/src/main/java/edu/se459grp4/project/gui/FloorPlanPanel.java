@@ -22,7 +22,8 @@ import java.util.*;
  */
 class FloorPlanPanel extends JPanel implements Observer{
 
-    private FloorPlan mFloorPlan;
+	private static final long serialVersionUID = 1L;
+	private FloorPlan mFloorPlan;
     private int mnSqureTileSize;
     private int mnSqureTilesNum;
     private List<Drawable> guiElements = new ArrayList<>();

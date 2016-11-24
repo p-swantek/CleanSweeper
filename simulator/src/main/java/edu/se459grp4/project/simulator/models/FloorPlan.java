@@ -89,7 +89,7 @@ public class FloorPlan  extends Observable implements Serializable {
     public List<Door> getAllDoors(){
         List<Door> lList = new ArrayList<>();
         for(Entry<String, Wall> entry : mMapWalls.entrySet()){
-           lList.addAll(entry.getValue().GetAllDoors());
+           lList.addAll(entry.getValue().getAllDoors());
         }
         return lList;
     }
@@ -165,14 +165,14 @@ public class FloorPlan  extends Observable implements Serializable {
         //Find the wall include x,y
         Wall lWall = null;
         for(Entry<String, Wall> entry : mMapWalls.entrySet()){
-            if(entry.getValue().CheckCanBuildDoor(isVertical,nBase,x,y)){
+            if(entry.getValue().canBuildDoor(isVertical,nBase,x,y)){
                 lWall = entry.getValue();
                 break;
             }
         }
         //Add the door to that wall
         if(lWall != null){
-        	return lWall.AddDoor(nBase,x,y,isOpen);
+        	return lWall.addDoor(nBase,x,y,isOpen);
         }
         
         return false;
@@ -220,7 +220,7 @@ public class FloorPlan  extends Observable implements Serializable {
         //Find the wall include lbVertical,x,y
         boolean lbRet = true;
         for(Entry<String, Wall> entry : mMapWalls.entrySet()){
-            if(!entry.getValue().CheckCanPass(isWallVertical, nBase, nFrom, nTo)){
+            if(!entry.getValue().canPassThrough(isWallVertical, nBase, nFrom, nTo)){
                 lbRet = false;
                 break;
             }
@@ -329,7 +329,7 @@ public class FloorPlan  extends Observable implements Serializable {
         boolean lbRet = false;
         
         for(Entry<String,Wall> entry : mMapWalls.entrySet()){
-            if(entry.getValue().OperateDoor(isVertical, nBase, x, y, nbVal)){
+            if(entry.getValue().operateDoor(isVertical, nBase, x, y, nbVal)){
                 lbRet = true;
                 setChanged();
                 notifyObservers(entry.getValue());
