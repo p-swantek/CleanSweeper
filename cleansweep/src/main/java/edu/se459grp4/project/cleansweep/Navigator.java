@@ -3,7 +3,7 @@ package edu.se459grp4.project.cleansweep;
 import edu.se459grp4.project.graph.TileNode;
 import edu.se459grp4.project.graph.TilesGraph;
 import edu.se459grp4.project.simulator.types.Direction;
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -90,7 +90,7 @@ public class Navigator implements Runnable {
                     break;
                 }  
                 //detect tilestatus and sweep ,Set Visit
-                TileStatus lTileStatus = cleanSweep.senseFloorSurface();
+                SurfaceType lTileStatus = cleanSweep.senseFloorSurface();
                 
                 //Visit this node 
                 tileGraph.visit(cleanSweep.getX(), cleanSweep.getY(), lTileStatus);
@@ -130,12 +130,12 @@ public class Navigator implements Runnable {
                     
                     
                     //check if arrived the charge station
-                    if(currentMission == MissionType.MISSION_COMPLETED && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    if(currentMission == MissionType.MISSION_COMPLETED && lMovetoNode.getTileStatus() == SurfaceType.CHARGING_STATION){
                         //end up all cycle and thread
                         break;
                     }
                     
-                    if(currentMission == MissionType.MISSION_RETURN_TO_CHARGE_STATION_ERROR_OCCURRED && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    if(currentMission == MissionType.MISSION_RETURN_TO_CHARGE_STATION_ERROR_OCCURRED && lMovetoNode.getTileStatus() == SurfaceType.CHARGING_STATION){
                         //end up all cycle and thread
                         cleanSweep.emptyVacuum();
                         cleanSweep.rechargePower();
@@ -143,7 +143,7 @@ public class Navigator implements Runnable {
                         break;
                     }
                    
-                    else if(currentMission== MissionType.MISSION_EMPTY_VACUUM && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    else if(currentMission== MissionType.MISSION_EMPTY_VACUUM && lMovetoNode.getTileStatus() == SurfaceType.CHARGING_STATION){
                         //Clean vacuum and go back to last tile
                         cleanSweep.emptyVacuum();
                         cleanSweep.rechargePower();
@@ -153,7 +153,7 @@ public class Navigator implements Runnable {
                         addPathToQueue(returnPath);
                     }
                     
-                    else if(currentMission== MissionType.MISSION_CHARGE && lMovetoNode.getTileStatus() == TileStatus.CHARGING_STATION){
+                    else if(currentMission== MissionType.MISSION_CHARGE && lMovetoNode.getTileStatus() == SurfaceType.CHARGING_STATION){
                         //Recharge sweep and go back to last tile
                         cleanSweep.emptyVacuum();
                         cleanSweep.rechargePower();
@@ -175,7 +175,7 @@ public class Navigator implements Runnable {
 
                 
                 int nDirtVal = cleanSweep.senseDirtAmount();
-                while ((lTileStatus == TileStatus.BARE_FLOOR || lTileStatus == TileStatus.LOW_CARPET || lTileStatus == TileStatus.HIGH_CARPET) && nDirtVal > 0){
+                while ((lTileStatus == SurfaceType.BARE_FLOOR || lTileStatus == SurfaceType.LOW_CARPET || lTileStatus == SurfaceType.HIGH_CARPET) && nDirtVal > 0){
                     int lnRet = cleanSweep.cleanDirt(10);
                     Thread.sleep(20);
                     if (lnRet == 0){
@@ -292,7 +292,7 @@ public class Navigator implements Runnable {
         List<Direction> validDirections = cleanSweep.getValidDirections();
         for (Direction direction : validDirections) {
         	int[] newCoords = getModifiedCoordinates(direction);
-            tileGraph.addEdge(cleanSweep.getX(), cleanSweep.getY(), newCoords[0], newCoords[1], TileStatus.HIGH_CARPET);
+            tileGraph.addEdge(cleanSweep.getX(), cleanSweep.getY(), newCoords[0], newCoords[1], SurfaceType.HIGH_CARPET);
         }
         
         //If find some way I can not go because of closing door, then we need to update the graph
@@ -314,16 +314,16 @@ public class Navigator implements Runnable {
             int x = cleanSweep.getX();
             int y = cleanSweep.getY();
             
-            if (direction == Direction.Left) {
+            if (direction == Direction.LEFT) {
                 x--;
             }
-            if (direction == Direction.Right) {
+            if (direction == Direction.RIGHT) {
                 x++;
             }
-            if (direction == Direction.Up) {
+            if (direction == Direction.UP) {
                 y--;
             }
-            if (direction == Direction.Down) {
+            if (direction == Direction.DOWN) {
                 y++;
             }
 

@@ -9,7 +9,7 @@ import org.junit.Test;
 import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.types.Direction;
 import edu.se459grp4.project.simulator.types.PathStatus;
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 public class CleanSweepTest {
 	private static CleanSweep cleaner;
@@ -22,14 +22,14 @@ public class CleanSweepTest {
 	
 	@Test
 	public void testCheckMove() {
-		PathStatus check = cleaner.checkAbleToMove(Direction.Up);
-		assertEquals(PathStatus.Stair, check);
-		check = cleaner.checkAbleToMove(Direction.Right);
-		assertEquals(PathStatus.Open, check);
-		check = cleaner.checkAbleToMove(Direction.Left);
-		assertEquals(PathStatus.Blocked, check);
-		check = cleaner.checkAbleToMove(Direction.Down);
-		assertEquals(PathStatus.Open, check);
+		PathStatus check = cleaner.checkAbleToMove(Direction.UP);
+		assertEquals(PathStatus.STAIR, check);
+		check = cleaner.checkAbleToMove(Direction.RIGHT);
+		assertEquals(PathStatus.OPEN, check);
+		check = cleaner.checkAbleToMove(Direction.LEFT);
+		assertEquals(PathStatus.BLOCKED, check);
+		check = cleaner.checkAbleToMove(Direction.DOWN);
+		assertEquals(PathStatus.OPEN, check);
 		check =cleaner.checkAbleToMove(null);
 		assertEquals(PathStatus.UNKNOWN,check);
 	}
@@ -46,12 +46,12 @@ public class CleanSweepTest {
 
 	@Test
 	public void testDetectSurfaceType() {
-		TileStatus t=cleaner.senseFloorSurface();
-		assertEquals(t,TileStatus.BARE_FLOOR);
-		assertNotEquals(t, TileStatus.CHARGING_STATION);
-		assertNotEquals(t, TileStatus.HIGH_CARPET);
-		assertNotEquals(t, TileStatus.LOW_CARPET);
-		assertNotEquals(t, TileStatus.STAIRS);
+		SurfaceType t=cleaner.senseFloorSurface();
+		assertEquals(t,SurfaceType.BARE_FLOOR);
+		assertNotEquals(t, SurfaceType.CHARGING_STATION);
+		assertNotEquals(t, SurfaceType.HIGH_CARPET);
+		assertNotEquals(t, SurfaceType.LOW_CARPET);
+		assertNotEquals(t, SurfaceType.STAIRS);
 	}
 
 	@Test

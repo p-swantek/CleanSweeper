@@ -1,7 +1,7 @@
 
 package edu.se459grp4.project.gui.drawables;
 import edu.se459grp4.project.simulator.models.*; 
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 import java.awt.Color;
 import java.awt.Graphics;
 
@@ -29,21 +29,21 @@ class JTile implements Drawable{
     public void draw(Graphics g,int nTileSize){ 
         g.setColor(Color.GRAY);
         g.drawRect(mTile.getX()*nTileSize, mTile.getY()*nTileSize, nTileSize, nTileSize);
-        if(mTile.getSurfaceType() == TileStatus.BARE_FLOOR)
+        if(mTile.getSurfaceType() == SurfaceType.BARE_FLOOR)
             g.setColor(Color.BLUE);
-        else if(mTile.getSurfaceType() == TileStatus.LOW_CARPET)
+        else if(mTile.getSurfaceType() == SurfaceType.LOW_CARPET)
             g.setColor(Color.LIGHT_GRAY);
-        else if(mTile.getSurfaceType() == TileStatus.HIGH_CARPET)
+        else if(mTile.getSurfaceType() == SurfaceType.HIGH_CARPET)
             g.setColor(Color.GRAY);
-        else if(mTile.getSurfaceType() == TileStatus.CHARGING_STATION)
+        else if(mTile.getSurfaceType() == SurfaceType.CHARGING_STATION)
             g.setColor(Color.YELLOW);
-        else if(mTile.getSurfaceType() == TileStatus.STAIRS)
+        else if(mTile.getSurfaceType() == SurfaceType.STAIRS)
             g.setColor(Color.darkGray);
       
         g.fillRect(mTile.getX()*nTileSize-1, mTile.getY()*nTileSize-1, nTileSize-2, nTileSize-2);
         
-        if(mTile.getSurfaceType() != TileStatus.CHARGING_STATION &&
-            mTile.getSurfaceType() != TileStatus.STAIRS    )
+        if(mTile.getSurfaceType() != SurfaceType.CHARGING_STATION &&
+            mTile.getSurfaceType() != SurfaceType.STAIRS    )
         {
             g.setColor(Color.RED);
             g.drawString(""+mTile.getDirtAmount(), mTile.getX()*nTileSize + nTileSize/2 -5, mTile.getY()*nTileSize + nTileSize/2 -5);

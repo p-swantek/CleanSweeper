@@ -10,7 +10,7 @@ import edu.se459grp4.project.simulator.models.FloorPlan;
 import edu.se459grp4.project.simulator.models.Tile;
 import edu.se459grp4.project.simulator.types.Direction;
 import edu.se459grp4.project.simulator.types.PathStatus;
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 import java.util.List;
 import junit.framework.TestCase;
 
@@ -43,10 +43,10 @@ public class SimulatorTest extends TestCase {
 
     public void testProvideDirectionSensroData() {
         
-         assertTrue(Simulator.getInstance().getDirectionalData(Direction.Left, 0, 6) == PathStatus.Blocked);
-          assertTrue(Simulator.getInstance().getDirectionalData(Direction.Up, 0, 6) == PathStatus.Stair);
-           assertTrue(Simulator.getInstance().getDirectionalData(Direction.Right, 0, 6) == PathStatus.Open);
-            assertTrue(Simulator.getInstance().getDirectionalData(Direction.Down, 0, 6) == PathStatus.Open);
+         assertTrue(Simulator.getInstance().getDirectionalData(Direction.LEFT, 0, 6) == PathStatus.BLOCKED);
+          assertTrue(Simulator.getInstance().getDirectionalData(Direction.UP, 0, 6) == PathStatus.STAIR);
+           assertTrue(Simulator.getInstance().getDirectionalData(Direction.RIGHT, 0, 6) == PathStatus.OPEN);
+            assertTrue(Simulator.getInstance().getDirectionalData(Direction.DOWN, 0, 6) == PathStatus.OPEN);
           
     }
 
@@ -55,7 +55,7 @@ public class SimulatorTest extends TestCase {
     }
 
     public void testProvideSurfaceSensorData() {
-        assertTrue( Simulator.getInstance().getSurfaceData(5, 5)  == TileStatus.HIGH_CARPET);
+        assertTrue( Simulator.getInstance().getSurfaceData(5, 5)  == SurfaceType.HIGH_CARPET);
     }
 
     public void testSweepUp() {
@@ -64,9 +64,9 @@ public class SimulatorTest extends TestCase {
     }
 
     public void testOperateDoor() {
-        assertTrue(Simulator.getInstance().getDirectionalData(Direction.Right, 4, 0) == PathStatus.Open); 
+        assertTrue(Simulator.getInstance().getDirectionalData(Direction.RIGHT, 4, 0) == PathStatus.OPEN); 
         Simulator.getInstance().operateDoor(true, 4, 0, 0, false);
-        assertTrue(Simulator.getInstance().getDirectionalData(Direction.Right, 4, 0) == PathStatus.Blocked); 
+        assertTrue(Simulator.getInstance().getDirectionalData(Direction.RIGHT, 4, 0) == PathStatus.BLOCKED); 
     }
 
     public void testAddChargeStation() {

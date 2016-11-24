@@ -1,6 +1,6 @@
 package edu.se459grp4.project.graph;
 
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 /**
  * Representation of a node that is contained in the graph of all the floor tiles. Node
@@ -13,7 +13,7 @@ public class TileNode{
 
     private int mx;
     private int my;
-    private TileStatus tileStatus;
+    private SurfaceType tileStatus;
     private NodeStatus nodeStatus;  //the visiting status of this node 
 
     
@@ -25,7 +25,7 @@ public class TileNode{
      * @param nStatus the type of floor that this node is representing
      * @param neValue the status of the floor represented by this node
      */
-    public TileNode(int x, int y, TileStatus nStatus, NodeStatus neValue) {
+    public TileNode(int x, int y, SurfaceType nStatus, NodeStatus neValue) {
         mx = x;
         my = y;
         tileStatus = nStatus;
@@ -73,9 +73,9 @@ public class TileNode{
      * Gets the type of floor that this node represents
      * 
      * @return the TileStatus
-     * @see TileStatus
+     * @see SurfaceType
      */
-    public TileStatus getTileStatus() {
+    public SurfaceType getTileStatus() {
         return tileStatus;
     }
 
@@ -84,7 +84,7 @@ public class TileNode{
      * 
      * @param neVal the TileStatus this node should represent
      */
-    public void setTileStatus(TileStatus neVal) {
+    public void setTileStatus(SurfaceType neVal) {
         tileStatus = neVal;
     }
 

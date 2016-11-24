@@ -18,7 +18,7 @@ import java.util.Observable;
  * @author Group 4
  * @version 1.8
  */
-public class FloorPlan  extends Observable implements Serializable {
+public class FloorPlan extends Observable implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private int mnTileSquareNum;
@@ -102,7 +102,7 @@ public class FloorPlan  extends Observable implements Serializable {
     public List<Tile> getAllChargeStations(){
         List<Tile> lList = new ArrayList<>();
         for(Entry<String, Tile> entry : mMapTiles.entrySet()){
-           if(entry.getValue().getSurfaceType() == TileStatus.CHARGING_STATION){
+           if(entry.getValue().getSurfaceType() == SurfaceType.CHARGING_STATION){
              lList.add(entry.getValue());
            }
         }
@@ -118,7 +118,7 @@ public class FloorPlan  extends Observable implements Serializable {
      * @param nDirVal the amount of dirt on this tile
      * @return true if the tile was successfully added, false otherwise
      */
-    public boolean addTile(int x, int y, TileStatus nStatus, int nDirVal){
+    public boolean addTile(int x, int y, SurfaceType nStatus, int nDirVal){
         if (!areCoordinatesValid(x, y)){
         	return false;
         }
@@ -203,12 +203,12 @@ public class FloorPlan  extends Observable implements Serializable {
         //check x,y existing
         Tile lTile = mMapTiles.get(generateTileKey(nDestX,nDestY));
         if(lTile == null){
-            return PathStatus.Blocked;
+            return PathStatus.BLOCKED;
         }
         
         //Check Stair
-        if(lTile.getSurfaceType() == TileStatus.STAIRS){
-            return PathStatus.Stair;
+        if(lTile.getSurfaceType() == SurfaceType.STAIRS){
+            return PathStatus.STAIR;
         }
         
         //check if there is a wall 
@@ -226,7 +226,7 @@ public class FloorPlan  extends Observable implements Serializable {
             }
         }
         
-        return lbRet ? PathStatus.Open : PathStatus.Blocked;
+        return lbRet ? PathStatus.OPEN : PathStatus.BLOCKED;
     }
     
     
@@ -266,14 +266,14 @@ public class FloorPlan  extends Observable implements Serializable {
      * @param x the x coordinate to check
      * @param y the y coordinate to check
      * @return the TileStatus indicating the type of floor at this spot
-     * @see TileStatus
+     * @see SurfaceType
      */
-    public TileStatus getSurfaceType(int x,int y){
+    public SurfaceType getSurfaceType(int x,int y){
         Tile lTile = mMapTiles.get(generateTileKey(x,y));
         if(lTile != null){
             return lTile.getSurfaceType();
         }
-        return TileStatus.BARE_FLOOR;
+        return SurfaceType.BARE_FLOOR;
     }
     
     /**
@@ -284,7 +284,7 @@ public class FloorPlan  extends Observable implements Serializable {
      * @param surfaceType the type of tile that this section should be
      * @return true if the surface was successfully set, false otherwise
      */
-    public boolean setSurfaceType(int x, int y, TileStatus surfaceType){
+    public boolean setSurfaceType(int x, int y, SurfaceType surfaceType){
         Tile lTile = mMapTiles.get(generateTileKey(x,y));
         if(lTile != null){
             lTile.setFloorType(surfaceType);

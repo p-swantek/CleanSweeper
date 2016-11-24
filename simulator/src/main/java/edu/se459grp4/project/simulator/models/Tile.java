@@ -2,7 +2,7 @@ package edu.se459grp4.project.simulator.models;
 
 import java.io.Serializable;
 
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 /**
  * Represents a floor tile object in the simulation environment
@@ -16,7 +16,7 @@ public class Tile implements Serializable{
 	private static final long serialVersionUID = 1L;
 	private int mx;
     private int my;
-    private TileStatus surfaceType;
+    private SurfaceType surfaceType;
     private int mnDirtVal;
     
     /**
@@ -27,7 +27,7 @@ public class Tile implements Serializable{
      * @param nStatus the surface type of this tile
      * @param nVal the dirt amount on this tile
      */
-    public Tile(int x, int y, TileStatus nStatus, int nVal){
+    public Tile(int x, int y, SurfaceType nStatus, int nVal){
         mx = x;
         my = y;
         surfaceType = nStatus;
@@ -56,9 +56,9 @@ public class Tile implements Serializable{
      * Get the surface type of this tile
      * 
      * @return the TileStatus indicating the surface type
-     * @see TileStatus
+     * @see SurfaceType
      */
-    public synchronized TileStatus getSurfaceType(){
+    public synchronized SurfaceType getSurfaceType(){
         return surfaceType;
     }
     
@@ -67,7 +67,7 @@ public class Tile implements Serializable{
      * 
      * @param type the type of floor this tile represents
      */
-    public synchronized void setFloorType(TileStatus type){
+    public synchronized void setFloorType(SurfaceType type){
         surfaceType = type;
     }
     
@@ -114,6 +114,6 @@ public class Tile implements Serializable{
     
     @Override
     public String toString(){
-        return (getSurfaceType() == TileStatus.CHARGING_STATION ? "ChargeStation" : "Tile") + " X "+ getX() + " Y " + getY();
+        return (getSurfaceType() == SurfaceType.CHARGING_STATION ? "ChargeStation" : "Tile") + " X "+ getX() + " Y " + getY();
     }
 }

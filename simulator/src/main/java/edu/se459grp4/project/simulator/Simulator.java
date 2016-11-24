@@ -1,7 +1,7 @@
 package edu.se459grp4.project.simulator;
 
 
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 import edu.se459grp4.project.simulator.models.*;
 import edu.se459grp4.project.simulator.types.*;
 import java.io.*;
@@ -78,19 +78,19 @@ public class Simulator {
         int nDestX = x;
         int nDestY = y;
         
-        if(nDirection == Direction.Up){
+        if(nDirection == Direction.UP){
             nDestY--;
         }
         
-        if(nDirection == Direction.Down){
+        if(nDirection == Direction.DOWN){
             nDestY++;
         }
         
-        if(nDirection == Direction.Left){
+        if(nDirection == Direction.LEFT){
             nDestX--;
         }
         
-        if(nDirection == Direction.Right){
+        if(nDirection == Direction.RIGHT){
            nDestX++;
         }
         
@@ -99,7 +99,7 @@ public class Simulator {
             return floorPlan.checkPath(x, y, nDestX, nDestY);
         }
         
-        return PathStatus.Blocked;
+        return PathStatus.BLOCKED;
     }
     
     /**
@@ -125,12 +125,12 @@ public class Simulator {
      * @param y the y coordinate of the location to check
      * @return the TileStatus at the given location
      */
-    public TileStatus getSurfaceData(int x,int y){
+    public SurfaceType getSurfaceData(int x,int y){
         if(floorPlan != null){
             return floorPlan.getSurfaceType(x, y);
         }
          
-        return TileStatus.BARE_FLOOR;
+        return SurfaceType.BARE_FLOOR;
     }
     
     /**
@@ -179,7 +179,7 @@ public class Simulator {
              return false;
          }
          
-         return floorPlan.setSurfaceType(nX, nY, TileStatus.CHARGING_STATION);
+         return floorPlan.setSurfaceType(nX, nY, SurfaceType.CHARGING_STATION);
         
     }
     
@@ -194,7 +194,7 @@ public class Simulator {
         if(floorPlan == null){
              return false;
         }
-        return floorPlan.setSurfaceType(nX, nY, TileStatus.BARE_FLOOR);
+        return floorPlan.setSurfaceType(nX, nY, SurfaceType.BARE_FLOOR);
     }
     
     /**

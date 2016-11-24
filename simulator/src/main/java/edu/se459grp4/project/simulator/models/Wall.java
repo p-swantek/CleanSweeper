@@ -16,11 +16,11 @@ import java.util.Map.Entry;
 public class Wall implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private boolean isVertical;
-    private int mnBase; 
-    private int mnFrom;
-    private int mnTo;
-    private Map<String,Door> mDoors;
+	private final boolean isVertical;
+    private final int mnBase; 
+    private final int mnFrom;
+    private final int mnTo;
+    private final Map<String,Door> mDoors;
     
     public Wall(boolean isVert, int nBase, int nFrom, int nTo){
         mnBase = nBase;

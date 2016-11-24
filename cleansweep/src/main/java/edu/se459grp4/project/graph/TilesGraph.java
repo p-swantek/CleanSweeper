@@ -1,7 +1,7 @@
 
 package edu.se459grp4.project.graph;
 
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -67,7 +67,7 @@ public class TilesGraph {
     public List<TileNode> getChargeStationNode() {
         List<TileNode> lListNode = new ArrayList<>();
         for (Map.Entry<String, TileNode> entry : mNodeMap.entrySet()) {
-            if (entry.getValue().getTileStatus() == TileStatus.CHARGING_STATION) {
+            if (entry.getValue().getTileStatus() == SurfaceType.CHARGING_STATION) {
                 lListNode.add(entry.getValue());
             }
         }
@@ -98,7 +98,7 @@ public class TilesGraph {
      * @param nTileStatus the new status of the visited tile
      * 
      */
-    public void visit(int x, int y, TileStatus nTileStatus){
+    public void visit(int x, int y, SurfaceType nTileStatus){
         TileNode lNode = mNodeMap.get(TileNode.generateKeyString(x, y));
         if (lNode == null){
             lNode = new TileNode(x, y, nTileStatus, NodeStatus.NODE_VISITED);
@@ -117,7 +117,7 @@ public class TilesGraph {
 
         for (Map.Entry<String, Double> entry : lSubmap.entrySet()){
             TileNode lDestNode = mNodeMap.get(entry.getKey());
-            double ldbWeight = TileStatus.Weight(lNode.getTileStatus()) / 2 + TileStatus.Weight(lDestNode.getTileStatus()) / 2;
+            double ldbWeight = SurfaceType.weight(lNode.getTileStatus()) / 2 + SurfaceType.weight(lDestNode.getTileStatus()) / 2;
             lSubmap.put(entry.getKey(), ldbWeight);
 
             //Modify the reverse edge
@@ -286,7 +286,7 @@ public class TilesGraph {
      * @param nTileStatus the type of tile this is
      * @return true if the edge was successfully added, false otherwise
      */
-    public boolean addEdge(int nFromX, int nFromY, int nDestX, int nDestY, TileStatus nTileStatus){
+    public boolean addEdge(int nFromX, int nFromY, int nDestX, int nDestY, SurfaceType nTileStatus){
 
         if (nFromX == nDestX && nFromY == nDestY) {
             return false;
@@ -305,7 +305,7 @@ public class TilesGraph {
             mNodeMap.put(lDestNode.toString(), lDestNode);
         } 
 
-        double ldbWeight = TileStatus.Weight(lSourceNode.getTileStatus()) / 2 + TileStatus.Weight(lDestNode.getTileStatus()) / 2;
+        double ldbWeight = SurfaceType.weight(lSourceNode.getTileStatus()) / 2 + SurfaceType.weight(lDestNode.getTileStatus()) / 2;
 
         //Check the node of input if it exists in the GraphMap  
         if (mGraphMap.containsKey(lSourceNode.toString())) {

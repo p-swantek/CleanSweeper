@@ -2,7 +2,7 @@
 package edu.se459grp4.project.cleansweep;
 
 import edu.se459grp4.project.simulator.Simulator;
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 /**
  * Sensor that is part of the clean sweep that senses the type of floor that the clean
@@ -20,9 +20,9 @@ public class SurfaceSensor {
 	 * @param x the x coordinate of the floor to sense
 	 * @param y the y coordinate of the floor to sense
 	 * @return the TileStatus of the floor at that point
-	 * @see TileStatus
+	 * @see SurfaceType
 	 */
-    public TileStatus getSensorData(int x,int y){
+    public SurfaceType getSensorData(int x,int y){
         return Simulator.getInstance().getSurfaceData(x, y);
     }
 }

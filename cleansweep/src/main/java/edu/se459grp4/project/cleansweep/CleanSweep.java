@@ -3,7 +3,7 @@ package edu.se459grp4.project.cleansweep;
 import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.types.Direction;
 import edu.se459grp4.project.simulator.types.PathStatus;
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +38,10 @@ public class CleanSweep extends Observable {
     private int currentVacuumCapacity;
     
     //  each clean sweep has 4 navigation sensor, a dirt sensor, and a surface sensor
-    private final NavigationSensor leftSensor = new NavigationSensor(Direction.Left);
-    private final NavigationSensor rightSensor = new NavigationSensor(Direction.Right);
-    private final NavigationSensor upSensor = new NavigationSensor(Direction.Up);
-    private final NavigationSensor downSensor = new NavigationSensor(Direction.Down);
+    private final NavigationSensor leftSensor = new NavigationSensor(Direction.LEFT);
+    private final NavigationSensor rightSensor = new NavigationSensor(Direction.RIGHT);
+    private final NavigationSensor upSensor = new NavigationSensor(Direction.UP);
+    private final NavigationSensor downSensor = new NavigationSensor(Direction.DOWN);
     private final DirtSensor dirtSensor = new DirtSensor();
     private final SurfaceSensor surfaceSensor = new SurfaceSensor();
 
@@ -112,18 +112,18 @@ public class CleanSweep extends Observable {
      */
     public List<Direction> getValidDirections(){
         List<Direction> results = new ArrayList<>();
-        if (PathStatus.Open == checkAbleToMove(Direction.Left)) {
-            results.add(Direction.Left);
+        if (PathStatus.OPEN == checkAbleToMove(Direction.LEFT)) {
+            results.add(Direction.LEFT);
         }
-        if (PathStatus.Open == checkAbleToMove(Direction.Up)) {
-            results.add(Direction.Up);
+        if (PathStatus.OPEN == checkAbleToMove(Direction.UP)) {
+            results.add(Direction.UP);
         }
-        if (PathStatus.Open == checkAbleToMove(Direction.Right)) {
-            results.add(Direction.Right);
+        if (PathStatus.OPEN == checkAbleToMove(Direction.RIGHT)) {
+            results.add(Direction.RIGHT);
         }
 
-        if (PathStatus.Open == checkAbleToMove(Direction.Down)) {
-            results.add(Direction.Down);
+        if (PathStatus.OPEN == checkAbleToMove(Direction.DOWN)) {
+            results.add(Direction.DOWN);
         }
         return results;
 
@@ -138,18 +138,18 @@ public class CleanSweep extends Observable {
      */
     public List<Direction> getInvalidDirections(){
         List<Direction> results = new ArrayList<>();
-        if (PathStatus.Open != checkAbleToMove(Direction.Left)) {
-            results.add(Direction.Left);
+        if (PathStatus.OPEN != checkAbleToMove(Direction.LEFT)) {
+            results.add(Direction.LEFT);
         }
-        if (PathStatus.Open != checkAbleToMove(Direction.Up)) {
-            results.add(Direction.Up);
+        if (PathStatus.OPEN != checkAbleToMove(Direction.UP)) {
+            results.add(Direction.UP);
         }
-        if (PathStatus.Open != checkAbleToMove(Direction.Right)) {
-            results.add(Direction.Right);
+        if (PathStatus.OPEN != checkAbleToMove(Direction.RIGHT)) {
+            results.add(Direction.RIGHT);
         }
 
-        if (PathStatus.Open != checkAbleToMove(Direction.Down)) {
-            results.add(Direction.Down);
+        if (PathStatus.OPEN != checkAbleToMove(Direction.DOWN)) {
+            results.add(Direction.DOWN);
         }
         return results;
 
@@ -164,16 +164,16 @@ public class CleanSweep extends Observable {
      * @see PathStatus
      */
     public synchronized PathStatus checkAbleToMove(Direction nDirection){
-        if (nDirection == Direction.Left) {
+        if (nDirection == Direction.LEFT) {
             return leftSensor.getSensorData(currX, currY);
         }
-        if (nDirection == Direction.Right) {
+        if (nDirection == Direction.RIGHT) {
             return rightSensor.getSensorData(currX, currY);
         }
-        if (nDirection == Direction.Up) {
+        if (nDirection == Direction.UP) {
             return upSensor.getSensorData(currX, currY);
         }
-        if (nDirection == Direction.Down) {
+        if (nDirection == Direction.DOWN) {
             return downSensor.getSensorData(currX, currY);
         }
 
@@ -196,12 +196,12 @@ public class CleanSweep extends Observable {
     	}
         
         if(x == currX){
-            if(PathStatus.Open != checkAbleToMove(y < currY ? Direction.Up : Direction.Down)){
+            if(PathStatus.OPEN != checkAbleToMove(y < currY ? Direction.UP : Direction.DOWN)){
                   return false;
             }
         }
         else{
-        	if(PathStatus.Open != checkAbleToMove(x < currX ? Direction.Left : Direction.Right)){
+        	if(PathStatus.OPEN != checkAbleToMove(x < currX ? Direction.LEFT : Direction.RIGHT)){
                   return false;
         	}
         }
@@ -216,9 +216,9 @@ public class CleanSweep extends Observable {
      * Use the surface sensor to get the floor tile type of its current location
      * 
      * @return the TileStatus of the current floor tile on which the sweep is located
-     * @see TileStatus
+     * @see SurfaceType
      */
-    public TileStatus senseFloorSurface(){
+    public SurfaceType senseFloorSurface(){
         return surfaceSensor.getSensorData(currX, currY);
     }
 
