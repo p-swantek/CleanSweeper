@@ -1,5 +1,5 @@
 
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.cleansweep.sensors;
 
 import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.types.SurfaceType;
@@ -12,7 +12,7 @@ import edu.se459grp4.project.simulator.types.SurfaceType;
  * @version 1.8
  *
  */
-public class SurfaceSensor {
+class SurfaceSensor {
 	
 	/**
 	 * Sense the type of floor at the given spot

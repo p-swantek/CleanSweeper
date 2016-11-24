@@ -1,4 +1,4 @@
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.cleansweep.sensors;
 
 
 
@@ -13,7 +13,7 @@ import edu.se459grp4.project.simulator.types.PathStatus;
  * @author Group 4
  * @version 1.8
  */
-public class NavigationSensor  {
+class NavigationSensor  {
 	
     private Direction direction;
 

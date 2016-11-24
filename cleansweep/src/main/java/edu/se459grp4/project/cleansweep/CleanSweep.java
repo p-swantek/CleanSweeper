@@ -1,5 +1,7 @@
 package edu.se459grp4.project.cleansweep;
 
+import edu.se459grp4.project.cleansweep.sensors.SensorPanel;
+import edu.se459grp4.project.cleansweep.sensors.SensorPanelFactory;
 import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.types.Direction;
 import edu.se459grp4.project.simulator.types.PathStatus;
@@ -37,13 +39,9 @@ public class CleanSweep extends Observable {
     private double currentPower;
     private int currentVacuumCapacity;
     
-    //  each clean sweep has 4 navigation sensor, a dirt sensor, and a surface sensor
-    private final NavigationSensor leftSensor = new NavigationSensor(Direction.LEFT);
-    private final NavigationSensor rightSensor = new NavigationSensor(Direction.RIGHT);
-    private final NavigationSensor upSensor = new NavigationSensor(Direction.UP);
-    private final NavigationSensor downSensor = new NavigationSensor(Direction.DOWN);
-    private final DirtSensor dirtSensor = new DirtSensor();
-    private final SurfaceSensor surfaceSensor = new SurfaceSensor();
+    //each clean sweep has a sensor panel that it uses to get data from various sensors
+    private final SensorPanel sensorPanel;
+    
 
     /**
      * Constructs a new CleanSweep. CleanSweep has a unique id number, a starting power level, vacuum capacity,
@@ -63,6 +61,7 @@ public class CleanSweep extends Observable {
         id = newId;
         currX = newX;
         currY = newY;
+        sensorPanel = SensorPanelFactory.buildPanel();
     }
     
     /**
@@ -164,20 +163,7 @@ public class CleanSweep extends Observable {
      * @see PathStatus
      */
     public synchronized PathStatus checkAbleToMove(Direction nDirection){
-        if (nDirection == Direction.LEFT) {
-            return leftSensor.getSensorData(currX, currY);
-        }
-        if (nDirection == Direction.RIGHT) {
-            return rightSensor.getSensorData(currX, currY);
-        }
-        if (nDirection == Direction.UP) {
-            return upSensor.getSensorData(currX, currY);
-        }
-        if (nDirection == Direction.DOWN) {
-            return downSensor.getSensorData(currX, currY);
-        }
-
-        return PathStatus.UNKNOWN;
+        return sensorPanel.useNavigationSensor(nDirection, currX, currY);
     }
 
 
@@ -219,7 +205,7 @@ public class CleanSweep extends Observable {
      * @see SurfaceType
      */
     public SurfaceType senseFloorSurface(){
-        return surfaceSensor.getSensorData(currX, currY);
+        return sensorPanel.useSurfaceSensor(currX, currY);
     }
 
     /**
@@ -228,7 +214,7 @@ public class CleanSweep extends Observable {
      * @return an integer representing the amount of dirt on the floor tile
      */
     public int senseDirtAmount(){
-        return dirtSensor.getSensorData(currX, currY);
+        return sensorPanel.useDirtSensor(currX, currY);
     }
 
     /**

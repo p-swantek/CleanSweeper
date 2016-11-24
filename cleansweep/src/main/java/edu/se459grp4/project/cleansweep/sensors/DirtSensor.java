@@ -1,4 +1,4 @@
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.cleansweep.sensors;
 
 import edu.se459grp4.project.simulator.Simulator;
 
@@ -10,7 +10,7 @@ import edu.se459grp4.project.simulator.Simulator;
  * @version 1.8
  *
  */
-public class DirtSensor {
+class DirtSensor {
     
 	/**
 	 * Sense the amount of dirt at the given x, y coordinate
