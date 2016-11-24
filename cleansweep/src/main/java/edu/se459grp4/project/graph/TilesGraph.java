@@ -2,8 +2,15 @@
 package edu.se459grp4.project.graph;
 
 import edu.se459grp4.project.simulator.types.TileStatus;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * Graph representation of the floor that is being cleaned by the clean sweep. This graph will allow
@@ -15,9 +22,17 @@ import java.util.Map.Entry;
  */
 public class TilesGraph {
 
-    private Map<String, TileNode> mNodeMap = new HashMap<>();
-    //the whole graph, string is the incoming node name, and the associated hasmap with this node
-    private Map<String, HashMap<String, Double>> mGraphMap = new HashMap<>();
+    private final Map<String, TileNode> mNodeMap;
+    private final Map<String, HashMap<String, Double>> mGraphMap; //the whole graph, string is the incoming node name, and the associated hasmap with this node
+    
+    /**
+     * Constructs a new Tile graph
+     * 
+     */
+    public TilesGraph(){
+    	mNodeMap = new HashMap<>();
+        mGraphMap = new HashMap<>();
+    }
 
     /**
      * Tells whether a certain section of floor has been previously visited
@@ -128,11 +143,10 @@ public class TilesGraph {
             return Double.MAX_VALUE;
         }
 
-        //nsInputNode = nsInputNode.toUpperCase();
-        // = nsDestinationNode.toUpperCase();
         if (!mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
             return Double.MAX_VALUE;
         }
+        
         if (!mGraphMap.containsKey(TileNode.generateKeyString(nDestX, nDestY))){
             return Double.MAX_VALUE;
         }
@@ -176,8 +190,8 @@ public class TilesGraph {
                 lsTempName.compareTo(TileNode.generateKeyString(nFromX, nFromY)) != 0 &&
                 lsTempName.compareTo(TileNode.generateKeyString(nDestX, nDestY)) != 0 );
         
-     //  nArrayPath.add(TileNode.GenerateKeyString(nFromX, nFromY));
-        //Reverse the array
+
+
         Collections.reverse(nArrayPath);
 
         return ldbRetWeight;
@@ -195,18 +209,16 @@ public class TilesGraph {
     }
     
     private void updateWeights(Map<String, HashMap<String, Double>> graphMap, Map<String, GraphNode> mapToBuild, String fromNode, int fromX, int fromY, double ldbShortestDistance){
-    	Set<Entry<String, Double>> lRow = mGraphMap.get(fromNode).entrySet();
+    	Set<Entry<String, Double>> lRow = graphMap.get(fromNode).entrySet();
         for (Entry<String, Double> entry : lRow) {
             String lsToNodeKey = entry.getKey();
             double lsToWeight = entry.getValue();
             double ldbTempWeight = ldbShortestDistance + lsToWeight;
 
             //Do not deal the node with the same name of original source node
-            if (lsToNodeKey != TileNode.generateKeyString(fromX, fromY)) {
-                if (ldbTempWeight < mapToBuild.get(lsToNodeKey).getWeight()) {
+            if ((lsToNodeKey != TileNode.generateKeyString(fromX, fromY)) && (ldbTempWeight < mapToBuild.get(lsToNodeKey).getWeight())) {
                 	mapToBuild.get(lsToNodeKey).setWeight(ldbTempWeight);
                 	mapToBuild.get(lsToNodeKey).setNodeName(fromNode);
-                }
             }
         }
     }
