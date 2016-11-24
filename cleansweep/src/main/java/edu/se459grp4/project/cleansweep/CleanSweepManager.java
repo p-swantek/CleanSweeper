@@ -16,15 +16,23 @@ import java.util.Map;
  */
 public class CleanSweepManager {
     
-    private static CleanSweepManager instance ;
-    private static final Double INIT_POWER_LEVEL = 100.0;
+    private static CleanSweepManager instance;
+    private static final double INIT_POWER_LEVEL = 100.0;
     private static final int INIT_VACUUM_CAPACITY = 1000;
     
-    private int csIdCounter = 0;
-    private Map<Integer,CleanSweep> allSweeps = new HashMap<>();
-    private Map<Integer, Thread> workingSweeps = new HashMap<>(); //a record of the sweeps currently running a cleaning cycle
+    private static int csIdCounter;
+    private final Map<Integer,CleanSweep> allSweeps;
+    private final Map<Integer, Thread> workingSweeps; //a record of the sweeps currently running a cleaning cycle
     
-    private CleanSweepManager(){}
+    /*
+     * initilize the counter to start with 0 as first id for a sweep, initialize the maps that hold
+     * the info about all the working sweeps
+     */
+    private CleanSweepManager(){
+    	csIdCounter = 0;
+    	allSweeps = new HashMap<>();
+        workingSweeps = new HashMap<>();
+    }
     
     /**
      * Get a reference to the instance of the CleanSweepManager Singleton
@@ -103,7 +111,7 @@ public class CleanSweepManager {
      * @return a list of the integer ID numbers of all the current clean sweeps
      */
     public synchronized List<Integer> getAllSweeps(){
-    	return new ArrayList<Integer>(allSweeps.keySet());
+    	return new ArrayList<>(allSweeps.keySet());
     }
 
 }
