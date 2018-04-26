@@ -1,8 +1,6 @@
 
 package edu.se459grp4.project.graph;
 
-import edu.se459grp4.project.simulator.types.SurfaceType;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -12,10 +10,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import edu.se459grp4.project.simulator.types.SurfaceType;
+
 /**
- * Graph representation of the floor that is being cleaned by the clean sweep. This graph will allow
- * the clean sweep to keep track of portions of the floor that have been visited as well as determine
- * the shortest path (determined by power requirements) between different sections of the floor
+ * Graph representation of the floor that is being cleaned by the clean sweep.
+ * This graph will allow the clean sweep to keep track of portions of the floor
+ * that have been visited as well as determine the shortest path (determined by
+ * power requirements) between different sections of the floor
  * 
  * @author Group 4
  * @version 1.8
@@ -24,13 +25,13 @@ public class TilesGraph {
 
     private final Map<String, TileNode> mNodeMap;
     private final Map<String, HashMap<String, Double>> mGraphMap; //the whole graph, string is the incoming node name, and the associated hasmap with this node
-    
+
     /**
      * Constructs a new Tile graph
      * 
      */
-    public TilesGraph(){
-    	mNodeMap = new HashMap<>();
+    public TilesGraph() {
+        mNodeMap = new HashMap<>();
         mGraphMap = new HashMap<>();
     }
 
@@ -60,7 +61,8 @@ public class TilesGraph {
     }
 
     /**
-     * Gets a list of nodes from the graph that currently contain charging stations
+     * Gets a list of nodes from the graph that currently contain charging
+     * stations
      * 
      * @return a list of the charging stations from the graph
      */
@@ -90,24 +92,24 @@ public class TilesGraph {
     }
 
     /**
-     * When the clean sweep visits a section of the floor, updates the node in the graph which represents
-     * that floor section to signify that it has been visited by the clean sweep
+     * When the clean sweep visits a section of the floor, updates the node in
+     * the graph which represents that floor section to signify that it has been
+     * visited by the clean sweep
      * 
      * @param x the x coordinate of the visited section
      * @param y the y coordinate of the visited section
      * @param nTileStatus the new status of the visited tile
      * 
      */
-    public void visit(int x, int y, SurfaceType nTileStatus){
+    public void visit(int x, int y, SurfaceType nTileStatus) {
         TileNode lNode = mNodeMap.get(TileNode.generateKeyString(x, y));
-        if (lNode == null){
+        if (lNode == null) {
             lNode = new TileNode(x, y, nTileStatus, NodeStatus.NODE_VISITED);
             mNodeMap.put(lNode.toString(), lNode);
 
             HashMap<String, Double> lSubmap = new HashMap<>();
             mGraphMap.put(lNode.toString(), lSubmap);
-        } 
-        else{
+        } else {
             lNode.setTileStatus(nTileStatus);
             lNode.setNodeStatus(NodeStatus.NODE_VISITED);
         }
@@ -115,7 +117,7 @@ public class TilesGraph {
 
         HashMap<String, Double> lSubmap = mGraphMap.get(lNode.toString());
 
-        for (Map.Entry<String, Double> entry : lSubmap.entrySet()){
+        for (Map.Entry<String, Double> entry : lSubmap.entrySet()) {
             TileNode lDestNode = mNodeMap.get(entry.getKey());
             double ldbWeight = SurfaceType.weight(lNode.getTileStatus()) / 2 + SurfaceType.weight(lDestNode.getTileStatus()) / 2;
             lSubmap.put(entry.getKey(), ldbWeight);
@@ -135,19 +137,20 @@ public class TilesGraph {
      * @param nFromY the starting y coordinate
      * @param nDestX the desired destination x coordinate
      * @param nDestY the desired destination y coordinate
-     * @param nArrayPath the current path that is being traveled, shortest path is added to this list
+     * @param nArrayPath the current path that is being traveled, shortest path
+     *            is added to this list
      * @return the power cost of the shortest path between the 2 points
      */
-    public double getShortestPath(int nFromX, int nFromY, int nDestX, int nDestY, List<String> nArrayPath){
+    public double getShortestPath(int nFromX, int nFromY, int nDestX, int nDestY, List<String> nArrayPath) {
         if (nArrayPath == null) {
             return Double.MAX_VALUE;
         }
 
-        if (!mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
+        if (!mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))) {
             return Double.MAX_VALUE;
         }
-        
-        if (!mGraphMap.containsKey(TileNode.generateKeyString(nDestX, nDestY))){
+
+        if (!mGraphMap.containsKey(TileNode.generateKeyString(nDestX, nDestY))) {
             return Double.MAX_VALUE;
         }
 
@@ -170,7 +173,7 @@ public class TilesGraph {
             double ldbShortestDistance = lTempNode.getWeight();
             //Iterate the output edge from this node
             //check the minimum weight
-            
+
             updateWeights(mGraphMap, lRecRow, lsFromNode, nFromX, nFromY, ldbShortestDistance);
 
             //Find the mininum and Nonvisited Node to Enqueue
@@ -186,30 +189,26 @@ public class TilesGraph {
             nArrayPath.add(lsTempName);
             lFinalNode = lRecRow.get(lsTempName);
             lsTempName = lFinalNode.getNodeName();
-        } while (ldbRetWeight != Double.MAX_VALUE &&
-                lsTempName.compareTo(TileNode.generateKeyString(nFromX, nFromY)) != 0 &&
-                lsTempName.compareTo(TileNode.generateKeyString(nDestX, nDestY)) != 0 );
-        
-
+        } while (ldbRetWeight != Double.MAX_VALUE && lsTempName.compareTo(TileNode.generateKeyString(nFromX, nFromY)) != 0 && lsTempName.compareTo(TileNode.generateKeyString(nDestX, nDestY)) != 0);
 
         Collections.reverse(nArrayPath);
 
         return ldbRetWeight;
     }
-    
-    private void setUpMap(Map<String, HashMap<String, Double>> graphMap, Map<String, GraphNode> mapToBuild, int nFromX, int nFromY){
-    	Set<Entry<String, HashMap<String, Double>>> set = graphMap.entrySet();  
+
+    private void setUpMap(Map<String, HashMap<String, Double>> graphMap, Map<String, GraphNode> mapToBuild, int nFromX, int nFromY) {
+        Set<Entry<String, HashMap<String, Double>>> set = graphMap.entrySet();
         for (Entry<String, HashMap<String, Double>> entry : set) {
             String lsKey = entry.getKey();
             if (lsKey != TileNode.generateKeyString(nFromX, nFromY)) {
                 mapToBuild.put(lsKey, new GraphNode(TileNode.generateKeyString(nFromX, nFromY), Double.MAX_VALUE, NodeStatus.NODE_NOT_VISITED));
             }
         }
-    	
+
     }
-    
-    private void updateWeights(Map<String, HashMap<String, Double>> graphMap, Map<String, GraphNode> mapToBuild, String fromNode, int fromX, int fromY, double ldbShortestDistance){
-    	Set<Entry<String, Double>> lRow = graphMap.get(fromNode).entrySet();
+
+    private void updateWeights(Map<String, HashMap<String, Double>> graphMap, Map<String, GraphNode> mapToBuild, String fromNode, int fromX, int fromY, double ldbShortestDistance) {
+        Set<Entry<String, Double>> lRow = graphMap.get(fromNode).entrySet();
         for (Entry<String, Double> entry : lRow) {
             String lsToNodeKey = entry.getKey();
             double lsToWeight = entry.getValue();
@@ -217,14 +216,14 @@ public class TilesGraph {
 
             //Do not deal the node with the same name of original source node
             if ((lsToNodeKey != TileNode.generateKeyString(fromX, fromY)) && (ldbTempWeight < mapToBuild.get(lsToNodeKey).getWeight())) {
-                	mapToBuild.get(lsToNodeKey).setWeight(ldbTempWeight);
-                	mapToBuild.get(lsToNodeKey).setNodeName(fromNode);
+                mapToBuild.get(lsToNodeKey).setWeight(ldbTempWeight);
+                mapToBuild.get(lsToNodeKey).setNodeName(fromNode);
             }
         }
     }
-    
-    private void determineMinimumWeights(Map<String, GraphNode> mapBeingBuilt, LinkedList<GraphNode> queue){
-    	double ldbMinimunWeight = Double.MAX_VALUE;
+
+    private void determineMinimumWeights(Map<String, GraphNode> mapBeingBuilt, LinkedList<GraphNode> queue) {
+        double ldbMinimunWeight = Double.MAX_VALUE;
         String lsMinWeightNodeName = "";
         Set<Entry<String, GraphNode>> set = mapBeingBuilt.entrySet();
         for (Entry<String, GraphNode> entry : set) {
@@ -237,14 +236,14 @@ public class TilesGraph {
         }
 
         if (!lsMinWeightNodeName.isEmpty()) {
-        	mapBeingBuilt.get(lsMinWeightNodeName).setNodeStatus(NodeStatus.NODE_VISITED);
-        	queue.add(new GraphNode(lsMinWeightNodeName, ldbMinimunWeight, NodeStatus.NODE_IN_VISITING_QUEUE));
+            mapBeingBuilt.get(lsMinWeightNodeName).setNodeStatus(NodeStatus.NODE_VISITED);
+            queue.add(new GraphNode(lsMinWeightNodeName, ldbMinimunWeight, NodeStatus.NODE_IN_VISITING_QUEUE));
         }
     }
 
     /**
-     * Deletes an edge from the tile graph, can happen when a door was closed and a path can no longer
-     * be traveled by the sweeper
+     * Deletes an edge from the tile graph, can happen when a door was closed
+     * and a path can no longer be traveled by the sweeper
      * 
      * @param nFromX the x coordinate of the first node
      * @param nFromY the y coordinate of the first node
@@ -252,19 +251,19 @@ public class TilesGraph {
      * @param nDestY the y coordinate of the second node
      * @return true if the edge was successfully deleted, false otherwise
      */
-    public boolean deleteEdge(int nFromX, int nFromY, int nDestX, int nDestY){
+    public boolean deleteEdge(int nFromX, int nFromY, int nDestX, int nDestY) {
 
-        if (nFromX == nDestX && nFromY == nDestY){
+        if (nFromX == nDestX && nFromY == nDestY) {
             return false;
         }
 
-        if (mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
+        if (mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))) {
             //If existed then get the submap
             HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.generateKeyString(nFromX, nFromY));
             lSubmap.remove(TileNode.generateKeyString(nDestX, nDestY));
         }
-        
-        if (mGraphMap.containsKey(TileNode.generateKeyString(nDestX, nDestY))){
+
+        if (mGraphMap.containsKey(TileNode.generateKeyString(nDestX, nDestY))) {
             //If existed then get the submap
             HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.generateKeyString(nDestX, nDestY));
             lSubmap.remove(TileNode.generateKeyString(nFromX, nFromY));
@@ -275,9 +274,9 @@ public class TilesGraph {
     //This is the main way to construce a graph
     //We need to add edges one by one
     //Note: this is an undirect graph, so we need to add a converse edge simultaneously
-    
+
     /**
-     * Creates an edge between 2 nodes in the tile graph.  
+     * Creates an edge between 2 nodes in the tile graph.
      * 
      * @param nFromX the x coordinate of the first node
      * @param nFromY the y coordinate of the first node
@@ -286,7 +285,7 @@ public class TilesGraph {
      * @param nTileStatus the type of tile this is
      * @return true if the edge was successfully added, false otherwise
      */
-    public boolean addEdge(int nFromX, int nFromY, int nDestX, int nDestY, SurfaceType nTileStatus){
+    public boolean addEdge(int nFromX, int nFromY, int nDestX, int nDestY, SurfaceType nTileStatus) {
 
         if (nFromX == nDestX && nFromY == nDestY) {
             return false;
@@ -303,7 +302,7 @@ public class TilesGraph {
         if (lDestNode == null) {
             lDestNode = new TileNode(nDestX, nDestY, nTileStatus, NodeStatus.NODE_NOT_VISITED);
             mNodeMap.put(lDestNode.toString(), lDestNode);
-        } 
+        }
 
         double ldbWeight = SurfaceType.weight(lSourceNode.getTileStatus()) / 2 + SurfaceType.weight(lDestNode.getTileStatus()) / 2;
 
@@ -313,8 +312,7 @@ public class TilesGraph {
             HashMap<String, Double> lSubmap = mGraphMap.get(lSourceNode.toString());
             lSubmap.put(lDestNode.toString(), ldbWeight);
 
-        } 
-        else {
+        } else {
             //this is a new node,we should create all
             HashMap<String, Double> lSubmap = new HashMap<>();
             lSubmap.put(lDestNode.toString(), ldbWeight);
@@ -327,8 +325,7 @@ public class TilesGraph {
             HashMap<String, Double> lSubmap = mGraphMap.get(lDestNode.toString());
             lSubmap.put(lSourceNode.toString(), ldbWeight);
 
-        } 
-        else {
+        } else {
             //this is a new node,we should create all
             HashMap<String, Double> lSubmap = new HashMap<>();
             lSubmap.put(lSourceNode.toString(), ldbWeight);
@@ -336,7 +333,7 @@ public class TilesGraph {
         }
         return lbRet;
     }
-    
+
     /**
      * Gets the weight of the edge between 2 nodes in the graph
      * 
@@ -346,14 +343,19 @@ public class TilesGraph {
      * @param nDestY the y coordinate of the other node
      * @return the weight value between these two nodes
      */
-    public double getWeight(int nFromX,int nFromY,int nDestX,int nDestY){
-    	double ldbWeight = 0.0;
-        if (mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))){
+    public double getWeight(int nFromX, int nFromY, int nDestX, int nDestY) {
+        double ldbWeight = 0.0;
+        if (mGraphMap.containsKey(TileNode.generateKeyString(nFromX, nFromY))) {
             //If existed then get the submap
-        	HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.generateKeyString(nFromX, nFromY));
-            ldbWeight = lSubmap.get(TileNode.generateKeyString(nDestX, nDestY));
-        } 
-        
+            HashMap<String, Double> lSubmap = mGraphMap.get(TileNode.generateKeyString(nFromX, nFromY));
+
+            Double d = lSubmap.get(TileNode.generateKeyString(nDestX, nDestY));
+            if (d != null) {
+                ldbWeight = d.doubleValue();
+            }
+
+        }
+
         return ldbWeight;
     }
 
