@@ -1,10 +1,11 @@
 package edu.se459grp4.project.simulator;
 
 
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 import edu.se459grp4.project.simulator.models.*;
 import edu.se459grp4.project.simulator.types.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,12 +19,11 @@ import java.util.List;
 public class Simulator {
 	
     private static Simulator instance ;
-    private FloorPlan mFloorPlan;
+    private FloorPlan floorPlan;
     
     
-    private Simulator()
-    {
-       mFloorPlan = null; 
+    private Simulator(){
+       floorPlan = null; 
     }
     
     /**
@@ -48,21 +48,20 @@ public class Simulator {
      * @see FloorPlan
      */
     public FloorPlan loadFloorPlan(String fileLocation) {
-     // FloorPlan lLoadedFloorPlan = null;
-      mFloorPlan = null;
+      floorPlan = null;
       try {
          FileInputStream fileIn = new FileInputStream(fileLocation);
          ObjectInputStream in = new ObjectInputStream(fileIn);
-         mFloorPlan = (FloorPlan) in.readObject();
+         floorPlan = (FloorPlan) in.readObject();
          in.close();
          fileIn.close();
-         return mFloorPlan;
+         return floorPlan;
       }catch(IOException i) {
-        // i.printStackTrace();
+        i.printStackTrace();
          return null;
       }catch(ClassNotFoundException c) {
-         //System.out.println("./example.flr class not found");
-         //c.printStackTrace();
+         System.out.println("./example.flr class not found");
+         c.printStackTrace();
          return null;
       }
     }
@@ -75,24 +74,32 @@ public class Simulator {
      * @param y the y coordinate of the location being checked from
      * @return the PathStatus in the desired direction at the given coordinate point
      */
-    public PathStatus ProvideDirectionSensorData(Direction nDirection,int x,int y)
-    {
-        int nDestX,nDestY;
-        nDestX = x;
-        nDestY = y;
-        if(nDirection == Direction.Up)
+    public PathStatus getDirectionalData(Direction nDirection,int x,int y){
+        int nDestX = x;
+        int nDestY = y;
+        
+        if(nDirection == Direction.UP){
             nDestY--;
-        if(nDirection == Direction.Down)
+        }
+        
+        if(nDirection == Direction.DOWN){
             nDestY++;
-        if(nDirection == Direction.Left)
+        }
+        
+        if(nDirection == Direction.LEFT){
             nDestX--;
-        if(nDirection == Direction.Right)
+        }
+        
+        if(nDirection == Direction.RIGHT){
            nDestX++;
+        }
         
         //Check if there is path from (x,y) to (nDestX,nDestY)
-        if(mFloorPlan != null)
-            return mFloorPlan.CheckPath(x, y, nDestX, nDestY);
-        return PathStatus.Blocked;
+        if(floorPlan != null){
+            return floorPlan.checkPath(x, y, nDestX, nDestY);
+        }
+        
+        return PathStatus.BLOCKED;
     }
     
     /**
@@ -102,10 +109,10 @@ public class Simulator {
      * @param y the y coordinate of the location being checked
      * @return the amount of dirt at the given location
      */
-    public int ProvideDirtSensorData(int x,int y)
-    {
-        if(mFloorPlan != null)
-            return mFloorPlan.GetDirtVal(x, y);
+    public int getDirtData(int x,int y){
+        if(floorPlan != null){
+            return floorPlan.getDirtAmount(x, y);
+        }
           
         return 0;
     }
@@ -118,12 +125,12 @@ public class Simulator {
      * @param y the y coordinate of the location to check
      * @return the TileStatus at the given location
      */
-    public TileStatus ProvideSurfaceSensorData(int x,int y)
-    {
-        if(mFloorPlan != null)
-            return mFloorPlan.GetTileSatus(x, y);
+    public SurfaceType getSurfaceData(int x,int y){
+        if(floorPlan != null){
+            return floorPlan.getSurfaceType(x, y);
+        }
          
-        return TileStatus.BARE_FLOOR;
+        return SurfaceType.BARE_FLOOR;
     }
     
     /**
@@ -134,10 +141,11 @@ public class Simulator {
      * @param nVal the amount of dirt to remove
      * @return the amount of dirt that was cleaned
      */
-    public int SweepUp(int x,int y,int nVal)
-    {
-         if(mFloorPlan != null)
-            return mFloorPlan.SweepUp(x, y,nVal);
+    public int removeDirt(int x,int y,int nVal){
+    	if(floorPlan != null){
+    		return floorPlan.removeDirt(x, y,nVal);
+        }
+    	
         return 0;
     }
     
@@ -151,10 +159,11 @@ public class Simulator {
      * @param bOpen is the door open or not
      * @return true if the door was able to be successfully opened/closed, false otherwise
      */
-    public boolean OperateDoor(boolean nVer,int nBase,int nFrom,int nTo,boolean bOpen)
-    {
-          if(mFloorPlan != null)
-            return mFloorPlan.OperateDoor(nVer, nBase, nFrom, nTo, bOpen);
+    public boolean operateDoor(boolean nVer,int nBase,int nFrom,int nTo,boolean bOpen){
+    	if(floorPlan != null){
+    		return floorPlan.operateDoor(nVer, nBase, nFrom, nTo, bOpen);
+        }
+          
         return false;
     }
    
@@ -165,11 +174,12 @@ public class Simulator {
      * @param nY the y coordinate of the charging
      * @return true if the charge station was successfully added, false otherwise
      */
-    public boolean AddChargeStation(int nX,int nY)
-    {
-         if(mFloorPlan == null)
+    public boolean addChargeStation(int nX,int nY){
+         if(floorPlan == null){
              return false;
-         return mFloorPlan.SetTileSatus(nX, nY, TileStatus.CHARGING_STATION);
+         }
+         
+         return floorPlan.setSurfaceType(nX, nY, SurfaceType.CHARGING_STATION);
         
     }
     
@@ -180,11 +190,11 @@ public class Simulator {
      * @param nY the y coordinate of the charge station to remove
      * @return true if the charge station was successfully removed, false otherwise
      */
-    public boolean RemoveChargeStation(int nX,int nY)
-    {
-        if(mFloorPlan == null)
+    public boolean removeChargeStation(int nX,int nY){
+        if(floorPlan == null){
              return false;
-        return mFloorPlan.SetTileSatus(nX, nY, TileStatus.BARE_FLOOR);
+        }
+        return floorPlan.setSurfaceType(nX, nY, SurfaceType.BARE_FLOOR);
     }
     
     /**
@@ -192,11 +202,12 @@ public class Simulator {
      * 
      * @return a list of all the doors
      */
-    public List<Door> GetAllDoors()
-    {
-         if(mFloorPlan == null)
-             return null;
-        return mFloorPlan.GetAllDoors();
+    public List<Door> getAllDoors(){
+    	if(floorPlan == null){
+    		return new ArrayList<>(0); //return an empty list if there is no floor plan loaded
+    	}
+    	
+        return floorPlan.getAllDoors();
     }
     
     /**
@@ -204,11 +215,12 @@ public class Simulator {
      * 
      * @return the list of all the charge stations
      */
-    public List<Tile> GetAllChargeStations()
-    {
-       if(mFloorPlan == null)
-             return null;
-        return mFloorPlan.GetAllChargeStations();
+    public List<Tile> getAllChargeStations(){
+       if(floorPlan == null){
+             return new ArrayList<>(0); //return an empty list if there is no floor plan loaded
+       }
+       
+       return floorPlan.getAllChargeStations();
     }
    
 }

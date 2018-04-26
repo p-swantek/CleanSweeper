@@ -14,10 +14,9 @@ package edu.se459grp4.project.simulator.types;
  * @version 1.8
  * 
  */
- public enum PathStatus
- {
-        UNKNOWN ,
-        Open ,
-        Blocked ,
-        Stair ,
+ public enum PathStatus{
+        UNKNOWN,
+        OPEN,
+        BLOCKED,
+        STAIR,
 };

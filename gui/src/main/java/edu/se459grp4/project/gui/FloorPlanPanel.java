@@ -1,6 +1,9 @@
 package edu.se459grp4.project.gui;
 
 import edu.se459grp4.project.cleansweep.CleanSweep;
+import edu.se459grp4.project.gui.drawables.Drawable;
+import edu.se459grp4.project.gui.drawables.DrawableFactory;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -19,12 +22,12 @@ import java.util.*;
  */
 class FloorPlanPanel extends JPanel implements Observer{
 
-    private FloorPlan mFloorPlan;
+	private static final long serialVersionUID = 1L;
+	private FloorPlan mFloorPlan;
     private int mnSqureTileSize;
     private int mnSqureTilesNum;
-    private List<JTile> mJTiles = new ArrayList<>();
-    private List<JWall> mJWalls = new ArrayList<>();
-    private List<JCleanSweep> mJCleanSweeps = new ArrayList<>();
+    private List<Drawable> guiElements = new ArrayList<>();
+
     
     /**
      * Sets the floorplan that the gui will will display
@@ -33,24 +36,33 @@ class FloorPlanPanel extends JPanel implements Observer{
      * @return true if the floorplan was successfully set, false otherwise
      * @see FloorPlan
      */
-    public boolean SetFloorPlan(FloorPlan nFloorplan)
-    {
-        if(nFloorplan == null)
+    public boolean setFloorPlan(FloorPlan nFloorplan){
+        if(nFloorplan == null){
             return false;
+        }
+        
         mFloorPlan = nFloorplan;
         mFloorPlan.addObserver(this);
-        mJTiles.clear();
-        //add the tile
-        List<Tile> lListTile = mFloorPlan.GetAllTiles();
-        for(Tile item : lListTile)
-           mJTiles.add(new JTile(item));
-        //add the wall
-        List<Wall> lListWall = mFloorPlan.GetAllWalls();
-        for(Wall item : lListWall)
-           mJWalls.add(new JWall(item));
-        
+        prepareGUI(mFloorPlan, guiElements);
         this.repaint();
         return true;
+    }
+    
+    private void prepareGUI(FloorPlan floorplan, List<Drawable> guiElements){
+    	
+    	guiElements.clear();
+    	//add the tile
+        List<Tile> lListTile = floorplan.getAllTiles();
+        for(Tile tile : lListTile){
+        	guiElements.add(DrawableFactory.makeTile(tile));
+        }
+        
+        //add the wall
+        List<Wall> lListWall = floorplan.getAllWalls();
+        for(Wall wall : lListWall){
+        	guiElements.add(DrawableFactory.makeWall(wall));
+        }
+    	
     }
     
     /**
@@ -60,11 +72,12 @@ class FloorPlanPanel extends JPanel implements Observer{
      * @param nCleanSweep the CleanSweep robot to draw on the floorplan
      * @return true if the clean sweep was successfully drawn, false otherwise
      */
-    public boolean AddCleanSweep(CleanSweep nCleanSweep)
-    {
-        if(nCleanSweep == null)
+    public boolean addCleanSweep(CleanSweep nCleanSweep){
+        if(nCleanSweep == null){
             return false;
-        mJCleanSweeps.add(new JCleanSweep(nCleanSweep));
+        }
+        
+        guiElements.add(DrawableFactory.makeCleanSweep(nCleanSweep));
         nCleanSweep.addObserver(this);
         this.updateUI();
         return true;
@@ -75,37 +88,31 @@ class FloorPlanPanel extends JPanel implements Observer{
 
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.blue);
-        if(mFloorPlan == null)
+        if(mFloorPlan == null){
             return;
+        }
         
        //draw floor plan background
        Dimension lDim = this.getSize();
        int nSqureSize = Math.min(lDim.height, lDim.width);
-       mnSqureTilesNum = mFloorPlan.GetTilesSquareNum();
+       mnSqureTilesNum = mFloorPlan.getRowLength();
        mnSqureTileSize = nSqureSize/mnSqureTilesNum;
       
-       //draw tiles
-       for(JTile item:mJTiles)
-           item.Draw(g,mnSqureTileSize);
-       //draw walls
-        for(JWall item:mJWalls)
-           item.Draw(g,mnSqureTileSize);
-       //draw sweepcleans
-        for(JCleanSweep item:mJCleanSweeps)
-           item.Draw(g,mnSqureTileSize);
+       //draw everything
+       for (Drawable item : guiElements){
+    	   item.draw(g, mnSqureTileSize);
+       }
       
     }
 
     @Override
-    public void paintComponent(Graphics g) {
-
+    public void paintComponent(Graphics g){
         super.paintComponent(g);
         doDrawing(g);
     }
     
     @Override
-    public void update(Observable o, Object arg) {
-   
+    public void update(Observable o, Object arg){
         //need to set the clip rect to improve the perfomance
         //get the invalidate rect, then just update this rect to improve the performance of drawing
         this.repaint();

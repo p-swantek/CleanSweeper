@@ -8,7 +8,7 @@ import org.junit.Test;
 import edu.se459grp4.project.cleansweep.CleanSweep;
 import edu.se459grp4.project.cleansweep.Navigator;
 import edu.se459grp4.project.simulator.Simulator;
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 public class MovementTest {
 	
@@ -35,9 +35,9 @@ public class MovementTest {
 		//loop over all (x,y) coordinates from example.flr, check that no tiles have dirt
 		for (int x = 0; x < 10; x++){
 			for (int y = 0; y < 10; y++){
-				if (Simulator.getInstance().ProvideSurfaceSensorData(x, y) != TileStatus.CHARGING_STATION 
-						&& Simulator.getInstance().ProvideSurfaceSensorData(x, y) != TileStatus.STAIRS){
-					assertEquals(0, Simulator.getInstance().ProvideDirtSensorData(x, y));
+				if (Simulator.getInstance().getSurfaceData(x, y) != SurfaceType.CHARGING_STATION 
+						&& Simulator.getInstance().getSurfaceData(x, y) != SurfaceType.STAIRS){
+					assertEquals(0, Simulator.getInstance().getDirtData(x, y));
 				}
 			}
 			

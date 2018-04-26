@@ -9,7 +9,7 @@ import org.junit.Test;
 import edu.se459grp4.project.simulator.Simulator;
 import edu.se459grp4.project.simulator.types.Direction;
 import edu.se459grp4.project.simulator.types.PathStatus;
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 public class CleanSweepTest {
 	private static CleanSweep cleaner;
@@ -22,83 +22,89 @@ public class CleanSweepTest {
 	
 	@Test
 	public void testCheckMove() {
-		PathStatus check = cleaner.CheckMove(Direction.Up);
-		assertEquals(PathStatus.Stair, check);
-		check = cleaner.CheckMove(Direction.Right);
-		assertEquals(PathStatus.Open, check);
-		check = cleaner.CheckMove(Direction.Left);
-		assertEquals(PathStatus.Blocked, check);
-		check = cleaner.CheckMove(Direction.Down);
-		assertEquals(PathStatus.Open, check);
-		check =cleaner.CheckMove(null);
+		PathStatus check = cleaner.checkAbleToMove(Direction.UP);
+		assertEquals(PathStatus.STAIR, check);
+		check = cleaner.checkAbleToMove(Direction.RIGHT);
+		assertEquals(PathStatus.OPEN, check);
+		check = cleaner.checkAbleToMove(Direction.LEFT);
+		assertEquals(PathStatus.BLOCKED, check);
+		check = cleaner.checkAbleToMove(Direction.DOWN);
+		assertEquals(PathStatus.OPEN, check);
+		check =cleaner.checkAbleToMove(null);
 		assertEquals(PathStatus.UNKNOWN,check);
 	}
 
 	@Test
 	public void testMoveTo() {
-		assertTrue(cleaner.MoveTo(0, 7));
-		assertTrue(cleaner.MoveTo(1, 6));
-		cleaner.MoveTo(0, 6);
-		assertFalse(cleaner.MoveTo(0, 5));
+		assertTrue(cleaner.moveToLoc(0, 7));
+		assertTrue(cleaner.moveToLoc(1, 6));
+		cleaner.moveToLoc(0, 6);
+		assertFalse(cleaner.moveToLoc(0, 5));
 		CleanSweep c= new CleanSweep(1,100.00,100,4,4);
-		assertFalse(c.MoveTo(5, 4));
+		assertFalse(c.moveToLoc(5, 4));
 	}
 
 	@Test
 	public void testDetectSurfaceType() {
-		TileStatus t=cleaner.DetectSurfaceType();
-		assertEquals(t,TileStatus.BARE_FLOOR);
-		assertNotEquals(t, TileStatus.CHARGING_STATION);
-		assertNotEquals(t, TileStatus.HIGH_CARPET);
-		assertNotEquals(t, TileStatus.LOW_CARPET);
-		assertNotEquals(t, TileStatus.STAIRS);
+		SurfaceType t=cleaner.senseFloorSurface();
+		assertEquals(t,SurfaceType.BARE_FLOOR);
+		assertNotEquals(t, SurfaceType.CHARGING_STATION);
+		assertNotEquals(t, SurfaceType.HIGH_CARPET);
+		assertNotEquals(t, SurfaceType.LOW_CARPET);
+		assertNotEquals(t, SurfaceType.STAIRS);
 	}
 
 	@Test
 	public void testDetectDirtValue() {
-		int dirt = cleaner.DetectDirtValue();
+		int dirt = cleaner.senseDirtAmount();
 		assertEquals(dirt,50);
 	}
 
 	@Test
 	public void testSweepUp() {
-		int dirt = cleaner.DetectDirtValue();
+		int dirt = cleaner.senseDirtAmount();
 		assertEquals(dirt,50);
-		cleaner.SweepUp(30);
-		dirt=cleaner.DetectDirtValue();
+		cleaner.cleanDirt(30);
+		dirt=cleaner.senseDirtAmount();
 		assertEquals(dirt,20);
 		
 	}
 
 	@Test
 	public void testExhaustPower() {
-		double currentPower = cleaner.GetPowerLevel();
+		double currentPower = cleaner.getCurrPower();
 		assertEquals(currentPower,100.000,0.001);
-		cleaner.ExhaustPower(10.000);
-		currentPower = cleaner.GetPowerLevel();
+		cleaner.usePowerAmount(10.000);
+		currentPower = cleaner.getCurrPower();
 		assertEquals(currentPower,90.000,0.001);
 	}
 
 	@Test
 	public void testExhaustVacuume() {
-		int capacity = cleaner.GetVacuumLevel();
+		int capacity = cleaner.getCurrVacuumCapacity();
 		assertEquals(capacity,100);
-		int newValue =cleaner.exhaustVacuum(20);
+		int newValue =cleaner.fillUpVacuum(20);
 		assertEquals(newValue,80);
 	}
 
 	@Test
 	public void testCleanVacuum() {
-		cleaner.CleanVacuum();
-		int value =cleaner.GetVacuumLevel();
+		cleaner.emptyVacuum();
+		int value =cleaner.getCurrVacuumCapacity();
 		assertEquals(value,100);
 	}
 
 	@Test
 	public void testRecharge() {
-		cleaner.Recharge();
-		double power=cleaner.GetPowerLevel();
+		cleaner.rechargePower();
+		double power=cleaner.getCurrPower();
 		assertEquals(power,100,0.001);
+	}
+	
+	@Test
+	public void testToString() {
+		CleanSweep cleaner = new CleanSweep(1, 100.00, 100, 0, 6);
+		assertEquals("CleanSweep[ID: 1]\nPower Status --> 100.00/100.00\nVacuum Status --> 100/100", cleaner.toString());
 	}
 
 }

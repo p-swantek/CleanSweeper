@@ -1,6 +1,6 @@
-package edu.se459grp4.project.Graph;
+package edu.se459grp4.project.graph;
 
-import edu.se459grp4.project.simulator.types.TileStatus;
+import edu.se459grp4.project.simulator.types.SurfaceType;
 
 /**
  * Representation of a node that is contained in the graph of all the floor tiles. Node
@@ -13,9 +13,8 @@ public class TileNode{
 
     private int mx;
     private int my;
-    private TileStatus meTileStatus;
-
-    private NodeStatus meStatus;  //the visiting status of this node 
+    private SurfaceType tileStatus;
+    private NodeStatus nodeStatus;  //the visiting status of this node 
 
     
     /**
@@ -26,11 +25,11 @@ public class TileNode{
      * @param nStatus the type of floor that this node is representing
      * @param neValue the status of the floor represented by this node
      */
-    public TileNode(int x, int y, TileStatus nStatus, NodeStatus neValue) {
+    public TileNode(int x, int y, SurfaceType nStatus, NodeStatus neValue) {
         mx = x;
         my = y;
-        meTileStatus = nStatus;
-        meStatus = neValue;
+        tileStatus = nStatus;
+        nodeStatus = neValue;
     }
 
     /**
@@ -38,7 +37,7 @@ public class TileNode{
      * 
      * @return the x coordinate
      */
-    public int GetX() {
+    public int getX() {
         return mx;
     }
 
@@ -47,7 +46,7 @@ public class TileNode{
      * 
      * @return the y coordinate
      */
-    public int GetY() {
+    public int getY() {
         return my;
     }
 
@@ -57,8 +56,8 @@ public class TileNode{
      * @return the NodeStatus of this node
      * @see NodeStatus
      */
-    public NodeStatus NodeStatus() {
-        return meStatus;
+    public NodeStatus getNodeStatus() {
+        return nodeStatus;
     }
 
     /**
@@ -66,18 +65,18 @@ public class TileNode{
      * 
      * @param neVal the status that this node should have
      */
-    public void SetNodeStatus(NodeStatus neVal) {
-        meStatus = neVal;
+    public void setNodeStatus(NodeStatus neVal) {
+        nodeStatus = neVal;
     }
 
     /**
      * Gets the type of floor that this node represents
      * 
      * @return the TileStatus
-     * @see TileStatus
+     * @see SurfaceType
      */
-    public TileStatus TileStatus() {
-        return meTileStatus;
+    public SurfaceType getTileStatus() {
+        return tileStatus;
     }
 
     /**
@@ -85,13 +84,13 @@ public class TileNode{
      * 
      * @param neVal the TileStatus this node should represent
      */
-    public void SetTileStatus(TileStatus neVal) {
-        meTileStatus = neVal;
+    public void setTileStatus(SurfaceType neVal) {
+        tileStatus = neVal;
     }
 
     @Override
     public String toString() {
-        return GenerateKeyString(mx, my);
+        return generateKeyString(mx, my);
     }
 
     /**
@@ -102,7 +101,7 @@ public class TileNode{
      * @param y the y coordinate of this node
      * @return the string representation of this node consisting of the x,y coordinates
      */
-    public static String GenerateKeyString(int x, int y) {
+    public static String generateKeyString(int x, int y) {
         return "X" + x + "Y" + y;
     }
 }

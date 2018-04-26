@@ -1,4 +1,4 @@
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.sensors;
 
 import edu.se459grp4.project.simulator.Simulator;
 
@@ -10,7 +10,7 @@ import edu.se459grp4.project.simulator.Simulator;
  * @version 1.8
  *
  */
-public class DirtSensor {
+class DirtSensor {
     
 	/**
 	 * Sense the amount of dirt at the given x, y coordinate
@@ -19,8 +19,7 @@ public class DirtSensor {
 	 * @param y the y coordinate of the location to sense
 	 * @return the amount of dirt present at that location
 	 */
-    public int GetSensorData(int x,int y)
-    {
-        return Simulator.getInstance().ProvideDirtSensorData(x, y);
+    public int getSensorData(int x,int y){
+        return Simulator.getInstance().getDirtData(x, y);
     }
 }

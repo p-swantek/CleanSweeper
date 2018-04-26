@@ -163,17 +163,17 @@ public class MainFrame extends JFrame {
                  if (returnValue == JFileChooser.APPROVE_OPTION) {
                      File selectedFile = fileChooser.getSelectedFile();
                      //System.out.println(selectedFile.getName());
-                     mFloorplanPanel.SetFloorPlan( Simulator.getInstance().loadFloorPlan(selectedFile.getPath()));
+                     mFloorplanPanel.setFloorPlan( Simulator.getInstance().loadFloorPlan(selectedFile.getPath()));
                  }
             }
-            else if(e.getActionCommand() == "OpenDoor" || e.getActionCommand() == "CloseDoor" )
+            else if("OpenDoor".equals(e.getActionCommand()) || "CloseDoor".equals(e.getActionCommand()))
             {
-                List<Door> lDoors = Simulator.getInstance().GetAllDoors();
-                boolean lbOpen = e.getActionCommand() == "OpenDoor" ? true : false;
+                List<Door> lDoors = Simulator.getInstance().getAllDoors();
+                boolean lbOpen = "OpenDoor".equals(e.getActionCommand()) ? true : false;
                 Door lDoor = (Door)JOptionPane.showInputDialog(
                                     mFrame,
                                     "Please choose a door for the list:\n",
-                                    e.getActionCommand() == "OpenDoor" ?"Choose a door to open":"Choose a door to close",
+                                    "OpenDoor".equals(e.getActionCommand()) ? "Choose a door to open" : "Choose a door to close",
                                     JOptionPane.PLAIN_MESSAGE,
                                     null,
                                     lDoors.toArray(),
@@ -181,34 +181,54 @@ public class MainFrame extends JFrame {
 
                 //If a string was returned, say so.
                 if ((lDoor != null)) {
-                    Simulator.getInstance().OperateDoor(lDoor.GetVertical(), 
-                            lDoor.GetBase(),
-                            lDoor.GetFrom(), 
-                            lDoor.GetTo(),
+                    Simulator.getInstance().operateDoor(lDoor.isVertical(), 
+                            lDoor.getBase(),
+                            lDoor.getFrom(), 
+                            lDoor.getTo(),
                             lbOpen);
                 }
             }
-             else if(e.getActionCommand() == "AddCleanSweep" || e.getActionCommand() == "RemoveCleanSweep" )
-            {
-                List<Tile> lChargeStations = Simulator.getInstance().GetAllChargeStations();
-                boolean lbOpen = e.getActionCommand() == "OpenDoor" ? true : false;
-                Tile lChargeStaion = (Tile)JOptionPane.showInputDialog(
+            
+            //TODO: fix to make it remove a clean sweep
+            else if("AddCleanSweep".equals(e.getActionCommand()) || "RemoveCleanSweep".equals(e.getActionCommand())){
+            	List<Tile> lChargeStations = Simulator.getInstance().getAllChargeStations();
+                Tile sweepTile = (Tile)JOptionPane.showInputDialog(
                                     mFrame,
                                     "Please choose a chargestation for the cleansweep:\n",
-                                    e.getActionCommand() == "OpenDoor" ?"Choose a chargestation to add a CleanSweep":"Choose a door to close",
+                                    "AddCleanSweep".equals(e.getActionCommand()) ? "Choose a charge station to add a CleanSweep" : "Choose a CleanSweep to remove",
                                     JOptionPane.PLAIN_MESSAGE,
                                     null,
                                     lChargeStations.toArray(),
                                     "");
 
-                //If a string was returned, say so.
-                if ((lChargeStaion != null)) {
-                   int nID = CleanSweepManager.getInstance().CreateCleanSweep(lChargeStaion.GetX(), lChargeStaion.GetY());
-                   mFloorplanPanel.AddCleanSweep(CleanSweepManager.getInstance().GetCleanSweep(nID));
+                if ((sweepTile != null)) {
+                   int nID = CleanSweepManager.getInstance().createCleanSweep(sweepTile.getX(), sweepTile.getY());
+                   mFloorplanPanel.addCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
                    //
-                   CleanSweepManager.getInstance().StartCleanCycle(nID);
+                   CleanSweepManager.getInstance().startCleanCycle(nID);
                 }
             }
+            
+            //TODO: fix to make it start and stop certain sweeps
+             else if("Start".equals(e.getActionCommand()) || "Stop".equals(e.getActionCommand()) ){
+                 List<Tile> lChargeStations = Simulator.getInstance().getAllChargeStations();
+                 Tile lChargeStaion = (Tile)JOptionPane.showInputDialog(
+                                     mFrame,
+                                     "Please choose a CleanSweep:\n",
+                                     "Start".equals(e.getActionCommand()) ? "Choose a CleanSweep to start" : "Choose a CleanSweep to stop",
+                                     JOptionPane.PLAIN_MESSAGE,
+                                     null,
+                                     lChargeStations.toArray(),
+                                     "");
+
+                 //If a string was returned, say so.
+                 if ((lChargeStaion != null)) {
+                    int nID = CleanSweepManager.getInstance().createCleanSweep(lChargeStaion.getX(), lChargeStaion.getY());
+                    mFloorplanPanel.addCleanSweep(CleanSweepManager.getInstance().getCleanSweep(nID));
+                    //
+                    CleanSweepManager.getInstance().startCleanCycle(nID);
+                 }
+             }
         }
     }
 

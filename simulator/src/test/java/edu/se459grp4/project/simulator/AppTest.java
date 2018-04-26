@@ -42,28 +42,28 @@ public class AppTest
         Random rand = new Random();
         for(int i = 0; i < nCount; i++)
             for(int j= 0; j < nCount;j++)
-                lFloorPlan.AddTile(i, j, TileStatus.BARE_FLOOR , 50);
+                lFloorPlan.addTile(i, j, SurfaceType.BARE_FLOOR , 50);
           
         
-        lFloorPlan.AddWall(true, 4, 0, 4);
-        lFloorPlan.AddWall(false, 4, 0, 4);
+        lFloorPlan.addWall(true, 4, 0, 4);
+        lFloorPlan.addWall(false, 4, 0, 4);
         
-        lFloorPlan.AddDoor(true, 4, 0, 0, true);
-        lFloorPlan.AddDoor(false, 4, 0, 1, true);
+        lFloorPlan.addDoor(true, 4, 0, 0, true);
+        lFloorPlan.addDoor(false, 4, 0, 1, true);
         
-        lFloorPlan.SetTileSatus(0, 0, TileStatus.CHARGING_STATION);
-        lFloorPlan.SetTileSatus(0, 5, TileStatus.STAIRS);
-        lFloorPlan.SetTileSatus(0, 9, TileStatus.CHARGING_STATION);
+        lFloorPlan.setSurfaceType(0, 0, SurfaceType.CHARGING_STATION);
+        lFloorPlan.setSurfaceType(0, 5, SurfaceType.STAIRS);
+        lFloorPlan.setSurfaceType(0, 9, SurfaceType.CHARGING_STATION);
            
-        lFloorPlan.SetTileSatus(4, 5, TileStatus.LOW_CARPET);
-        lFloorPlan.SetTileSatus(4, 6, TileStatus.LOW_CARPET);
-        lFloorPlan.SetTileSatus(4, 7, TileStatus.LOW_CARPET);
-        lFloorPlan.SetTileSatus(5, 5, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(5, 6, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(5, 7, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(6, 5, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(6, 6, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(6, 7, TileStatus.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(4, 5, SurfaceType.LOW_CARPET);
+        lFloorPlan.setSurfaceType(4, 6, SurfaceType.LOW_CARPET);
+        lFloorPlan.setSurfaceType(4, 7, SurfaceType.LOW_CARPET);
+        lFloorPlan.setSurfaceType(5, 5, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(5, 6, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(5, 7, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(6, 5, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(6, 6, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(6, 7, SurfaceType.HIGH_CARPET);
         //Serilization
        try {
          FileOutputStream fileOut = new FileOutputStream("./example.flr");
@@ -92,7 +92,7 @@ public class AppTest
          c.printStackTrace();
          return;
       }
-        assertTrue( lLoadedFloorPlan.GetDirtVal(5, 5)  == 50);
+        assertTrue( lLoadedFloorPlan.getDirtAmount(5, 5)  == 50);
     }
     
       /**
@@ -105,29 +105,29 @@ public class AppTest
         Random rand = new Random();
         for(int i = 0; i < nCount; i++)
             for(int j= 0; j < nCount;j++)
-                lFloorPlan.AddTile(i, j, TileStatus.BARE_FLOOR , rand.nextInt(50) );
+                lFloorPlan.addTile(i, j, SurfaceType.BARE_FLOOR , rand.nextInt(50) );
           
         
-        lFloorPlan.AddWall(true, 4, 0, 4);
-        lFloorPlan.AddWall(false, 4, 0, 4);
+        lFloorPlan.addWall(true, 4, 0, 4);
+        lFloorPlan.addWall(false, 4, 0, 4);
         
-        lFloorPlan.AddDoor(true, 4, 0, 0, true);
-        lFloorPlan.AddDoor(false, 4, 0, 1, true);
+        lFloorPlan.addDoor(true, 4, 0, 0, true);
+        lFloorPlan.addDoor(false, 4, 0, 1, true);
         
-        lFloorPlan.SetTileSatus(0, 0, TileStatus.CHARGING_STATION);
-        lFloorPlan.SetTileSatus(0, 5, TileStatus.STAIRS);
-        lFloorPlan.SetTileSatus(0, 14, TileStatus.CHARGING_STATION);
-        lFloorPlan.SetTileSatus(13, 14, TileStatus.CHARGING_STATION);
+        lFloorPlan.setSurfaceType(0, 0, SurfaceType.CHARGING_STATION);
+        lFloorPlan.setSurfaceType(0, 5, SurfaceType.STAIRS);
+        lFloorPlan.setSurfaceType(0, 14, SurfaceType.CHARGING_STATION);
+        lFloorPlan.setSurfaceType(13, 14, SurfaceType.CHARGING_STATION);
            
-        lFloorPlan.SetTileSatus(4, 5, TileStatus.LOW_CARPET);
-        lFloorPlan.SetTileSatus(4, 6, TileStatus.LOW_CARPET);
-        lFloorPlan.SetTileSatus(4, 7, TileStatus.LOW_CARPET);
-        lFloorPlan.SetTileSatus(5, 5, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(5, 6, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(5, 7, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(6, 5, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(6, 6, TileStatus.HIGH_CARPET);
-        lFloorPlan.SetTileSatus(6, 7, TileStatus.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(4, 5, SurfaceType.LOW_CARPET);
+        lFloorPlan.setSurfaceType(4, 6, SurfaceType.LOW_CARPET);
+        lFloorPlan.setSurfaceType(4, 7, SurfaceType.LOW_CARPET);
+        lFloorPlan.setSurfaceType(5, 5, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(5, 6, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(5, 7, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(6, 5, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(6, 6, SurfaceType.HIGH_CARPET);
+        lFloorPlan.setSurfaceType(6, 7, SurfaceType.HIGH_CARPET);
         //Serilization
        try {
          FileOutputStream fileOut = new FileOutputStream("./example1.flr");
@@ -156,6 +156,6 @@ public class AppTest
          c.printStackTrace();
          return;
       }
-       assertTrue( lLoadedFloorPlan.GetTileSatus(5, 5)  == TileStatus.HIGH_CARPET);
+       assertTrue( lLoadedFloorPlan.getSurfaceType(5, 5)  == SurfaceType.HIGH_CARPET);
     }
 }

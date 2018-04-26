@@ -1,7 +1,8 @@
-
 package edu.se459grp4.project.cleansweep;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -15,15 +16,23 @@ import java.util.Map;
  */
 public class CleanSweepManager {
     
-    private static CleanSweepManager instance ;
-    private static final Double INIT_POWER = 100.0;
-    private static final int VACUUM_CAPACITY = 1000;
+    private static CleanSweepManager instance;
+    private static final double INIT_POWER_LEVEL = 100.0;
+    private static final int INIT_VACUUM_CAPACITY = 1000;
     
-    private Integer mnCurrentID = 0;
-    private Map<Integer,CleanSweep> mMapCleanSweep = new HashMap<>();
-    private Map<Integer, Thread> workingSweeps = new HashMap<>(); //a record of the sweeps currently running a cleaning cycle
+    private static int csIdCounter;
+    private final Map<Integer,CleanSweep> allSweeps;
+    private final Map<Integer, Thread> workingSweeps; //a record of the sweeps currently running a cleaning cycle
     
-    private CleanSweepManager(){}
+    /*
+     * initilize the counter to start with 0 as first id for a sweep, initialize the maps that hold
+     * the info about all the working sweeps
+     */
+    private CleanSweepManager(){
+    	csIdCounter = 0;
+    	allSweeps = new HashMap<>();
+        workingSweeps = new HashMap<>();
+    }
     
     /**
      * Get a reference to the instance of the CleanSweepManager Singleton
@@ -45,11 +54,10 @@ public class CleanSweepManager {
      * @param y the y coordinate for the new sweep
      * @return the id that was given to the sweep which was just created
      */
-    public int CreateCleanSweep(int x,int y)
-    {
-        int nID = mnCurrentID++;
-        CleanSweep lCleanSweep = new CleanSweep(nID,INIT_POWER,VACUUM_CAPACITY,x,y);
-        mMapCleanSweep.put(nID, lCleanSweep);
+    public synchronized int createCleanSweep(int x,int y){
+        int nID = csIdCounter++;
+        CleanSweep cs = new CleanSweep(nID,INIT_POWER_LEVEL,INIT_VACUUM_CAPACITY,x,y);
+        allSweeps.put(nID, cs);
         return nID;
     }
     
@@ -59,49 +67,51 @@ public class CleanSweepManager {
      * @param nID the id number for the CleanSweep you want to obtain
      * @return the CleanSweep that has the corresponding id number
      */
-    public CleanSweep GetCleanSweep(int nID)
-    {
-        return mMapCleanSweep.get(nID);
+    public synchronized CleanSweep getCleanSweep(int nID){
+        return allSweeps.get(nID);
     }
 
     /**
      * Gets the CleanSweep corresponding to the given id and starts it on a cleaning cycle
      * 
      * @param nID the id of the clean sweep which should be started on its cleaning cycle
-     * @return true if the sweep was successfully located and started, false otherwise
      */
-    public boolean StartCleanCycle(int nID)
-    {
-        CleanSweep lCleanSweep = mMapCleanSweep.get(nID);
-        if(lCleanSweep==null)
-            return false;
+    public synchronized void startCleanCycle(int nID){
+        CleanSweep cs = allSweeps.get(nID);
         
-        //check power and capacity
+        if(cs == null){
+            return;
+        }
         
-        //check from the charge station
+        Navigator navController = new Navigator(cs);
         
-        //
-        Navigator lControlSystem = new Navigator(lCleanSweep);
-       // lControlSystem.start();
-        (new Thread(lControlSystem)).start();
-        return true;
+        Thread t = new Thread(navController);
+        workingSweeps.put(nID, t);
+        t.start();
     }
     
     /**
      * Gets the CleanSweep corresponding to the given id and stops it from cleaning further
      * 
      * @param nID the id of the clean sweep which should be stopped
-     * @return true if the sweep was able to be located and stopped, false otherwise
      */
-    public boolean stopCleanCycle(int nID){
-        Thread worker = workingSweeps.get(nID); //get the clean sweep to stop
+    public synchronized void stopCleanCycle(int nID){
+        Thread cs = workingSweeps.get(nID); //get the clean sweep to stop
         
-        if(worker == null){
-            return false;
+        if(cs == null){
+            return;
         }
         
-        worker.interrupt(); //interrupt that Thread
-        return true;
+        cs.interrupt(); //interrupt that Thread
+    }
+    
+    /**
+     * Provides a list of all the ID numbers of the clean sweeps currently in service
+     * 
+     * @return a list of the integer ID numbers of all the current clean sweeps
+     */
+    public synchronized List<Integer> getAllSweeps(){
+    	return new ArrayList<>(allSweeps.keySet());
     }
 
 }

@@ -1,4 +1,4 @@
-package edu.se459grp4.project.cleansweep;
+package edu.se459grp4.project.sensors;
 
 
 
@@ -13,7 +13,7 @@ import edu.se459grp4.project.simulator.types.PathStatus;
  * @author Group 4
  * @version 1.8
  */
-public class NavigationSensor  {
+class NavigationSensor  {
 	
     private Direction direction;
 
@@ -22,7 +22,7 @@ public class NavigationSensor  {
      * 
      * @param direction the direction that this sensor gets sensor data from
      */
-    public NavigationSensor( Direction direction) {
+    public NavigationSensor(Direction direction) {
         this.direction = direction;
     }
 
@@ -34,9 +34,8 @@ public class NavigationSensor  {
      * @return the path status of the direction that is sensed by this sensor at the given x,y coordinate
      * @see PathStatus
      */
-    public PathStatus GetSensorData(int x,int y)
-    {
-        return Simulator.getInstance().ProvideDirectionSensorData(direction, x, y);
+    public PathStatus getSensorData(int x,int y){
+        return Simulator.getInstance().getDirectionalData(direction, x, y);
     }
    
 }

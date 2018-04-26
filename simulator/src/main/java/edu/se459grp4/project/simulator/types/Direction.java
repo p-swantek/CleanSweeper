@@ -8,11 +8,10 @@ package edu.se459grp4.project.simulator.types;
  * @author Group 4
  * @version 1.8
  */
- public enum Direction
- {
-        Up,
-        Left,
-        Down,
-        Right
+ public enum Direction{
+        UP,
+        LEFT,
+        DOWN,
+        RIGHT
  };
     
